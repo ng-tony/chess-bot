@@ -15,5 +15,10 @@
   "bugs": {
     "url": "https://github.com/ng-tony/chess-bot/issues"
   },
-  "homepage": "https://github.com/ng-tony/chess-bot#readme"
+  "homepage": "https://github.com/ng-tony/chess-bot#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "express": "^4.15.3",
+    "request": "^2.81.0"
+  }
 }
