@@ -1,0 +1,19 @@
+{
+  "name": "chess-bot",
+  "version": "1.0.0",
+  "description": "chess bot for facebook",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ng-tony/chess-bot.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ng-tony/chess-bot/issues"
+  },
+  "homepage": "https://github.com/ng-tony/chess-bot#readme"
+}
