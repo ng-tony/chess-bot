@@ -1,4 +1,5 @@
 {
+  "start":"node index.js",
   "name": "chess-bot",
   "version": "1.0.0",
   "description": "chess bot for facebook",
