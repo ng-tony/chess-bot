@@ -18,7 +18,6 @@
   },
   "homepage": "https://github.com/ng-tony/chess-bot#readme",
   "dependencies": {
-    "after-all": "^2.0.2",
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "request": "^2.81.0"
