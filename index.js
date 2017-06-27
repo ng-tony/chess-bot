@@ -3,7 +3,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-const afterAll = require('after-all')
 const app = express()
 const token = process.env.PAGE_ACCESS_TOKEN
 
@@ -76,13 +75,10 @@ function messageHandler(sender, text){
 			sendHelp(sender)
 			break
 		default:
-			next = afterAll(sendHelp(sender))
-			next(sendTextMessage(sender, "That's not a command"))
+			sendTextMessage(sender, "That's not a command")
+			sendHelp(sender)
 			break
 	}
-
-
-
 }
 
 function sendTextMessage(sender, text) {
