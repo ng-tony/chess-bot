@@ -3,6 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
+const afterAll = require('after-all')
 const app = express()
 const token = process.env.PAGE_ACCESS_TOKEN
 
@@ -23,7 +24,7 @@ app.use(bodyParser.json())
 
 // Index route
 app.get('/', function(req, res) {
-	res.send('Hello world, I am a chat bot')
+	res.send('App Online!')
 })
 
 // for Facebook verification
@@ -75,8 +76,8 @@ function messageHandler(sender, text){
 			sendHelp(sender)
 			break
 		default:
-			sendTextMessage(sender, "That's not a command")
-			sendHelp(sender)
+			next = aterAll(sendHelp(sender))
+			next(sendTextMessage(sender, "That's not a command"))
 			break
 	}
 }
