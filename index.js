@@ -3,7 +3,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-const async = require('async')
 const app = express()
 const token = process.env.PAGE_ACCESS_TOKEN
 
@@ -76,9 +75,8 @@ function messageHandler(sender, text){
 			sendHelp(sender)
 			break
 		default:
-			async.series([function(){sendTextMessage(sender, "That's not a command")},
-				function(){sendHelp(sender)}
-			]);
+			sendTextMessage(sender, "That's not a command")
+			sendHelp(sender)
 			break
 	}
 }
