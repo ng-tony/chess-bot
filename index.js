@@ -59,7 +59,7 @@ function messageHandler(sender, text){
 	
 	switch(textSplit[1]){
 		case "hey":
-			sendTextMessage(sender, "Hey!")
+			sendTextMessage(sender, "Hey!" + sender.toString())
 			break
 		case "challenge":
 			break
