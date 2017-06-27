@@ -37,16 +37,37 @@ app.get('/webhook/', function(req, res) {
 
 app.post('/webhook/', function(req, res) {
 	let messaging_events = req.body.entry[0].messaging
+
 	for (let i = 0; i < messaging_events.length; i++) {
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
  		if (event.message && event.message.text) {
 			let text = event.message.text
-			sendTextMessage(sender, "Text received, echo: " + text.substring(0, 200))
+			messageHandler(sender, text)
 		}
 	}
 	res.sendStatus(200)
 })
+
+function messageHandler(sender, text){
+	//if the message does not call out the chat bot, it is not a command
+	if(text.indexOf('@Chess-bot') == -1 && text.indexOf('@chess') == -1){
+		return null
+	}
+	//array of split terms from the command
+	let textSplit = text.split(" ")
+	
+	switch(textSplit[1]){
+		case "hey":
+			sendTextMessage(sender, "Hey!")
+			break
+		default:
+			break
+	}
+
+
+
+}
 
 function sendTextMessage(sender, text) {
 	let messageData = {
