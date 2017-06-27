@@ -50,12 +50,12 @@ app.post('/webhook/', function(req, res) {
 })
 
 function messageHandler(sender, text){
-	//if the message does not call out the chat bot, it is not a command
-	if(text.indexOf('@Chess-bot') == -1 && text.indexOf('@chess') == -1){
-		return null
-	}
 	//array of split terms from the command
 	let textSplit = text.toLowerCase().split(" ")
+	//if the message does not call out the chat bot, it is not a command
+	if(textSplit[0] !== "@chess-bot" && textSplit[0] !== "@chess"){
+		return null
+	}
 	
 	switch(textSplit[1]){
 		case "hey":
