@@ -75,7 +75,7 @@ function messageHandler(sender, text){
 			sendHelp(sender)
 			break
 		default:
-			sendMessage(sender, "That's not a command")
+			sendTextMessage(sender, "That's not a command")
 			sendHelp(sender)
 			break
 	}
