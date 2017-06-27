@@ -76,8 +76,8 @@ function messageHandler(sender, text){
 			sendHelp(sender)
 			break
 		default:
-			async.series([sendTextMessage(sender, "That's not a command"),
-				sendHelp(sender)
+			async.series([function(){sendTextMessage(sender, "That's not a command")},
+				function(){sendHelp(sender)}
 			]);
 			break
 	}
