@@ -55,13 +55,28 @@ function messageHandler(sender, text){
 		return null
 	}
 	//array of split terms from the command
-	let textSplit = text.split(" ")
+	let textSplit = text.toLowerCase().split(" ")
 	
 	switch(textSplit[1]){
 		case "hey":
 			sendTextMessage(sender, "Hey!")
 			break
+		case "challenge":
+			break
+		case "move":
+			break
+		case "resign":
+			break
+		case "draw":
+			break
+		case "accept":
+			break
+		case "help":
+			sendHelp(sender)
+			break
 		default:
+			sendMessage(sender, "That's not a command")
+			sendHelp(sender)
 			break
 	}
 
@@ -92,4 +107,8 @@ function sendTextMessage(sender, text) {
 			console.log('Error: ', response.body.error)
 		}
 	})
+}
+
+function sendHelp(sender){
+	sendTextMessage(sender, "HELP: I'M TRYING DAMNIT!")
 }
