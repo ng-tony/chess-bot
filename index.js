@@ -3,8 +3,7 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
-var MongoClient = require('mongodb').MongoClient
-  , assert = require('assert');
+var MongoClient = require('mongodb').MongoClient, assert = require('assert')
 const app = express()
 const token = process.env.PAGE_ACCESS_TOKEN
 
