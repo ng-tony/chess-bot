@@ -78,12 +78,15 @@ function logMessage(sender, text, time){
 function repeatLastMessages(sender){
 	MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
 		assert.equal(null, err);
-		var message = { id: sender, "text":text, "time":time};
-		db.collection("datamine").find().sort({x:-1}).limit(3, function(err, db){
+		var cursor = db.collection("datamine").find().limit(3).sort({x:-1});
+		
+		cursor.toArray(function(err, results) {
 			if (err) throw err;
-			console.log("MESSAGE WAS REPORTED");
+			for(r in results){
+				sendTextMessage(sender, r);
+			}
 			db.close();
-		});
+		})
 	});
 }
 
