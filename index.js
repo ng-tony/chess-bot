@@ -52,25 +52,31 @@ app.post('/webhook/', function(req, res) {
 	for (let i = 0; i < messaging_events.length; i++) {
 		let event = req.body.entry[0].messaging[i]
 		let sender = event.sender.id
+		let timestamp = event.timestamp;
  		if (event.message && event.message.text) {
 			let text = event.message.text
 			messageHandler(sender, text)
+			logMessage(sender, text, timestamp);
 		}
 	}
 	res.sendStatus(200)
 })
 
-function messageHandler(sender, text){
-	//array of split terms from the command
+function logMessage(sender, text, time){
 	MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
 		assert.equal(null, err);
-		var message = { id: sender, "text":text};
+		var message = { id: sender, "text":text, "time":time};
 		db.collection("datamine").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("MESSAGE WAS LOGGED");
 		})
 	db.close();
 	});
+}
+
+function messageHandler(sender, text){
+	//array of split terms from the command
+	
 	let textSplit = text.toLowerCase().split(" ")
 	//if the message does not call out the chat bot, it is not a command
 	if(textSplit[0] !== "@chess-bot" && textSplit[0] !== "@chess"){
