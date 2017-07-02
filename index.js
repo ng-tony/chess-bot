@@ -8,7 +8,7 @@ const app = express()
 const token = process.env.PAGE_ACCESS_TOKEN
 const mongoURI = process.env.MONGODB_URI;
 
-MongoClient.connect(mongoURI , function(err, db) {
+MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
   assert.equal(null, err);
   console.log("Connected successfully to Mongo server");
 
@@ -62,7 +62,7 @@ app.post('/webhook/', function(req, res) {
 
 function messageHandler(sender, text){
 	//array of split terms from the command
-	MongoClient.connect(mongoURI , function(err, db) {
+	MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
 		assert.equal(null, err);
 		var message = { id: sender, "text":text};
 		db.collcetion("datamine").insertOne(message, function(err, res) {
