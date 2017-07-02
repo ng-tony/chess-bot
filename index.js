@@ -68,7 +68,7 @@ function messageHandler(sender, text){
 		db.collcetion("datamine").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("MESSAGE WAS LOGGED");
-		}
+		})
 	db.close();
 	});
 	let textSplit = text.toLowerCase().split(" ")
