@@ -8,7 +8,7 @@ const app = express()
 const token = process.env.PAGE_ACCESS_TOKEN
 const mongoURI = process.env.MONGODB_URI;
 
-MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
+MongoClient.connect(mongoURI , function(err, db) {
   assert.equal(null, err);
   console.log("Connected successfully to Mongo server");
 
@@ -64,9 +64,9 @@ app.post('/webhook/', function(req, res) {
 })
 
 function logMessage(sender, text, time){
-	MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
+	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
-		var message = { id: sender, "text":text, "time":time};
+		var message = { "id": sender, "text":text, "time":time};
 		db.collection("datamine").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("MESSAGE WAS LOGGED");
@@ -76,13 +76,15 @@ function logMessage(sender, text, time){
 }
 
 function repeatLastMessages(sender){
-	MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
+	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
+		//Find latest 3 message from this user
 		var cursor = db.collection("datamine").find({"id":sender}).sort({"timestamp":-1}).limit(3);
 		
 		cursor.toArray(function(err, results) {
 			if (err) throw err;
 			var message = "";
+			//Compress messages to one message and send it
 			for(var i = 0; i < results.length; i++){
 				message += results[i].text + "\n";
 			}
