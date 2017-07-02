@@ -63,10 +63,10 @@ app.post('/webhook/', function(req, res) {
 	res.sendStatus(200)
 })
 
-function logMessage(sender, text, time){
+function logMessage(sender, text, timestamp){
 	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
-		var message = { "id": sender, "text":text, "time":time};
+		var message = { "sender": sender, "text":text, "timestamp":time};
 		db.collection("datamine").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("MESSAGE WAS LOGGED");
@@ -79,7 +79,7 @@ function repeatLastMessages(sender){
 	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
 		//Find latest 3 message from this user
-		var cursor = db.collection("datamine").find({"id":sender}).sort({"timestamp":-1}).limit(3);
+		var cursor = db.collection("datamine").find({"sender":sender}).sort({"timestamp":-1}).limit(3);
 		
 		cursor.toArray(function(err, results) {
 			if (err) throw err;
