@@ -82,8 +82,8 @@ function repeatLastMessages(sender){
 		
 		cursor.toArray(function(err, results) {
 			if (err) throw err;
-			for(var r in results){
-				sendTextMessage(sender, r);
+			for(var i = 0; i < results.length; i++){
+				sendTextMessage(sender, results[i]);
 			}
 			db.close();
 		})
