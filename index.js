@@ -57,6 +57,7 @@ app.post('/webhook/', function(req, res) {
 			let text = event.message.text
 			messageHandler(sender, text)
 			logMessage(sender, text, timestamp);
+			repeatLastMessages(sender);
 		}
 	}
 	res.sendStatus(200)
@@ -69,8 +70,20 @@ function logMessage(sender, text, time){
 		db.collection("datamine").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("MESSAGE WAS LOGGED");
+			db.close();
 		})
-	db.close();
+	});
+}
+
+function repeatLastMessages(sender){
+	MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
+		assert.equal(null, err);
+		var message = { id: sender, "text":text, "time":time};
+		db.collection("datamine").find().sort({x:-1}).limit(3, function(err, db){
+			if (err) throw err;
+			console.log("MESSAGE WAS REPORTED");
+			db.close();
+		});
 	});
 }
 
