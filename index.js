@@ -65,7 +65,7 @@ function messageHandler(sender, text){
 	MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
 		assert.equal(null, err);
 		var message = { id: sender, "text":text};
-		db.collcetion("datamine").insertOne(message, function(err, res) {
+		db.collection("datamine").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("MESSAGE WAS LOGGED");
 		})
