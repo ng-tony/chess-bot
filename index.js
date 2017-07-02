@@ -82,7 +82,7 @@ function repeatLastMessages(sender){
 		
 		cursor.toArray(function(err, results) {
 			if (err) throw err;
-			for(r in results){
+			for(var r in results){
 				sendTextMessage(sender, r);
 			}
 			db.close();
