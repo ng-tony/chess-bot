@@ -6,10 +6,11 @@ const request = require('request')
 var MongoClient = require('mongodb').MongoClient, assert = require('assert')
 const app = express()
 const token = process.env.PAGE_ACCESS_TOKEN
+const mongoURI = process.env.MONGODB_URI;
 
-MongoClient.connect(process.env.MONGODB_URI , function(err, db) {
+MongoClient.connect(mongoURI , function(err, db) {
   assert.equal(null, err);
-  console.log("Connected successfully to server");
+  console.log("Connected successfully to Mongo server");
 
   db.close();
 });
@@ -61,6 +62,15 @@ app.post('/webhook/', function(req, res) {
 
 function messageHandler(sender, text){
 	//array of split terms from the command
+	MongoClient.connect(mongoURI , function(err, db) {
+		assert.equal(null, err);
+		var message = { id: sender, "text":text};
+		db.collcetion("datamine").insertOne(message, function(err, res) {
+			if (err) throw err;
+			console.log("MESSAGE WAS LOGGED");
+		}
+	db.close();
+	});
 	let textSplit = text.toLowerCase().split(" ")
 	//if the message does not call out the chat bot, it is not a command
 	if(textSplit[0] !== "@chess-bot" && textSplit[0] !== "@chess"){
