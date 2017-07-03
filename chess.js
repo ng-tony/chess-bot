@@ -20,7 +20,7 @@ b is black
 w is white
 **/
 module.exports.initBoard = function (){
-	board = [["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
+	var board = [["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
 			 ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
 			 [0, 0, 0, 0, 0, 0, 0, 0],
 			 [0, 0, 0, 0, 0, 0, 0, 0],
