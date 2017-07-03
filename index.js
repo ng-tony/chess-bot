@@ -7,6 +7,7 @@ var MongoClient = require('mongodb').MongoClient, assert = require('assert');
 const app = express();
 const token = process.env.PAGE_ACCESS_TOKEN;
 const mongoURI = process.env.MONGODB_URI;
+var chess = require('./chess');
 
 MongoClient.connect(mongoURI , function(err, db) {
   assert.equal(null, err);
@@ -68,7 +69,7 @@ function logMessage(sender, text, timestamp){
 			if (err) throw err;
 			console.log("MESSAGE WAS LOGGED");
 			db.close();
-		})
+		});
 	});
 }
 
@@ -109,6 +110,16 @@ function messageHandler(sender, text){
 			sendTextMessage(sender, "Hey!" + sender.toString());
 			break;
 		case "challenge":
+			sendTextMessage(sender, chess.initBoard()[0][0]);
+			// MongoClient.connect(mongoURI, function(err, db){
+			// 	assert.equal(null, err);
+			// 	var game = { "board": chess.initBoard(), };
+			// 	db.collection("games").insertOne(game, function(err, res) {
+			// 		if (err) throw err;
+			// 		console.log("MESSAGE WAS LOGGED");
+			// 		db.close();
+			// 	});
+			// });
 			break;
 		case "move":
 			break;
