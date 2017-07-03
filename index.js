@@ -4,10 +4,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const request = require('request')
 var MongoClient = require('mongodb').MongoClient, assert = require('assert')
+var chess = require('./chess');
 const app = express()
 const token = process.env.PAGE_ACCESS_TOKEN
 const mongoURI = process.env.MONGODB_URI;
-
 MongoClient.connect(mongoURI , function(err, db) {
   assert.equal(null, err);
   console.log("Connected successfully to Mongo server");
@@ -102,9 +102,10 @@ function messageHandler(sender, text){
 	
 	switch(textSplit[1]){
 		case "hey":
-			sendTextMessage(sender, "Hey!" + sender.toString())
+			sendTextMessage(sender, "Hey!" + sender.toString());
 			break
 		case "challenge":
+			sendTextMessage(sender, chess.initBoard()[0][0]);
 			break
 		case "move":
 			break
@@ -115,11 +116,11 @@ function messageHandler(sender, text){
 		case "accept":
 			break
 		case "help":
-			sendHelp(sender)
+			sendHelp(sender);
 			break
 		default:
-			sendTextMessage(sender, "That's no command")
-			sendHelp(sender)
+			sendTextMessage(sender, "That's no command");
+			sendHelp(sender);
 			break
 	}
 }
