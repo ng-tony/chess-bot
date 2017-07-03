@@ -7,7 +7,7 @@ var MongoClient = require('mongodb').MongoClient, assert = require('assert');
 const app = express();
 const token = process.env.PAGE_ACCESS_TOKEN;
 const mongoURI = process.env.MONGODB_URI;
-// var chess = require('./chess');
+var chess = require('./chess');
 
 MongoClient.connect(mongoURI , function(err, db) {
   assert.equal(null, err);
@@ -110,7 +110,7 @@ function messageHandler(sender, text){
 			sendTextMessage(sender, "Hey!" + sender.toString());
 			break;
 		case "challenge":
-			// sendTextMessage(sender, chess.initBoard()[0][0]);
+			sendTextMessage(sender, chess.initBoard()[0][0]);
 			// MongoClient.connect(mongoURI, function(err, db){
 			// 	assert.equal(null, err);
 			// 	var game = { "board": chess.initBoard(), };
