@@ -1,13 +1,12 @@
 'use strict'
 
-const express = require('express');
-const bodyParser = require('body-parser');
-const request = require('request');
-var MongoClient = require('mongodb').MongoClient, assert = require('assert');
-const app = express();
-const token = process.env.PAGE_ACCESS_TOKEN;
+const express = require('express')
+const bodyParser = require('body-parser')
+const request = require('request')
+var MongoClient = require('mongodb').MongoClient, assert = require('assert')
+const app = express()
+const token = process.env.PAGE_ACCESS_TOKEN
 const mongoURI = process.env.MONGODB_URI;
-// var chess = require('./chess');
 
 MongoClient.connect(mongoURI , function(err, db) {
   assert.equal(null, err);
@@ -16,44 +15,44 @@ MongoClient.connect(mongoURI , function(err, db) {
   db.close();
 });
 
-app.set('port', (process.env.PORT || 5000));
+app.set('port', (process.env.PORT || 5000))
 
 // Spin up the server
 app.listen(app.get('port'), function() {
-	console.log('running on port', app.get('port'));
+	console.log('running on port', app.get('port'))
 })
 
 // Process application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
-	extended: false;
+	extended: false
 }))
 
 // Process application/json
-app.use(bodyParser.json());
+app.use(bodyParser.json())
 
 // Index route
 app.get('/', function(req, res) {
-	res.send('App Online!');
+	res.send('App Online!')
 })
 
 // for Facebook verification
 app.get('/webhook/', function(req, res) {
 	if (req.query['hub.mode'] && req.query['hub.verify_token'] === process.env.VERIFY_TOKEN) {
-		res.status(200).send(req.query['hub.challenge']);
+		res.status(200).send(req.query['hub.challenge'])
 	} else {
-		res.send('Error, wrong token');
+		res.send('Error, wrong token')
 	}
 })
 
 app.post('/webhook/', function(req, res) {
-	let messaging_events = req.body.entry[0].messaging;
+	let messaging_events = req.body.entry[0].messaging
 	for (let i = 0; i < messaging_events.length; i++) {
-		let event = req.body.entry[0].messaging[i];
-		let sender = event.sender.id;
+		let event = req.body.entry[0].messaging[i]
+		let sender = event.sender.id
 		let timestamp = event.timestamp;
  		if (event.message && event.message.text) {
-			let text = event.message.text;
-			messageHandler(sender, text);
+			let text = event.message.text
+			messageHandler(sender, text)
 			logMessage(sender, text, timestamp);
 			repeatLastMessages(sender);
 		}
@@ -69,7 +68,7 @@ function logMessage(sender, text, timestamp){
 			if (err) throw err;
 			console.log("MESSAGE WAS LOGGED");
 			db.close();
-		});
+		})
 	});
 }
 
@@ -92,57 +91,43 @@ function repeatLastMessages(sender){
 	});
 }
 
-function sendHelp(sender){
-	sendTextMessage(sender, "HELP: I'M TRYING DAMNIT!");
-}
-
 function messageHandler(sender, text){
 	//array of split terms from the command
 	
-	let textSplit = text.toLowerCase().split(" ");
+	let textSplit = text.toLowerCase().split(" ")
 	//if the message does not call out the chat bot, it is not a command
 	if(textSplit[0] !== "@chess-bot" && textSplit[0] !== "@chess"){
-		return null;
+		return null
 	}
 	
 	switch(textSplit[1]){
 		case "hey":
-			sendTextMessage(sender, "Hey!" + sender.toString());
-			break;
+			sendTextMessage(sender, "Hey!" + sender.toString())
+			break
 		case "challenge":
-			// sendTextMessage(sender, chess.initBoard()[0][0]);
-			// MongoClient.connect(mongoURI, function(err, db){
-			// 	assert.equal(null, err);
-			// 	var game = { "board": chess.initBoard(), };
-			// 	db.collection("games").insertOne(game, function(err, res) {
-			// 		if (err) throw err;
-			// 		console.log("MESSAGE WAS LOGGED");
-			// 		db.close();
-			// 	});
-			// });
-			break;
+			break
 		case "move":
-			break;
+			break
 		case "resign":
-			break;
+			break
 		case "draw":
-			break;
+			break
 		case "accept":
-			break;
+			break
 		case "help":
-			sendHelp(sender);
-			break;
+			sendHelp(sender)
+			break
 		default:
-			sendTextMessage(sender, "That's no command");
-			sendHelp(sender);
-			break;
+			sendTextMessage(sender, "That's no command")
+			sendHelp(sender)
+			break
 	}
 }
 
 function sendTextMessage(sender, text) {
 	let messageData = {
 		text: text
-	};
+	}
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {
@@ -157,9 +142,13 @@ function sendTextMessage(sender, text) {
 		}
 	}, function(error, response, body) {
 		if (error) {
-			console.log('Error sending messages: ', error);
+			console.log('Error sending messages: ', error)
 		} else if (response.body.error) {
-			console.log('Error: ', response.body.error);
+			console.log('Error: ', response.body.error)
 		}
-	});
+	})
+}
+
+function sendHelp(sender){
+	sendTextMessage(sender, "HELP: I'M TRYING DAMNIT!")
 }
