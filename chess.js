@@ -1,4 +1,6 @@
-module.exports = function(){
+'use strict';
+
+module.exports = {
 	/**
 	takes in value from move command from message, 
 	converts it to value that can be used for accessing
