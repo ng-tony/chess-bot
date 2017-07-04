@@ -105,7 +105,7 @@ function messageHandler(sender, text){
 		case "hey":
 			sendTextMessage(sender, "Hey!" + sender.toString());
 			break;
-		case "challenge":
+		case "create":
 			initGame(sender);
 			sendTextMessage(sender, chess.initBoard()[0][0]);
 			break;
