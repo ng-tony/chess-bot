@@ -127,10 +127,11 @@ function messageHandler(sender, text){
 	}
 }
 
+//wont make record
 function initGame(sender){
 	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
-		senderID = sender.toString();
+		var senderID = sender.toString();
 		var game = {senderID: "white", 
 					"board": chess.initBoard()};
 		db.collection("games").insertOne(game, function(err, res) {
