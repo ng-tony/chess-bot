@@ -95,35 +95,49 @@ function repeatLastMessages(sender){
 function messageHandler(sender, text){
 	//array of split terms from the command
 	
-	let textSplit = text.toLowerCase().split(" ")
+	let textSplit = text.toLowerCase().split(" ");
 	//if the message does not call out the chat bot, it is not a command
 	if(textSplit[0] !== "@chess-bot" && textSplit[0] !== "@chess"){
-		return null
+		return null;
 	}
 	
 	switch(textSplit[1]){
 		case "hey":
 			sendTextMessage(sender, "Hey!" + sender.toString());
-			break
+			break;
 		case "challenge":
+			initGame(sender);
 			sendTextMessage(sender, chess.initBoard()[0][0]);
-			break
+			break;
+		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
+			break;
 		case "move":
-			break
+			break;
 		case "resign":
-			break
+			break;
 		case "draw":
-			break
-		case "accept":
-			break
+			break;
 		case "help":
 			sendHelp(sender);
-			break
+			break;
 		default:
 			sendTextMessage(sender, "That's no command");
 			sendHelp(sender);
-			break
+			break;
 	}
+}
+
+function initGame(sender){
+	MongoClient.connect(mongoURI , function(err, db) {
+		assert.equal(null, err);
+		var game = {sender.toString: "white", 
+					"board": chess.initBoard()};
+		db.collection("games").insertOne(game, function(err, res) {
+			if (err) throw err;
+			console.log("NEW GAME ADDED! CHALLENGER:"+sender.toString);
+			db.close();
+		})
+	});
 }
 
 function sendTextMessage(sender, text) {
