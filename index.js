@@ -130,7 +130,8 @@ function messageHandler(sender, text){
 function initGame(sender){
 	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
-		var game = {sender.toString(): "white", 
+		senderID = sender.toString();
+		var game = {senderID: "white", 
 					"board": chess.initBoard()};
 		db.collection("games").insertOne(game, function(err, res) {
 			if (err) throw err;
