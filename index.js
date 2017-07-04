@@ -132,7 +132,7 @@ function initGame(sender){
 	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
 		var senderID = sender.toString();
-		var game = {senderID: "white", 
+		var game = {"white": senderID, 
 					"board": chess.initBoard()};
 		db.collection("games").insertOne(game, function(err, res) {
 			if (err) throw err;
