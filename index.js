@@ -107,7 +107,7 @@ function messageHandler(sender, text){
 			break;
 		case "create":
 			initGame(sender);
-			sendTextMessage(sender, chess.initBoard()[0][0]);
+			sendTextMessage(sender, chess.initBoard().toString());
 			break;
 		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
 			break;
