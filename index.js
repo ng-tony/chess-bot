@@ -132,7 +132,14 @@ function initGame(sender){
 		assert.equal(null, err);
 		var senderID = sender.toString();
 		var game = {"white": senderID, 
-					"board": chess.initBoard()};
+					"board": chess.initBoard(),
+					//"groupChatID": getChatID(); //WIP
+					"turnNum": 0,
+					"isCheck": false,
+					"drawOffered": false,
+					"movePiece": 0,
+					"moveLocationX": 0,
+					"moveLocationY": 0}
 		db.collection("games").insertOne(game, function(err, res) {
 			if (err) throw err;
 			console.log("NEW GAME ADDED! CHALLENGER:" + sender.toString);
