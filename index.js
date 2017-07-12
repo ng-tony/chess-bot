@@ -1,14 +1,15 @@
 'use strict'
 
-var MongoClient = require('mongodb').MongoClient, assert = require('assert')
-var chess = require('./chess')
-console.log(typeof chess.initBoard)
-const express = require('express')
-const bodyParser = require('body-parser')
-const request = require('request')
-const app = express()
-const token = process.env.PAGE_ACCESS_TOKEN
-const mongoURI = process.env.MONGODB_URI;
+var MongoClient = require('mongodb').MongoClient,
+	assert = require('assert'),
+	chess = require('./chess');
+const express = require('express'),
+	bodyParser = require('body-parser'),
+	request = require('request'),
+	app = express(),
+	token = process.env.PAGE_ACCESS_TOKEN,
+	mongoURI = process.env.MONGODB_URI;
+
 MongoClient.connect(mongoURI , function(err, db) {
   assert.equal(null, err);
   console.log("Connected successfully to Mongo server");
