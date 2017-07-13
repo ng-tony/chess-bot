@@ -18,12 +18,17 @@ function getDictSize(dict){
 }
 
 function getCurrCode(mongoURI){
+	var currCode;
 	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
 		/*gets the only record in there, the code counter*/
-		var currCode = db.collection("codeCounter").findOne();
+		currCode = db.collection("codeCounter").findOne();
 	});
-	return "OK";
+	if(currCode){
+		return currCode;
+	}else{
+		return "NOT OK";
+	}
 }
 
 function makeNewCode(currCode, dictSize){
