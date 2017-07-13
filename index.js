@@ -2,7 +2,7 @@
 
 var MongoClient = require('mongodb').MongoClient,
 	assert = require('assert'),
-	gameCode = require('gameCode'),
+	gameCode = require('./gameCode'),
 	chess = require('./chess');
 const express = require('express'),
 	bodyParser = require('body-parser'),
