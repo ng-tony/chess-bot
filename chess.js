@@ -31,6 +31,5 @@ module.exports.initBoard = function (){
 	return board;
 }
 
-module.exports.isValidMove = function (color, piece, start, dest){
-
+module.exports.isValidMove = function (color, piece, startX, startY, destX, destY, board){
 }
