@@ -19,16 +19,19 @@ function getDictSize(dict){
 
 function getCurrCode(mongoURI){
 	var currCode;
-	MongoClient.connect(mongoURI , function(err, db) {
-		assert.equal(null, err);
-		/*gets the only record in there, the code counter*/
-		currCode = db.collection("codeCounter").findOne();
+	var codePromise = new Promise((resolve, reject) => {
+		MongoClient.connect(mongoURI , function(err, db) {
+			assert.equal(null, err);
+			/*gets the only record in there, the code counter*/
+			currCode = db.collection("codeCounter").findOne();
+		});
 	});
-	if(currCode){
+	codePromise.then(function(){
 		return currCode;
-	}else{
-		return "NOT OK";
-	}
+	})
+	.catch(function(){
+		console.log("Can't get curr code");
+	});
 }
 
 function makeNewCode(currCode, dictSize){
