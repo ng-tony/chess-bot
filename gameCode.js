@@ -18,17 +18,27 @@ function getDictSize(dict){
 }
 
 function getCurrCode(mongoURI){
-	MongoClient.connect(mongoURI , function(err, db) {
-		assert.equal(null, err);
-		/*gets the only record in there, the code counter*/
-		var currCode = db.collection("codeCounter").findOne();
-		if(currCode){
-			db.close();
-			return currCode;
-		}else{
-			console.log("NO CURRCODE");
-		}
-		db.close();
+	return new Promise(function (resolve, rejedct){
+		MongoClient.connect(mongoURI , function(err, db){
+			if(err){
+				reject(err);
+			}else{
+				resolve(db);
+			}
+		});
+	}).then(function(db){
+		return new Promise(function(resolve, reject){
+			var collection = db.collection('codeCounter');
+
+			collection.find().toArray(function(err, codeCounter) {
+				if(err){
+					reject(err);
+				}else{
+					console.log(codeCounter);
+					resolve(codeCounter);
+				}
+			}
+		});
 	});
 }
 
