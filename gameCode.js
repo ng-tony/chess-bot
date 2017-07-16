@@ -29,10 +29,10 @@ function getCurrCode(mongoURI){
 					} else{
 						console.log(res[0]);
 						return res[0];
+					}
 					})
 				}
 			}
-		});
 }
 
 function makeNewCode(currCode, dictSize){
