@@ -45,5 +45,6 @@ module.exports.genCode = function(dict, mongoURI){
 	var dictSize = getDictSize(dict);
 	var currCode = getCurrCode(mongoURI);
 	var newCode = makeNewCode(currCode, dictSize);
+	console.log(currCode);
 	return currCode;
 }
