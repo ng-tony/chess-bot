@@ -16,7 +16,7 @@ function getDictSize(dict){
 	});
 	return dictSize;
 }
-
+/*
 function getCurrCode(mongoURI){
 		MongoClient.connect(mongoURI , function(err, db){
 			if(err){
@@ -34,7 +34,7 @@ function getCurrCode(mongoURI){
 			}
 		});
 }
-
+*/
 function makeNewCode(currCode, dictSize){
 
 }
