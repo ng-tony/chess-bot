@@ -112,7 +112,7 @@ function messageHandler(sender, text){
 			sendTextMessage(sender, chess.initBoard().toString());
 			gameCode.genCode("./dict.json", mongoURI).then(function (fulfilled){
 				sendTextMessage(sender, fulfilled);
-			}
+			});
 			break;
 		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
 			break;
