@@ -18,28 +18,21 @@ function getDictSize(dict){
 }
 
 function getCurrCode(mongoURI){
-	return new Promise(function (resolve, rejedct){
 		MongoClient.connect(mongoURI , function(err, db){
 			if(err){
-				reject(err);
-			}else{
-				resolve(db);
-			}
-		});
-	}).then(function(db){
-		return new Promise(function(resolve, reject){
-			var collection = db.collection('codeCounter');
-
-			collection.find().toArray(function(err, codeCounter) {
-				if(err){
-					reject(err);
-				}else{
-					console.log(codeCounter);
-					resolve(codeCounter);
+				console.log("GET CURRCODE: OPENING", err);
+			} else {
+					var collection = db.collection('codeCounter');
+					collection.find().toArray(function(err, res) {
+					if(err){
+						console.log("GET CURRCODE: READING", err);
+					} else{
+						console.log(res[0]);
+						return res[0];
+					}
 				}
 			}
 		});
-	});
 }
 
 function makeNewCode(currCode, dictSize){
