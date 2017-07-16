@@ -109,7 +109,7 @@ function messageHandler(sender, text){
 			break;
 		case "create":
 			initGame(sender);
-			sendTextMessage(sender, chess.initBoard());
+			sendTextMessage(sender, chess.initBoard().toString());
 			console.log("error location");
 			gameCode.genCode("./dict.json", mongoURI).then(function (fulfilled){
 				console.log("AS : " + fulfilled);
