@@ -31,6 +31,7 @@ function getCurrCode(mongoURI){
 					} else{
 						console.log(res[0]);
 						resolve(res[0].codeCounter);
+						//
 					}
 					})
 				}
@@ -49,7 +50,5 @@ module.exports.genCode = function(dict, mongoURI){
 	var currCode = getCurrCode(mongoURI);
 	console.log("WORDLS" + currCode);
 	var newCode = makeNewCode(currCode, dictSize);
-	currCode.then(function (fulfilled) {
-		return fulfilled;
-	});
+	return currCode;
 }
