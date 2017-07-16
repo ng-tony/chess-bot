@@ -48,7 +48,7 @@ chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(dict, mongoURI){ 
 	var dictSize = getDictSize(dict);
 	var currCode = getCurrCode(mongoURI);
-	console.log("WORDLS" + currCode);
+	console.log("get Promise: " + currCode);
 	var newCode = makeNewCode(currCode, dictSize);
 	return currCode;
 }
