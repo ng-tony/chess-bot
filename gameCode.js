@@ -43,7 +43,7 @@ function makeNewCode(currCode, dictSize){
 chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(dict, mongoURI){ 
 	var dictSize = getDictSize(dict);
-	//var currCode = getCurrCode(mongoURI);
+	var currCode = getCurrCode(mongoURI);
 	var newCode = makeNewCode(currCode, dictSize);
 	return currCode;
 }
