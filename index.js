@@ -55,7 +55,7 @@ app.post('/webhook/', function(req, res) {
 		let timestamp = event.timestamp;
  		if (event.message && event.message.text) {
 			let text = event.message.text;
-			messageHandler(sender, text);
+			//messageHandler(sender, text);
 			// logMessage(sender, text, timestamp);
 			// repeatLastMessages(sender);
 		}
