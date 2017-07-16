@@ -18,9 +18,11 @@ function getDictSize(dict){
 }
 
 function getCurrCode(mongoURI){
+	return new Promise(function (resolve, rejedct){
 		MongoClient.connect(mongoURI , function(err, db){
 			if(err){
 				console.log("GET CURRCODE: OPENING", err);
+				reject(err);
 			} else {
 					var collection = db.collection('codeCounter');
 					collection.find().toArray(function(err, res) {
@@ -28,11 +30,12 @@ function getCurrCode(mongoURI){
 						console.log("GET CURRCODE: READING", err);
 					} else{
 						console.log(res[0]);
-						return res[0].codeCounter;
+						resolve(res[0].codeCounter);
 					}
 					})
 				}
 			});
+	}
 }
 
 function makeNewCode(currCode, dictSize){
