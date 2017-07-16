@@ -32,7 +32,7 @@ function getCurrCode(mongoURI){
 					}
 					})
 				}
-			}
+			});
 }
 
 function makeNewCode(currCode, dictSize){
