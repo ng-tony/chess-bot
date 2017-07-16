@@ -28,7 +28,7 @@ function getCurrCode(mongoURI){
 						console.log("GET CURRCODE: READING", err);
 					} else{
 						console.log(res[0]);
-						return res[0];
+						return res[0].codeCounter;
 					}
 					})
 				}
