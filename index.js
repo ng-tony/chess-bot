@@ -111,6 +111,7 @@ function messageHandler(sender, text){
 			initGame(sender);
 			sendTextMessage(sender, chess.initBoard().toString());
 			gameCode.genCode("./dict.json", mongoURI).then(function (fulfilled){
+				console.log(fulfilled);
 				sendTextMessage(sender, fulfilled);
 			});
 			break;
