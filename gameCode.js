@@ -49,5 +49,7 @@ module.exports.genCode = function(dict, mongoURI){
 	var currCode = getCurrCode(mongoURI);
 	console.log("WORDLS" + currCode);
 	var newCode = makeNewCode(currCode, dictSize);
-	return currCode;
+	currCode.then(function (fulfilled) {
+		return fulfilled;
+	});
 }
