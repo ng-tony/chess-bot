@@ -47,10 +47,8 @@ chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(dict, mongoURI){ 
 	var dictSize = getDictSize(dict);
 	var currCode;
-	getCurrCode(mongoURI).then(function (fulfilled){
-		currCode = fulfilled;
-	});
 	var newCode = makeNewCode(currCode, dictSize);
-	console.log(currCode);
-	return currCode;
+	getCurrCode(mongoURI).then(function (fulfilled){
+		return fulfilled;
+	});
 }
