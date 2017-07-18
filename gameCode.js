@@ -18,7 +18,7 @@ function getDictSize(dict){
 }
 
 function getCurrCode(mongoURI){
-	return new Promise(function (resolve, rejedct){
+	return new Promise(function (resolve, reject){
 		MongoClient.connect(mongoURI , function(err, db){
 			if(err){
 				console.log("GET CURRCODE: OPENING", err);
