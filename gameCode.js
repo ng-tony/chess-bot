@@ -56,6 +56,11 @@ function makeNewCode(codeCounter, dictSize){
 	/*!!! still need to return code Counter after change, idk how to do that
 	for promises*/
 	return new Promise(function (resolve, reject){
+		var k = 0;
+		k ++;
+		k ++;
+		k ++;
+		resolve(k);
 		var i;
 		for(i = (codeCounter.length - 1); i > 0; i--){
 			if((codeCounter[i] + 1) > (dictSize - 1) && (i - 1 >= 0)){
