@@ -6,7 +6,7 @@ var fs = require('fs'),
 
 
 var dict = (function(){
-	fs.readFile('file', 'utf8', function (err, data) {
+	fs.readFile('dict.json', 'utf8', function (err, data) {
 		if(err) throw err;
 		return JSON.parse(data);
 	})
