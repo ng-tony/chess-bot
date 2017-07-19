@@ -4,7 +4,23 @@ var fs = require('fs'),
 	MongoClient = require('mongodb').MongoClient, 
 	assert = require('assert');
 
-function getDictSize(dict){
+
+var dict = function(){
+	fs.readFile('file', 'utf8', function (err, data) {
+		if(err) throw err;
+		return JSON.parse(data);
+	}
+	}()
+/*function getDictSize(dict){
+	var rawFile = new XMLHttpRequest();
+	rawFile.open("GET", filename, false);
+	rawFile.onreadystatechange = function () {
+		if (rawFile.readyState === 4) {
+			if (rawFile.status === 200 || rawFile.status == 0){
+				dict = JSON.parse
+			}
+		}
+	}
 	return new Promise(function(resolve, reject){
 		var dictSize = 0;
 		var rl = readline.createInterface({
@@ -19,7 +35,7 @@ function getDictSize(dict){
 			resolve(dictSize);
 		})
 	});
-}
+}*/
 
 function getCurrCode(mongoURI){
 	return new Promise(function (resolve, reject){
@@ -46,21 +62,7 @@ function getCurrCode(mongoURI){
 /*limitation, if codeCounter exceeds [n,n,n,n], where n
 is dictSize, counter does not change*/
 function makeNewCode(codeCounter, dictSize){
-	/*
-	codeCounter is an array counting current permutation of game code
-	returned by the currcode promise
-	
-	
-	*/
-	
-	/*!!! still need to return code Counter after change, idk how to do that
-	for promises*/
-	return new Promise(function (resolve, reject){
 		var k = 0;
-		k ++;
-		k ++;
-		k ++;
-		resolve(k);
 		var i;
 		for(i = (codeCounter.length - 1); i > 0; i--){
 			if((codeCounter[i] + 1) > (dictSize - 1) && (i - 1 >= 0)){
@@ -68,6 +70,7 @@ function makeNewCode(codeCounter, dictSize){
 				codeCounter[i - 1] += 1;
 			}
 		}
+		return codeCounter;
 	});
 }
 
@@ -76,12 +79,7 @@ chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(dict, mongoURI){
 	return new Promise(function(resolve, reject){
 		var makeCode;
-		var getCode;
-		getDictSize(dict).then(function(dictSize){
-			makeCode = makeNewCode.bind(null, dictSize);
-			getCode = getCurrCode.bind(mongoURI);
-		})
-		.then(getCurrCode)
-		.then(makeCode);
+		makeCode = makeNewCode.bind(null, dict.lengt);
+		resolve(getCurrCode(mongoURI).then(makeCode));
 	});
 }
