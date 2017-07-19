@@ -3,7 +3,12 @@ var fs = require('fs'),
 	readline = require('readline'),
 	MongoClient = require('mongodb').MongoClient, 
 	assert = require('assert');
-
+	
+var codeCounter = (function (){
+	getCurrCode(mongoURI).then(function (val) {
+			return val;
+	});
+})();
 
 var dict = (function(){
 	fs.readFile('dict.json', 'utf8', function (err, data) {
@@ -11,31 +16,6 @@ var dict = (function(){
 		return JSON.parse(data);
 	})
 	})()
-/*function getDictSize(dict){
-	var rawFile = new XMLHttpRequest();
-	rawFile.open("GET", filename, false);
-	rawFile.onreadystatechange = function () {
-		if (rawFile.readyState === 4) {
-			if (rawFile.status === 200 || rawFile.status == 0){
-				dict = JSON.parse
-			}
-		}
-	}
-	return new Promise(function(resolve, reject){
-		var dictSize = 0
-		var rl = readline.createInterface({
-			input: fs.createReadStream(dict),
-			output: process.stdout,
-			terminal: false
-		});
-		rl.on('line', function(line){
-			dictSize += 1;
-		});
-		rl.on('close', function(){
-			resolve(dictSize);
-		})
-	});
-}*/
 
 function getCurrCode(mongoURI){
 	return new Promise(function (resolve, reject){
@@ -77,7 +57,9 @@ function makeNewCode(codeCounter, dictSize){
 chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(dict, mongoURI){
 	return new Promise(function(resolve, reject){
-		makeCode = makeNewCode.bind(null, dict.length);
-		resolve(getCurrCode(mongoURI).then(makeCode));
+		makeCode = makeNewCode.bind(codeCounter, dict.length);
+		makeNewCode(codeCounter, dict.length).then(function (code){
+				resolve(code);
+		});
 	});
 }
