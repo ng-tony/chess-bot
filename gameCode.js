@@ -5,12 +5,12 @@ var fs = require('fs'),
 	assert = require('assert');
 
 
-var dict = function(){
+var dict = (function(){
 	fs.readFile('file', 'utf8', function (err, data) {
 		if(err) throw err;
 		return JSON.parse(data);
 	}
-	}()
+	})()
 /*function getDictSize(dict){
 	var rawFile = new XMLHttpRequest();
 	rawFile.open("GET", filename, false);
@@ -78,8 +78,7 @@ function makeNewCode(codeCounter, dictSize){
 chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(dict, mongoURI){
 	return new Promise(function(resolve, reject){
-		var makeCode;
-		makeCode = makeNewCode.bind(null, dict.lengt);
+		makeCode = makeNewCode.bind(null, dict.length);
 		resolve(getCurrCode(mongoURI).then(makeCode));
 	});
 }
