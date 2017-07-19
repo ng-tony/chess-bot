@@ -71,7 +71,6 @@ function makeNewCode(codeCounter, dictSize){
 			}
 		}
 		return codeCounter;
-	});
 }
 
 /*needs the mongoURI and the local dictionary JSON file path
