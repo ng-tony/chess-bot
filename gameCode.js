@@ -22,7 +22,7 @@ var dict = (function(){
 		}
 	}
 	return new Promise(function(resolve, reject){
-		var dictSize = 0;
+		var dictSize = 0
 		var rl = readline.createInterface({
 			input: fs.createReadStream(dict),
 			output: process.stdout,
