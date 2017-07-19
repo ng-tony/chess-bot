@@ -9,8 +9,8 @@ var dict = (function(){
 	fs.readFile('file', 'utf8', function (err, data) {
 		if(err) throw err;
 		return JSON.parse(data);
-	}
-	})()
+	})
+	}()
 /*function getDictSize(dict){
 	var rawFile = new XMLHttpRequest();
 	rawFile.open("GET", filename, false);
