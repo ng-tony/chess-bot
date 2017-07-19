@@ -10,7 +10,7 @@ var dict = (function(){
 		if(err) throw err;
 		return JSON.parse(data);
 	})
-	}()
+	})()
 /*function getDictSize(dict){
 	var rawFile = new XMLHttpRequest();
 	rawFile.open("GET", filename, false);
