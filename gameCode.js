@@ -5,7 +5,7 @@ var fs = require('fs'),
 	assert = require('assert');
 	
 var codeCounter = (function (){
-	getCurrCode(mongoURI).then(function (val) {
+	getCurrCode().then(function (val) {
 			return val;
 	});
 })();
