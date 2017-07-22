@@ -89,7 +89,7 @@ function makeNewCode(){
 chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(dict, mongoURI){
 	return new Promise(function(resolve, reject){
-		makeCode = makeNewCode.bind(codeCounter, dict.length);
+		//var makeCode = makeNewCode.bind(codeCounter, dict.length);
 		makeNewCode(codeCounter, dict.length).then(function (code){
 				resolve(code);
 		});
