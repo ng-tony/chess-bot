@@ -105,6 +105,10 @@ function makeNewCode(){
 /*needs the mongoURI and the local dictionary JSON file path
 chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(){
+	console.log("Dict1");
+		console.log(dict);
+		console.log("codecounter2");
+		console.log(codeCounter);
 	return new Promise(function(resolve, reject){
 		//var makeCode = makeNewCode.bind(codeCounter, dict.length);
 		makeNewCode().then(function (code){
