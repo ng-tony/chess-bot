@@ -6,8 +6,21 @@ var fs = require('fs'),
 	assert = require('assert');
 	
 var codeCounter = (function (){
-	getCurrCode().then(function (val) {
-			return val;
+	MongoClient.connect(mongoURI , function(err, db){
+		if(err){
+			console.log("GET CURRCODE: OPENING", err);
+		} else {
+			var collection = db.collection('codeCounter');
+			collection.find().toArray(function(err, res) {
+				if(err){
+					console.log("GET CURRCODE: READING", err);
+				} else{
+					console.log(res[0]);
+					return(res[0].codeCounter);
+					//
+				}
+			})
+		}
 	});
 })();
 
@@ -17,7 +30,7 @@ var dict = (function(){
 		return JSON.parse(data);
 	})
 	})()
-
+/*
 function getCurrCode(){
 	return new Promise(function (resolve, reject){
 		MongoClient.connect(mongoURI , function(err, db){
@@ -38,16 +51,13 @@ function getCurrCode(){
 				}
 			});
 	});
-}
+}*/
 
 /*limitation, if codeCounter exceeds [n,n,n,n], where n
 is dictSize, counter does not change*/
 function makeNewCode(){
 		//I wonder if there is going to be any async issues, if u run two of these at the same time hmm
-		var k = 0;
-		var i;
 		var isFinished = false;
-
 
 		var curr = codeCounter.length - 1;
 		codeCounter[curr]++;
@@ -77,7 +87,7 @@ function makeNewCode(){
 					if(err){
 						console.log("WRITING CURRCODE TO DB: ", err);
 					} else{
-						console.log("WRITING CURRCODE TO DB: Sucess");
+						console.log("WRITING CURRCODE TO DB: Success");
 					}
 					})
 				}
@@ -88,7 +98,7 @@ function makeNewCode(){
 
 /*needs the mongoURI and the local dictionary JSON file path
 chose to take in mongoURI rather than get from process because this is module*/
-module.exports.genCode = function(dict, mongoURI){
+module.exports.genCode = function(){
 	return new Promise(function(resolve, reject){
 		//var makeCode = makeNewCode.bind(codeCounter, dict.length);
 		makeNewCode(codeCounter, dict.length).then(function (code){
