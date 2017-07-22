@@ -107,7 +107,7 @@ chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(){
 	return new Promise(function(resolve, reject){
 		//var makeCode = makeNewCode.bind(codeCounter, dict.length);
-		makeNewCode(codeCounter, dict.length).then(function (code){
+		makeNewCode().then(function (code){
 				resolve(code);
 		});
 	});
