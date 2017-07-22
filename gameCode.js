@@ -1,4 +1,5 @@
 'use strict';
+const mongoURI = process.env.MONGODB_URI;
 var fs = require('fs'),
 	readline = require('readline'),
 	MongoClient = require('mongodb').MongoClient, 
