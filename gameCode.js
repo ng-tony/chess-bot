@@ -17,7 +17,7 @@ var dict = (function(){
 	})
 	})()
 
-function getCurrCode(mongoURI){
+function getCurrCode(){
 	return new Promise(function (resolve, reject){
 		MongoClient.connect(mongoURI , function(err, db){
 			if(err){
