@@ -27,9 +27,11 @@ var codeCounter = (function (){
 var dict = (function(){
 	fs.readFile('dict.json', 'utf8', function (err, data) {
 		if(err) throw err;
+		console.log(JSON.parse(data));
 		return JSON.parse(data);
 	})
 	})()
+
 /*
 function getCurrCode(){
 	return new Promise(function (resolve, reject){
