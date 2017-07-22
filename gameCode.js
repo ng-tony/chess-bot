@@ -41,15 +41,47 @@ function getCurrCode(mongoURI){
 
 /*limitation, if codeCounter exceeds [n,n,n,n], where n
 is dictSize, counter does not change*/
-function makeNewCode(codeCounter, dictSize){
+function makeNewCode(){
+		//I wonder if there is going to be any async issues, if u run two of these at the same time hmm
 		var k = 0;
 		var i;
-		for(i = (codeCounter.length - 1); i > 0; i--){
-			if((codeCounter[i] + 1) > (dictSize - 1) && (i - 1 >= 0)){
-				codeCounter[i] = 0;
-				codeCounter[i - 1] += 1;
+		var isFinished = false;
+
+
+		var curr = codeCounter.length - 1;
+		codeCounter[curr]++;
+		while (!isFinished && curr > 0) {
+			if (codeCounter[curr] > (dict.length - 1)){
+				codeCounter[curr] = 0;
+				curr--;
+				if (curr < 0 ){
+					throw "Code Counter Overflowed, I.E Game Limit Reached";
+				}
+				else {
+					codeCounter[curr - 1]++;
+				}
+			}
+			else {
+				isFinished = true;
 			}
 		}
+		
+		MongoClient.connect(mongoURI , function(err, db){
+			if(err){
+				console.log("WRITING CURRCODE TO DB: ", err);
+				reject(err);
+			} else {
+					var collection = db.collection('codeCounter');
+					collection.updateOne({}, {"codeCounter" : codeCounter}, function(err, res) {
+					if(err){
+						console.log("WRITING CURRCODE TO DB: ", err);
+					} else{
+						console.log("WRITING CURRCODE TO DB: Sucess");
+					}
+					})
+				}
+		});
+
 		return codeCounter;
 }
 
