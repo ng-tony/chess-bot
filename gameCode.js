@@ -13,7 +13,7 @@ var init = function() {
 	//get codeCounter
 	console.log("initing");//
 	if(initf) {
-		return;
+		return; //
 	}
 	initf = true;
 	MongoClient.connect(mongoURI , function(err, db){
