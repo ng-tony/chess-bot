@@ -116,6 +116,3 @@ module.exports.genCode = function(){
 		});
 	});
 }
-
-module.exports.codeCounter = codeCounter;
-module.exports.dict = dict;
