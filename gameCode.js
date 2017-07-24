@@ -6,8 +6,8 @@ var fs = require('fs'),
 	assert = require('assert');
 
 //IDK Why the latter dont work but im sure this part does
-module.exports.codeCounter;
-module.exports.dict;
+module.exports.codeCounter = {};
+module.exports.dict = {};
 module.exports.initf = false;
 /*var codeCounter;
 var dict; 
