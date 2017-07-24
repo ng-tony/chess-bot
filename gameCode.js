@@ -141,8 +141,8 @@ var Game = function (){
 	var dict = []; 
 	var initf = false;
 
-	console.log("initing");//
-	console.log(init);
+	//console.log("initing");//
+	//console.log(init);
 	if(this.initf) {
 		return; //
 	}
