@@ -1,9 +1,4 @@
 'use strict';
-const mongoURI = process.env.MONGODB_URI;
-var fs = require('fs'),
-	readline = require('readline'),
-	MongoClient = require('mongodb').MongoClient, 
-	assert = require('assert');
 
 //IDK Why the latter dont work but im sure this part does
 /*module.exports.codeCounter = {};
@@ -75,11 +70,10 @@ is dictSize, counter does not change*/
 function makeNewCode(){
 		//I wonder if there is going to be any async issues, if u run two of these at the same time hmm
 		var isFinished = false;
-		console.log("Dict");
-		console.log(dict);
-		console.log("codecounter");
-		console.log(codeCounter);
-
+		console.log("makeNewCode");
+		console.log(this);
+		var codeCounter = this.codeCounter;
+		var dict = this.dict;
 		var curr = codeCounter.length - 1;
 		codeCounter[curr]++;
 		while (!isFinished && curr > 0) {
@@ -113,18 +107,15 @@ function makeNewCode(){
 					})
 				}
 		});
-
+		this.dict = dict;
+		this.codeCounter = codeCounter;
 		return codeCounter;
 }
 
 function genCode(){
+	console.log("genCode");
 	console.log(this);
-	//var initfun = init();
-	//initfun();
-	console.log("Dict1");
-		console.log(dict);
-		console.log("codecounter2");
-		console.log(codeCounter);
+	
 	return new Promise(function(resolve, reject){
 		//var makeCode = makeNewCode.bind(codeCounter, dict.length);
 		makeNewCode().then(function (code){
@@ -139,7 +130,11 @@ chose to take in mongoURI rather than get from process because this is module*/
 var Game = function (){
 	var codeCounter = {};
 	var dict = {}; 
-
+	const mongoURI = process.env.MONGODB_URI;
+	this.fs = require('fs'),
+	this.readline = require('readline'),
+	this.MongoClient = require('mongodb').MongoClient, 
+	this.assert = require('assert');
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
 			console.log("GET CURRCODE: OPENING", err);
