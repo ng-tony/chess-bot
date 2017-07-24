@@ -7,15 +7,15 @@ var fs = require('fs'),
 	
 var codeCounter;
 var dict; 
-var init = false;
+var initf = false;
 
-function init() {
+var init = function() {
 	//get codeCounter
 	console.log("initing");//
-	if(init) {
+	if(initf) {
 		return;
 	}
-	init = true;
+	initf = true;
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
 			console.log("GET CURRCODE: OPENING", err);
