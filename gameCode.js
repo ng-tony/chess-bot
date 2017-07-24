@@ -135,6 +135,11 @@ var Game = function (){
 	this.readline = require('readline'),
 	this.MongoClient = require('mongodb').MongoClient, 
 	this.assert = require('assert');
+
+	var MongoClient = this.MongoClient;
+	var assert = this.assert;
+	var fs = this.fs;
+	var readline = this.readline;
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
 			console.log("GET CURRCODE: OPENING", err);
