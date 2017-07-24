@@ -8,7 +8,11 @@ var fs = require('fs'),
 	assert = require('assert'),
 	codeCounter = "codeCounter",
 	dict = "dict"; 
-
+function showTest(){
+	console.log("showTest");
+	console.log("Dict: " + dict);
+	console.log("codeCounter: " + codeCounter)
+}
 function init(){
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
@@ -20,7 +24,8 @@ function init(){
 					console.log("GET CURRCODE: READING", err);
 				} else{
 					console.log(res[0]);
-					codeCounter = (res[0].codeCounter);
+					codeCounter = JSON.parse(JSON.stringify(res[0].codeCounter));
+					showTest();
 					//
 				}
 			})
@@ -31,13 +36,11 @@ function init(){
 		if(err) throw err;
 		console.log(JSON.parse(data));
 		dict = JSON.parse(data);
+		showTest();
 	});
-
-	console.log("initend");
-	console.log("Dict: " + dict);
-	console.log("codeCounter: " + codeCounter)
 }
 init();
+
 //IDK Why the latter dont work but im sure this part does
 /*module.exports.codeCounter = {};
 module.exports.dict = {};
