@@ -140,6 +140,7 @@ var Game = function (){
 	this.codeCounter = [];
 	this.dict = {}; 
 	this.initf = false;
+	var self = this;
 	//console.log("initing");//
 	//console.log(init);
 	if(this.initf) {
@@ -167,7 +168,7 @@ var Game = function (){
 	fs.readFile('dict.json', 'utf8', function (err, data) {
 		if(err) throw err;
 		console.log(JSON.parse(data));
-		this.dict = JSON.parse(data);
+		self.dict = JSON.parse(data);
 	})
 };
 
