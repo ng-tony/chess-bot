@@ -6,17 +6,18 @@ var fs = require('fs'),
 	assert = require('assert');
 
 //IDK Why the latter dont work but im sure this part does
-module.exports.codeCounter = {};
+/*module.exports.codeCounter = {};
 module.exports.dict = {};
-module.exports.initf = false;
-/*var codeCounter;
+module.exports.initf = false;*/
+var codeCounter;
 var dict; 
 var initf = false;
-*/
+
 var init = function() {
 	//get codeCounter
 	console.log("initing");//
-	if(initf) {
+	console.log(init);
+	if(this.initf) {
 		return; //
 	}
 	initf = true;
@@ -118,7 +119,8 @@ function makeNewCode(){
 
 function genCode(){
 	console.log(this);
-	init();
+	var initfun = init();
+	initfun();
 	console.log("Dict1");
 		console.log(dict);
 		console.log("codecounter2");
@@ -134,4 +136,3 @@ function genCode(){
 /*needs the mongoURI and the local dictionary JSON file path
 chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = genCode;
-module.exports.init = init;
