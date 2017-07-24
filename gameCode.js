@@ -9,8 +9,7 @@ var fs = require('fs'),
 	codeCounter = "codeCounter",
 	dict = "dict"; 
 
-
-codeCounter = (function (){
+function init(){
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
 			console.log("GET CURRCODE: OPENING", err);
@@ -21,20 +20,24 @@ codeCounter = (function (){
 					console.log("GET CURRCODE: READING", err);
 				} else{
 					console.log(res[0]);
-					return(res[0].codeCounter);
+					codeCounter = (res[0].codeCounter);
 					//
 				}
 			})
 		}
 	});
-})();
-dict = (function(){
+
 	fs.readFile('dict.json', 'utf8', function (err, data) {
 		if(err) throw err;
 		console.log(JSON.parse(data));
-		return JSON.parse(data);
-	})
-})();
+		dict = JSON.parse(data);
+	});
+
+	console.log("initend");
+	console.log("Dict: " + dict);
+	console.log("codeCounter: " + codeCounter)
+}
+init();
 //IDK Why the latter dont work but im sure this part does
 /*module.exports.codeCounter = {};
 module.exports.dict = {};
