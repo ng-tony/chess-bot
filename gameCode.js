@@ -9,7 +9,7 @@ var fs = require('fs'),
 /*module.exports.codeCounter = {};
 module.exports.dict = {};
 module.exports.initf = false;*/
-var codeCounter = [];
+/*var codeCounter = [];
 var dict = []; 
 var initf = false;
 
@@ -45,7 +45,7 @@ var init = function() {
 		dict = JSON.parse(data);
 	})
 }
-
+*/
 
 /*
 function getCurrCode(){
@@ -119,8 +119,8 @@ function makeNewCode(){
 
 function genCode(){
 	console.log(this);
-	var initfun = init();
-	initfun();
+	//var initfun = init();
+	//initfun();
 	console.log("Dict1");
 		console.log(dict);
 		console.log("codecounter2");
@@ -135,4 +135,43 @@ function genCode(){
 
 /*needs the mongoURI and the local dictionary JSON file path
 chose to take in mongoURI rather than get from process because this is module*/
-exports.genCode = genCode;
+/*exports.genCode = genCode;
+var Game = function (){
+	var codeCounter = [];
+	var dict = []; 
+	var initf = false;
+
+	console.log("initing");//
+	console.log(init);
+	if(this.initf) {
+		return; //
+	}
+	initf = true;
+	MongoClient.connect(mongoURI , function(err, db){
+		if(err){
+			console.log("GET CURRCODE: OPENING", err);
+		} else {
+			var collection = db.collection('codeCounter');
+			collection.find().toArray(function(err, res) {
+				if(err){
+					console.log("GET CURRCODE: READING", err);
+				} else{
+					console.log(res[0]);
+					codeCounter = (res[0].codeCounter);
+					//
+				}
+			})
+		}
+	});
+
+	//getDict
+	fs.readFile('dict.json', 'utf8', function (err, data) {
+		if(err) throw err;
+		console.log(JSON.parse(data));
+		dict = JSON.parse(data);
+	})
+};*/
+
+Game.prototype.makeNewCode = makeNewNode;
+Game.prototype.genCode = genCode;
+module.exports = new Game();
