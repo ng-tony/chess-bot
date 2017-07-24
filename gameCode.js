@@ -5,7 +5,16 @@ var fs = require('fs'),
 	MongoClient = require('mongodb').MongoClient, 
 	assert = require('assert');
 	
-var codeCounter = (function (){
+var codeCounter;
+var dict; 
+var init = false;
+
+function init() {
+	//get codeCounter
+	if(init) {
+		return;
+	}
+	init = true;
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
 			console.log("GET CURRCODE: OPENING", err);
@@ -16,21 +25,21 @@ var codeCounter = (function (){
 					console.log("GET CURRCODE: READING", err);
 				} else{
 					console.log(res[0]);
-					return(res[0].codeCounter);
+					codeCounter = (res[0].codeCounter);
 					//
 				}
 			})
 		}
 	});
-})();
 
-var dict = (function(){
+	//getDict
 	fs.readFile('dict.json', 'utf8', function (err, data) {
 		if(err) throw err;
 		console.log(JSON.parse(data));
-		return JSON.parse(data);
+		dict = JSON.parse(data);
 	})
-	})()
+}
+
 
 /*
 function getCurrCode(){
@@ -105,6 +114,7 @@ function makeNewCode(){
 /*needs the mongoURI and the local dictionary JSON file path
 chose to take in mongoURI rather than get from process because this is module*/
 module.exports.genCode = function(){
+	init();
 	console.log("Dict1");
 		console.log(dict);
 		console.log("codecounter2");
