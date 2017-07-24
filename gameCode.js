@@ -102,7 +102,7 @@ function getCurrCode(){
 
 /*limitation, if codeCounter exceeds [n,n,n,n], where n
 is dictSize, counter does not change*/
-function makeNewCode(){
+makeNewCod = function(){
 		//I wonder if there is going to be any async issues, if u run two of these at the same time hmm
 		var isFinished = false;
 		console.log("makeNewCode");
