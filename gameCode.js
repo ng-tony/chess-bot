@@ -140,13 +140,12 @@ var Game = function (){
 	this.codeCounter = [];
 	this.dict = []; 
 	this.initf = false;
-
 	//console.log("initing");//
 	//console.log(init);
 	if(this.initf) {
 		return; //
 	}
-	initf = true;
+	this.initf = true;
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
 			console.log("GET CURRCODE: OPENING", err);
@@ -157,7 +156,7 @@ var Game = function (){
 					console.log("GET CURRCODE: READING", err);
 				} else{
 					console.log(res[0]);
-					codeCounter = (res[0].codeCounter);
+					this.codeCounter = (res[0].codeCounter);
 					//
 				}
 			})
@@ -168,7 +167,7 @@ var Game = function (){
 	fs.readFile('dict.json', 'utf8', function (err, data) {
 		if(err) throw err;
 		console.log(JSON.parse(data));
-		dict = JSON.parse(data);
+		this.dict = JSON.parse(data);
 	})
 };
 
