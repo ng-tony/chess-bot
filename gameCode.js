@@ -156,9 +156,7 @@ function genCode(){
 	
 	return new Promise(function(resolve, reject){
 		//var makeCode = makeNewCode.bind(codeCounter, dict.length);
-		makeNewCode().then(function (code){
-				resolve(code);
-		});
+		resolve(makeNewCode());
 	});
 }
 
