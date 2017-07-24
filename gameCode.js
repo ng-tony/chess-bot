@@ -195,4 +195,4 @@ chose to take in mongoURI rather than get from process because this is module*/
 
 Game.prototype.makeNewCode = makeNewCode;
 Game.prototype.genCode = genCode;*/
-module.exports.genCode = genCode;;
+module.exports.genCode = genCode;
