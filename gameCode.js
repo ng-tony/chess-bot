@@ -6,7 +6,7 @@ var fs = require('fs'),
 	readline = require('readline'),
 	MongoClient = require('mongodb').MongoClient, 
 	assert = require('assert'),
-	codeCounter = {};
+	codeCounter = {},
 	dict = {}; 
 
 
