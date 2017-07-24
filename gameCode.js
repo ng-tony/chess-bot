@@ -112,9 +112,7 @@ function makeNewCode(){
 		return codeCounter;
 }
 
-/*needs the mongoURI and the local dictionary JSON file path
-chose to take in mongoURI rather than get from process because this is module*/
-module.exports.genCode = function(){
+function genCode(){
 	console.log(this);
 	init();
 	console.log("Dict1");
@@ -128,3 +126,8 @@ module.exports.genCode = function(){
 		});
 	});
 }
+
+/*needs the mongoURI and the local dictionary JSON file path
+chose to take in mongoURI rather than get from process because this is module*/
+module.exports.genCode = genCode;
+
