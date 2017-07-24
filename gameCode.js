@@ -11,6 +11,7 @@ var init = false;
 
 function init() {
 	//get codeCounter
+	console.log("initing");
 	if(init) {
 		return;
 	}
