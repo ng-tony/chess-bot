@@ -9,8 +9,8 @@ var fs = require('fs'),
 /*module.exports.codeCounter = {};
 module.exports.dict = {};
 module.exports.initf = false;*/
-var codeCounter;
-var dict; 
+var codeCounter = [];
+var dict = []; 
 var initf = false;
 
 var init = function() {
