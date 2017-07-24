@@ -137,9 +137,9 @@ function genCode(){
 chose to take in mongoURI rather than get from process because this is module*/
 /*exports.genCode = genCode;*/
 var Game = function (){
-	var codeCounter = [];
-	var dict = []; 
-	var initf = false;
+	codeCounter = [];
+	dict = []; 
+	initf = false;
 
 	//console.log("initing");//
 	//console.log(init);

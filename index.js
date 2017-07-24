@@ -113,6 +113,7 @@ function messageHandler(sender, text){
 			gameCode.genCode().then(function (fulfilled){
 				sendTextMessage(sender, fulfilled.toString());
 			});
+			console.log(dict); //SHOULD BE UNDEINED
 			break;
 		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
 			break;
