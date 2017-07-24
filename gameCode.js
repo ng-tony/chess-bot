@@ -111,6 +111,7 @@ is dictSize, counter does not change*/
 var makeNewCode = function(){
 		//I wonder if there is going to be any async issues, if u run two of these at the same time hmm
 		var isFinished = false;
+		var curr = codeCounter.length;
 		console.log("makeNewCode");
 		console.log(this);
 		codeCounter[curr]++;
