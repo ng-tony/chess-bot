@@ -137,16 +137,9 @@ function genCode(){
 chose to take in mongoURI rather than get from process because this is module*/
 /*exports.genCode = genCode;*/
 var Game = function (){
-	this.codeCounter = [];
-	this.dict = {}; 
-	this.initf = false;
-	var self = this;
-	//console.log("initing");//
-	//console.log(init);
-	if(this.initf) {
-		return; //
-	}
-	this.initf = true;
+	var codeCounter = {};
+	var dict = {}; 
+
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
 			console.log("GET CURRCODE: OPENING", err);
@@ -157,7 +150,7 @@ var Game = function (){
 					console.log("GET CURRCODE: READING", err);
 				} else{
 					console.log(res[0]);
-					this.codeCounter = (res[0].codeCounter);
+					codeCounter = (res[0].codeCounter);
 					//
 				}
 			})
@@ -168,8 +161,11 @@ var Game = function (){
 	fs.readFile('dict.json', 'utf8', function (err, data) {
 		if(err) throw err;
 		console.log(JSON.parse(data));
-		self.dict = JSON.parse(data);
+		dict = JSON.parse(data);
 	})
+
+	this.dict = dict;
+	this.codeCounter = codeCounter;
 };
 
 Game.prototype.makeNewCode = makeNewCode;
