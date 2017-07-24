@@ -1,5 +1,40 @@
 'use strict';
 
+const mongoURI = process.env.MONGODB_URI;
+
+var fs = require('fs'),
+	readline = require('readline'),
+	MongoClient = require('mongodb').MongoClient, 
+	assert = require('assert'),
+	codeCounter = {};
+	dict = {}; 
+
+
+codeCounter = (function (){
+	MongoClient.connect(mongoURI , function(err, db){
+		if(err){
+			console.log("GET CURRCODE: OPENING", err);
+		} else {
+			var collection = db.collection('codeCounter');
+			collection.find().toArray(function(err, res) {
+				if(err){
+					console.log("GET CURRCODE: READING", err);
+				} else{
+					console.log(res[0]);
+					return(res[0].codeCounter);
+					//
+				}
+			})
+		}
+	});
+})();
+dict = (function(){
+	fs.readFile('dict.json', 'utf8', function (err, data) {
+		if(err) throw err;
+		console.log(JSON.parse(data));
+		return JSON.parse(data);
+	})
+})();
 //IDK Why the latter dont work but im sure this part does
 /*module.exports.codeCounter = {};
 module.exports.dict = {};
@@ -114,7 +149,8 @@ function makeNewCode(){
 
 function genCode(){
 	console.log("genCode");
-	console.log(this);
+	console.log("fs: " + fs);
+	console.log("codeCounter: " + codeCounter);
 	
 	return new Promise(function(resolve, reject){
 		//var makeCode = makeNewCode.bind(codeCounter, dict.length);
@@ -127,19 +163,8 @@ function genCode(){
 /*needs the mongoURI and the local dictionary JSON file path
 chose to take in mongoURI rather than get from process because this is module*/
 /*exports.genCode = genCode;*/
-var Game = function (){
-	var codeCounter = {};
-	var dict = {}; 
-	const mongoURI = process.env.MONGODB_URI;
-	this.fs = require('fs'),
-	this.readline = require('readline'),
-	this.MongoClient = require('mongodb').MongoClient, 
-	this.assert = require('assert');
+/*var Game = function (){
 
-	var MongoClient = this.MongoClient;
-	var assert = this.assert;
-	var fs = this.fs;
-	var readline = this.readline;
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
 			console.log("GET CURRCODE: OPENING", err);
@@ -169,5 +194,5 @@ var Game = function (){
 };
 
 Game.prototype.makeNewCode = makeNewCode;
-Game.prototype.genCode = genCode;
-module.exports = new Game();
+Game.prototype.genCode = genCode;*/
+module.exports.genCode = genCode;;
