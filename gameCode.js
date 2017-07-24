@@ -135,7 +135,7 @@ function genCode(){
 
 /*needs the mongoURI and the local dictionary JSON file path
 chose to take in mongoURI rather than get from process because this is module*/
-/*exports.genCode = genCode;
+/*exports.genCode = genCode;*/
 var Game = function (){
 	var codeCounter = [];
 	var dict = []; 
@@ -170,8 +170,8 @@ var Game = function (){
 		console.log(JSON.parse(data));
 		dict = JSON.parse(data);
 	})
-};*/
+};
 
-Game.prototype.makeNewCode = makeNewNode;
+Game.prototype.makeNewCode = makeNewCode;
 Game.prototype.genCode = genCode;
 module.exports = new Game();
