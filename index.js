@@ -110,7 +110,7 @@ function messageHandler(sender, text){
 		case "create":
 			initGame(sender);
 			sendTextMessage(sender, chess.initBoard().toString());
-			gameCode.genCode("./dict.json", mongoURI).then(function (fulfilled){
+			gameCode.genCode().then(function (fulfilled){
 				sendTextMessage(sender, fulfilled.toString());
 			});
 			break;
