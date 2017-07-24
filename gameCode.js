@@ -113,9 +113,6 @@ var makeNewCode = function(){
 		var isFinished = false;
 		console.log("makeNewCode");
 		console.log(this);
-		var codeCounter = this.codeCounter;
-		var dict = this.dict;
-		var curr = codeCounter.length - 1;
 		codeCounter[curr]++;
 		while (!isFinished && curr > 0) {
 			if (codeCounter[curr] > (dict.length - 1)){
@@ -148,8 +145,6 @@ var makeNewCode = function(){
 					})
 				}
 		});
-		this.dict = dict;
-		this.codeCounter = codeCounter;
 		return codeCounter;
 }
 
