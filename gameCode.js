@@ -4,11 +4,15 @@ var fs = require('fs'),
 	readline = require('readline'),
 	MongoClient = require('mongodb').MongoClient, 
 	assert = require('assert');
-	
-var codeCounter;
+
+//IDK Why the latter dont work but im sure this part does
+module.exports.codeCounter;
+module.exports.dict;
+module.exports.initf = false;
+/*var codeCounter;
 var dict; 
 var initf = false;
-
+*/
 var init = function() {
 	//get codeCounter
 	console.log("initing");//
