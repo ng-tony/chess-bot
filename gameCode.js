@@ -6,7 +6,8 @@ var fs = require('fs'),
 	readline = require('readline'),
 	MongoClient = require('mongodb').MongoClient, 
 	assert = require('assert'),
-	dict = "dict";
+	dict = "dict",
+	codeCounter = "HELLO?";
 
 var codeCounter = (function(){
 	MongoClient.connect(mongoURI , function(err, db){
