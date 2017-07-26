@@ -64,7 +64,7 @@ var makeNewCode = function(){
 					throw "Code Counter Overflowed, I.E Game Limit Reached";
 				}
 				else {
-					codeCounter[curr - 1]++;
+					codeCounter[curr]++;
 				}
 			}
 			else {
