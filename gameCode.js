@@ -5,9 +5,11 @@ const mongoURI = process.env.MONGODB_URI;
 var fs = require('fs'),
 	readline = require('readline'),
 	MongoClient = require('mongodb').MongoClient, 
-	assert = require('assert');
+	assert = require('assert'),
+	dict = "dict",
+	codeCounter = "codeCounter";
 
-var codeCounter = (function(){
+function init(){
 	MongoClient.connect(mongoURI , function(err, db){
 		if(err){
 			console.log("GET CURRCODE: OPENING", err);
@@ -18,12 +20,20 @@ var codeCounter = (function(){
 					console.log("GET CURRCODE: READING", err);
 				} else{
 					console.log(res[0]);
-					return JSON.parse(JSON.stringify(res[0].codeCounter));
+					codeCounter = JSON.parse(JSON.stringify(res[0].codeCounter));
+					//
 				}
 			})
 		}
 	});
-})();
+
+	fs.readFile('dict.json', 'utf8', function (err, data) {
+		if(err) throw err;
+		console.log(JSON.parse(data));
+		dict = JSON.parse(data);
+	});
+}
+init();
 
 var dict = (function(){
 	fs.readFile('dict.json', 'utf8', function (err, data) {
