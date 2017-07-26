@@ -87,7 +87,7 @@ var makeNewCode = function(){
 				}
 		});
 
-		var retv = dict[codeCounter[3]] + dict[codeCounter[2]] + dict[codeCounter[1]] + dict[codeCounter[0]];
+		var retv = dict[codeCounter[0]] + dict[codeCounter[1]] + dict[codeCounter[2]] + dict[codeCounter[3]];
 		return retv;
 }
 
