@@ -104,11 +104,11 @@ function messageHandler(sender, text){
 			sendTextMessage(sender, "Hey!" + sender.toString());
 			break;
 		case "create":
-			initGame(sender);
 			sendTextMessage(sender, chess.initBoard().toString());
 			var newGameCode = gameCode.genCode();
 			console.log(newGameCode);
 			sendTextMessage(newGameCode, newGameCode.toString());
+			initGame(sender,newGameCode);
 			break;
 		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
 			break;
@@ -128,13 +128,13 @@ function messageHandler(sender, text){
 	}
 }
 
-function initGame(sender){
+function initGame(sender, gameCode){
 	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
 		var senderID = sender.toString();
 		var game = {"white": senderID, 
 					"board": chess.initBoard(),
-					//"groupChatID": getChatID(); //WIP
+					"gameCode": gameCode,
 					"turnNum": 0,
 					"isCheck": false,
 					"drawOffered": false,
