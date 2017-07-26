@@ -73,6 +73,8 @@ var makeNewCode = function(){
 					})
 				}
 		});
+
+		var retv = dict[3] + dict[2] + dict[1] + dict[0];
 		return codeCounter;
 }
 
@@ -86,3 +88,7 @@ module.exports.genCode = function (){
 		resolve(makeNewCode());
 	});
 };
+
+module.exports.decodeCode = function (code){
+	return code;
+}
