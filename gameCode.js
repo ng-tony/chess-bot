@@ -53,11 +53,11 @@ var makeNewCode = function(){
 		console.log(codeCounter);
 		codeCounter[curr]++;
 		while (!isFinished && curr > 0) {
-			console.log((Number(codeCounter[curr]) > (Object.keys(dict) - 1)));
+			console.log((Number(codeCounter[curr]) > (Object.keys(dict).length - 1)));
 			console.log(Number(codeCounter[curr]));
 			console.log(dict);
 			console.log(Object.keys(dict) - 1);
-			if (Number(codeCounter[curr]) > (Object.keys(dict) - 1)){
+			if (Number(codeCounter[curr]) > (Object.keys(dict).length - 1)){
 				codeCounter[curr] = 0;
 				curr--;
 				if (curr < 0 ){
