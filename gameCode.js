@@ -53,7 +53,7 @@ var makeNewCode = function(){
 		console.log(this);
 		codeCounter[curr]++;
 		while (!isFinished && curr > 0) {
-			if (codeCounter[curr] > (dict.length - 1)){
+			if (Number(codeCounter[curr]) > (dict.length - 1)){
 				codeCounter[curr] = 0;
 				curr--;
 				if (curr < 0 ){
