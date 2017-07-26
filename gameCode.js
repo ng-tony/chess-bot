@@ -5,9 +5,7 @@ const mongoURI = process.env.MONGODB_URI;
 var fs = require('fs'),
 	readline = require('readline'),
 	MongoClient = require('mongodb').MongoClient, 
-	assert = require('assert'),
-	dict = "dict",
-	codeCounter = "HELLO?";
+	assert = require('assert');
 
 var codeCounter = (function(){
 	MongoClient.connect(mongoURI , function(err, db){
