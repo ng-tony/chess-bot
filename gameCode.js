@@ -55,6 +55,7 @@ var makeNewCode = function(){
 		while (!isFinished && curr > 0) {
 			console.log((Number(codeCounter[curr]) > (dict.length - 1)));
 			console.log(Number(codeCounter[curr]));
+			console.log(dict);
 			console.log(dict.length - 1);
 			if (Number(codeCounter[curr]) > (dict.length - 1)){
 				codeCounter[curr] = 0;
