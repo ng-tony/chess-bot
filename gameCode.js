@@ -74,7 +74,7 @@ var makeNewCode = function(){
 				}
 		});
 
-		var retv = dict[3] + dict[2] + dict[1] + dict[0];
+		var retv = dict[codeCounter[3]] + dict[codeCounter[2]] + dict[codeCounter[1]] + dict[codeCounter[0]];
 		return retv;
 }
 
@@ -82,13 +82,5 @@ module.exports.genCode = function (){
 	console.log("genCode");
 	console.log("fs: " + fs);
 	console.log("codeCounter: " + codeCounter);
-	
-	return new Promise(function(resolve, reject){
-		//var makeCode = makeNewCode.bind(codeCounter, dict.length);
-		resolve(makeNewCode());
-	});
+	return makeNewCode();
 };
-
-module.exports.decodeCode = function (code){
-	return code;
-}

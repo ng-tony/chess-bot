@@ -110,9 +110,8 @@ function messageHandler(sender, text){
 		case "create":
 			initGame(sender);
 			sendTextMessage(sender, chess.initBoard().toString());
-			gameCode.genCode().then(function (fulfilled){
-				sendTextMessage(sender, fulfilled.toString());
-			});
+			var newGameCode = gameCode.genCode();
+			sendTextMessage(newGameCode, fulfilled.toString());
 			break;
 		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
 			break;
