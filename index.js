@@ -66,7 +66,7 @@ app.post('/webhook/', function(req, res) {
 function logMessage(sender, text, timestamp){
 	MongoClient.connect(mongoURI , function(err, db) {
 		assert.equal(null, err);
-		var message = { "sender": sender, "text":text, "timestamp":time};
+		var message = { "sender": sender, "text":text, "timestamp":timestamp};
 		db.collection("datamine").insertOne(message, function(err, res) {
 			if (err) throw err;
 			console.log("MESSAGE WAS LOGGED");
