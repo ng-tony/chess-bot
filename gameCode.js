@@ -6,14 +6,33 @@ var fs = require('fs'),
 	readline = require('readline'),
 	MongoClient = require('mongodb').MongoClient, 
 	assert = require('assert'),
-	codeCounter = "codeCounter",
-	dict = "dict"; 
-	
-function showTest(){
-	console.log("showTest");
-	console.log("Dict: " + dict);
-	console.log("codeCounter: " + codeCounter)
-}
+	dict = "dict";
+
+var codeCounter = (function(){
+	MongoClient.connect(mongoURI , function(err, db){
+		if(err){
+			console.log("GET CURRCODE: OPENING", err);
+		} else {
+			var collection = db.collection('codeCounter');
+			collection.find().toArray(function(err, res) {
+				if(err){
+					console.log("GET CURRCODE: READING", err);
+				} else{
+					console.log(res[0]);
+					return JSON.parse(JSON.stringify(res[0].codeCounter));
+				}
+			})
+		}
+	});
+})();
+
+var dict = (function(){
+	fs.readFile('dict.json', 'utf8', function (err, data) {
+		if(err) throw err;
+		console.log(JSON.parse(data));
+		return JSON.parse(data);
+	});
+})();
 
 /*limitation, if codeCounter exceeds [n,n,n,n], where n
 is dictSize, counter does not change*/
@@ -57,7 +76,7 @@ var makeNewCode = function(){
 		return codeCounter;
 }
 
-module.exports.genCode = function genCode(){
+module.exports.genCode = function (){
 	console.log("genCode");
 	console.log("fs: " + fs);
 	console.log("codeCounter: " + codeCounter);
