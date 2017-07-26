@@ -53,11 +53,11 @@ var makeNewCode = function(){
 		console.log(codeCounter);
 		codeCounter[curr]++;
 		while (!isFinished && curr > 0) {
-			console.log((Number(codeCounter[curr]) > (dict.length - 1)));
+			console.log((Number(codeCounter[curr]) > (Object.keys(dict).length - 1)));
 			console.log(Number(codeCounter[curr]));
 			console.log(dict);
-			console.log(dict.length - 1);
-			if (Number(codeCounter[curr]) > (dict.length - 1)){
+			console.log(Object.keys(dict) - 1);
+			if (Number(codeCounter[curr]) > (Object.keys(dict).length - 1)){
 				codeCounter[curr] = 0;
 				curr--;
 				if (curr < 0 ){
@@ -87,7 +87,7 @@ var makeNewCode = function(){
 				}
 		});
 
-		var retv = dict[codeCounter[3]] + dict[codeCounter[2]] + dict[codeCounter[1]] + dict[codeCounter[0]];
+		var retv = dict[codeCounter[0]] + dict[codeCounter[1]] + dict[codeCounter[2]] + dict[codeCounter[3]];
 		return retv;
 }
 
