@@ -50,10 +50,14 @@ var makeNewCode = function(){
 		var isFinished = false;
 		var curr = codeCounter.length - 1;
 		console.log("makeNewCode");
-		console.log(this);
+		console.log(codeCounter);
 		codeCounter[curr]++;
 		while (!isFinished && curr > 0) {
-			if (codeCounter[curr] > (dict.length - 1)){
+			console.log((Number(codeCounter[curr]) > (dict.length - 1)));
+			console.log(Number(codeCounter[curr]));
+			console.log(dict);
+			console.log(dict.length - 1);
+			if (Number(codeCounter[curr]) > (dict.length - 1)){
 				codeCounter[curr] = 0;
 				curr--;
 				if (curr < 0 ){
