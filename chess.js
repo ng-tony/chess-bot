@@ -37,17 +37,78 @@ function pawn(color, startX, startY, destX, destY, board){
 			|| (destX === startX && board[destY][destX] === 0)){
 				return true;
 			}
+		//first move for pawn, move two, also empty space
+		}else if(Math.abs(destY - startY) === 2 && (startY === 6) && (board[destY][destX] === 0)){
+			return true;
 		}
-	//same thing as white, only Y is reversed and we kill white pieces now
+	/*same thing as white, only Y is reversed and we kill white pieces now
+		also, can move two if start at y === 1
+	*/
 	}else if(color === "b"){
 		if(destY - startY === -1){
 			if((Math.abs(destX - startX) === 1 && getColor(board[destY][destX]) === "w")
 			|| (destX === startX && board[destY][destX] === 0)){
 				return true;
 			}
+		}else if(Math.abs(destY - startY) === 2 && (startY === 1) && (board[destY][destX] === 0)){
+			return true;
 		}
 	}
 	return false;
+}
+
+function rook(color, startX, startY, destX, destY, board){
+	//move vertically
+	if(destX === startX){
+		//check that nothing is inbetween
+		var upperBound;
+		var lowerBound;
+		if(destY > startY){
+			upperBound = destY;
+			lowerBound = startY;
+		}else{
+			upperBound = startY;
+			lowerBound = destY;
+		}
+		
+		if(getColor(board[destY][destX]) === color){
+			return false;
+		}
+		
+		/* since rook can't jump over piece, return false if trying that
+		   lowerBound + 1 since its not looking at either end points
+		*/
+		for(var i = lowerBound + 1; i < upperBound; i++){
+			if(board[destY][destX] !== 0){
+				return false;
+			}
+		}
+	}
+	/*move horizontally
+		destY is now destX
+	*/
+	else if(destY === startY){
+		var upperBound;
+		var lowerBound;
+		if(destX > startX){
+			upperBound = destX;
+			lowerBound = startX;
+		}else{
+			upperBound = startX;
+			lowerBound = destX;
+		}
+		
+		if(getColor(board[destY][destX]) === color){
+			return false;
+		}
+		
+		for(var i = lowerBound + 1; i < upperBound; i++){
+			if(board[destY][destX] !== 0){
+				return false;
+			}
+		}
+		
+	}
 }
 
 /*accessing this board
@@ -64,6 +125,11 @@ module.exports.initBoard = function (){
 	return board;
 }
 
+/* *** need to check if move is out of range of board
+	check if it puts king into check
+	check if invalid move command(letter and numbers are out of order or something)
+	check if move is not putting piece in the same place its already in
+*/
 module.exports.isValidMove = function (color, piece, startX, startY, destX, destY, board){
 	var isValid = false;
 	switch(piece){
