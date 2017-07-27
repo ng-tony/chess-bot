@@ -20,19 +20,13 @@ function getColor(board, x, y){
 }
 
 
-/**
-returns 2d array that represents chess board
-N is knight
-b is black
-w is white
-**/
+
 function pawn(color, startX, startY, destX, destY, board){
 	if(color === "w"){
 		//move forward 1
 		if(destY - startY === 1){
 			//moving diagonal 1, so killing a piece
-			//piece must be black since we are white
-			if((Math.abs(destX - startX) === 1 && getColor(board[destY][destX]) === "b")
+			if((Math.abs(destX - startX) === 1)
 			//or, just moving forward(not diagonal) and empty space there
 			|| (destX === startX && board[destY][destX] === 0)){
 				return true;
@@ -46,7 +40,7 @@ function pawn(color, startX, startY, destX, destY, board){
 	*/
 	}else if(color === "b"){
 		if(destY - startY === -1){
-			if((Math.abs(destX - startX) === 1 && getColor(board[destY][destX]) === "w")
+			if((Math.abs(destX - startX) === 1)
 			|| (destX === startX && board[destY][destX] === 0)){
 				return true;
 			}
@@ -58,21 +52,16 @@ function pawn(color, startX, startY, destX, destY, board){
 }
 
 function rook(color, startX, startY, destX, destY, board){
-	//move vertically
-	if(destX === startX){
+	var nothingInBetween = function(start, dest, color, board){
 		//check that nothing is inbetween
 		var upperBound;
 		var lowerBound;
-		if(destY > startY){
-			upperBound = destY;
-			lowerBound = startY;
+		if(dest > start){
+			upperBound = dest;
+			lowerBound = start;
 		}else{
-			upperBound = startY;
-			lowerBound = destY;
-		}
-		
-		if(getColor(board[destY][destX]) === color){
-			return false;
+			upperBound = start;
+			lowerBound = dest;
 		}
 		
 		/* since rook can't jump over piece, return false if trying that
@@ -83,34 +72,25 @@ function rook(color, startX, startY, destX, destY, board){
 				return false;
 			}
 		}
+		return true;
+	};
+	//move vertically
+	if(destX === startX){
+		return nothingInBetween(startY, destY, color, board);
 	}
-	/*move horizontally
-		destY is now destX
-	*/
+	//move horizontally, destY is now destX, startY is now startX
 	else if(destY === startY){
-		var upperBound;
-		var lowerBound;
-		if(destX > startX){
-			upperBound = destX;
-			lowerBound = startX;
-		}else{
-			upperBound = startX;
-			lowerBound = destX;
-		}
-		
-		if(getColor(board[destY][destX]) === color){
-			return false;
-		}
-		
-		for(var i = lowerBound + 1; i < upperBound; i++){
-			if(board[destY][destX] !== 0){
-				return false;
-			}
-		}
-		
+		return nothingInBetween(startX, destX, color, board);
 	}
+	return false;
 }
 
+/**
+returns 2d array that represents chess board
+N is knight
+b is black
+w is white
+**/
 /*accessing this board
 will be board[Y coord][X coord] because it is row then term*/
 module.exports.initBoard = function (){
@@ -137,6 +117,7 @@ module.exports.isValidMove = function (color, piece, startX, startY, destX, dest
 			isValid = pawn(color, startX, startY, destX, destY, board);
 			break;
 		case "R":
+			isValid = rook(color, startX, startY, destX, destY, board);
 			break;
 		case "N":
 			break;
