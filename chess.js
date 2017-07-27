@@ -13,12 +13,48 @@ module.exports.coordToArrPos = function (val){
 	return convert[val];
 }
 
+/*return the first letter of the unit on that board coord
+i.e. the color of the piece*/
+function getColor(board, x, y){
+	return board[y][x].charAt(0);
+}
+
+
 /**
 returns 2d array that represents chess board
 N is knight
 b is black
 w is white
 **/
+function pawn(color, startX, startY, destX, destY, board){
+	if(color === "w"){
+		//move forward 1
+		if(destY - startY === 1){
+			//moving diagonal 1, so killing a piece
+			//piece must be black since we are white
+			if((Math.abs(destX - startX) === 1 && getColor(board[destY][destX]) === "b")
+			//or, just moving forward(not diagonal) and empty space there
+			|| (destX === startX && board[destY][destX] === 0)){
+				return true;
+			}
+		}
+	}else if(color === "b"){
+		//move forward 1
+		if(destY - startY === -1){
+			//moving diagonal 1, so killing a piece
+			//piece must be black since we are white
+			if((Math.abs(destX - startX) === 1 && getColor(board[destY][destX]) === "w")
+			//or, just moving forward(not diagonal) and empty space there
+			|| (destX === startX && board[destY][destX] === 0)){
+				return true;
+			}
+		}
+	}
+	return false;
+}
+
+/*accessing this board
+will be board[Y coord][X coord] because it is row then term*/
 module.exports.initBoard = function (){
 	var board = [["bR", "bN", "bB", "bQ", "bK", "bB", "bN", "bR"],
 			 ["bP", "bP", "bP", "bP", "bP", "bP", "bP", "bP"],
@@ -32,8 +68,10 @@ module.exports.initBoard = function (){
 }
 
 module.exports.isValidMove = function (color, piece, startX, startY, destX, destY, board){
+	var isValid = false;
 	switch(piece){
 		case "P":
+			isValid = pawn(color, startX, startY, destX, destY, board);
 			break;
 		case "R":
 			break;
@@ -46,4 +84,7 @@ module.exports.isValidMove = function (color, piece, startX, startY, destX, dest
 		case "K":
 			break;
 	}
+	return isValid;
 }
+
+
