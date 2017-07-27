@@ -38,13 +38,10 @@ function pawn(color, startX, startY, destX, destY, board){
 				return true;
 			}
 		}
+	//same thing as white, only Y is reversed and we kill white pieces now
 	}else if(color === "b"){
-		//move forward 1
 		if(destY - startY === -1){
-			//moving diagonal 1, so killing a piece
-			//piece must be black since we are white
 			if((Math.abs(destX - startX) === 1 && getColor(board[destY][destX]) === "w")
-			//or, just moving forward(not diagonal) and empty space there
 			|| (destX === startX && board[destY][destX] === 0)){
 				return true;
 			}
