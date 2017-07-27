@@ -19,8 +19,6 @@ function getColor(board, x, y){
 	return board[y][x].charAt(0);
 }
 
-
-
 function pawn(color, startX, startY, destX, destY, board){
 	if(color === "w"){
 		//move forward 1
@@ -85,6 +83,13 @@ function rook(color, startX, startY, destX, destY, board){
 	return false;
 }
 
+function king(color, startX, startY, destX, destY, board){
+	//since eating its own piece is already checked for, nothing to really check
+	if((Math.abs(startX - destX) === 1) && (Math.abs(startY - destY) === 1)){
+		return true;
+	}
+}
+
 /**
 returns 2d array that represents chess board
 N is knight
@@ -128,6 +133,7 @@ module.exports.isValidMove = function (color, piece, startX, startY, destX, dest
 		case "K":
 			break;
 	}
+	
 	return isValid;
 }
 
