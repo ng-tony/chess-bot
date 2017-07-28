@@ -49,8 +49,8 @@ function pawn(color, startX, startY, destX, destY, board){
 	return false;
 }
 
-function rook(color, startX, startY, destX, destY, board, isVertical){
-	var nothingInBetween = function(start, dest, color, board){
+function rook(color, startX, startY, destX, destY, board){
+	var nothingInBetween = function(start, dest, color, board, isVertical){
 		//check that nothing is inbetween
 		var upperBound;
 		var lowerBound;
