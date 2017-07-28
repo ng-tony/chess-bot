@@ -49,7 +49,7 @@ function pawn(color, startX, startY, destX, destY, board){
 	return false;
 }
 
-function rook(color, startX, startY, destX, destY, board){
+function rook(color, startX, startY, destX, destY, board, isVertical){
 	var nothingInBetween = function(start, dest, color, board){
 		//check that nothing is inbetween
 		var upperBound;
@@ -65,24 +65,25 @@ function rook(color, startX, startY, destX, destY, board){
 		/* since rook can't jump over piece, return false if trying that
 		   lowerBound + 1 since its not looking at either end points
 		*/
-		for(var i = lowerBound + 1; i < upperBound; i++){
-			if(board[destY][destX] !== 0){
+		for(var i = 1; i < upperBound - lowerBound - 1; i++){
+			if((isVertical && board[lowerBound + i][startX])
+			|| (!isVertical && board[startY][lowerBound + i])){
 				return false;
 			}
+			
 		}
 		return true;
 	};
 	//move vertically
-	if(destX === startX){
-		return nothingInBetween(startY, destY, color, board);
-	}
+	if(((destX === startX) && nothingInBetween(startY, destY, color, board, true))
 	//move horizontally, destY is now destX, startY is now startX
-	else if(destY === startY){
-		return nothingInBetween(startX, destX, color, board);
+	||((destY === startY) && nothingInBetween(startX, destX, color, board, false))){
+		return true;
 	}
 	return false;
 }
 
+// castling is done elsewhere
 function king(color, startX, startY, destX, destY, board){
 	//since eating its own piece is already checked for, nothing to really check
 	if((Math.abs(startX - destX) === 1) && (Math.abs(startY - destY) === 1)){
@@ -131,6 +132,7 @@ module.exports.isValidMove = function (color, piece, startX, startY, destX, dest
 		case "Q":
 			break;
 		case "K":
+			isValid = king(color, startX, startY, destX, destY, board);
 			break;
 	}
 	
