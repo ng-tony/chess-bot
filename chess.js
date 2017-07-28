@@ -50,7 +50,7 @@ function pawn(color, startX, startY, destX, destY, board){
 }
 
 function rook(color, startX, startY, destX, destY, board){
-	var nothingInBetween = function(start, dest, color, board, isVertical){
+	var nothingInBetween = function(start, dest, board, isVertical){
 		//check that nothing is inbetween
 		var upperBound;
 		var lowerBound;
@@ -66,8 +66,8 @@ function rook(color, startX, startY, destX, destY, board){
 		   lowerBound + 1 since its not looking at either end points
 		*/
 		for(var i = 1; i < upperBound - lowerBound - 1; i++){
-			if((isVertical && board[lowerBound + i][startX])
-			|| (!isVertical && board[startY][lowerBound + i])){
+			if((isVertical && (board[lowerBound + i][startX] === 0))
+			|| (!isVertical && (board[startY][lowerBound + i] === 0))){
 				return false;
 			}
 			
@@ -75,9 +75,48 @@ function rook(color, startX, startY, destX, destY, board){
 		return true;
 	};
 	//move vertically
-	if(((destX === startX) && nothingInBetween(startY, destY, color, board, true))
+	if(((destX === startX) && nothingInBetween(startY, destY, board, true))
 	//move horizontally, destY is now destX, startY is now startX
-	||((destY === startY) && nothingInBetween(startX, destX, color, board, false))){
+	||((destY === startY) && nothingInBetween(startX, destX, board, false))){
+		return true;
+	}
+	return false;
+}
+
+function bishop(color, startX, startY, destX, destY, board){
+	//just uses the params from parent function
+	function nothingInBetween(){
+		var upperBoundX;
+		var upperBoundY;
+		var lowerBoundX;
+		var lowerBoundY;
+
+		if(destX > startX){
+			upperBoundX = destX;
+			lowerBoundX = startX;
+		}else{
+			upperBoundX = startX;
+			lowerBoundX = destX;
+		}
+		
+		if(destY > startY){
+			upperBoundY = destY;
+			lowerBoundY = startY;
+		}else{
+			upperBoundY = startY;
+			lowerBoundY = destY;
+		}
+	
+		//chose upperBoundX and lowerBoundX because only displacement amount matters
+		//completely arbitrary, could use the other too
+		for(var i = 1; i < upperBoundX - lowerBoundX - 1; i++){
+			if(board[lowerBoundY + i][lowerBoundX + i]){
+				return false;
+			}
+		}
+	}
+	
+	if((Math.abs(destX-startX) === Math.abs(destY-startY)) && nothingInBetween()){
 		return true;
 	}
 	return false;
@@ -115,6 +154,7 @@ module.exports.initBoard = function (){
 	check if it puts king into check
 	check if invalid move command(letter and numbers are out of order or something)
 	check if move is not putting piece in the same place its already in
+	check if move tries to kill piece of own colour
 */
 module.exports.isValidMove = function (color, piece, startX, startY, destX, destY, board){
 	var isValid = false;
