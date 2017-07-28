@@ -85,7 +85,7 @@ function rook(color, startX, startY, destX, destY, board){
 
 function bishop(color, startX, startY, destX, destY, board){
 	//just uses the params from parent function
-	function nothingInBetween(){
+	var nothingInBetween = function(){
 		var upperBoundX;
 		var upperBoundY;
 		var lowerBoundX;
@@ -168,6 +168,7 @@ module.exports.isValidMove = function (color, piece, startX, startY, destX, dest
 		case "N":
 			break;
 		case "B":
+			isValid = bishop(color, startX, startY, destX, destY, board);
 			break;
 		case "Q":
 			break;
