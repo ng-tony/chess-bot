@@ -1,7 +1,7 @@
 'use strict';
 
 /**
-takes in value from move command from message, 
+takes in string value from move command from message, 
 converts it to value that can be used for accessing
 the board array
 **/
@@ -9,14 +9,23 @@ function coordToArrPos(val){
 	const convert = { 
 		"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7, 
 		"8": 0, "7": 1, "6": 2, "5": 3, "4": 4, "3": 5, "2": 6, "1": 7};
-
-	return convert[val];
+	
+	//check for bad coords
+	if(convert[val] !== undefined){
+		return convert[val];
+	}else{
+		return false;
+	}
 }
 
 /*return the first letter of the unit on that board coord
 i.e. the color of the piece*/
 function getColor(board, x, y){
 	return board[y][x].charAt(0);
+}
+
+function getPiece(board, x, y){
+	return board[y][x].charAt(1);
 }
 
 function nothingBetweenDiag(startX, startY, destX, destY, board){
@@ -178,7 +187,12 @@ module.exports.initBoard = function (){
 	check if move is not putting piece in the same place its already in
 	check if move tries to kill piece of own colour
 */
-module.exports.isValidMove = function (color, piece, startX, startY, destX, destY, board){
+module.exports.isValidMove = function (startX, startY, destX, destY, board){
+	var color = getColor(board, startX, startY);
+	var piece = getPiece(board, startX, startY);
+	
+	
+	
 	var isValid = false;
 	switch(piece){
 		case "P":
