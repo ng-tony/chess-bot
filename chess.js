@@ -49,7 +49,7 @@ function pawn(color, startX, startY, destX, destY, board){
 	return false;
 }
 
-function rook(color, startX, startY, destX, destY, board){
+function rook(startX, startY, destX, destY, board){
 	var nothingInBetween = function(start, dest, board, isVertical){
 		//check that nothing is inbetween
 		var upperBound;
@@ -83,14 +83,23 @@ function rook(color, startX, startY, destX, destY, board){
 	return false;
 }
 
-function bishop(color, startX, startY, destX, destY, board){
+function knight(startX, startY, destX, destY){
+	if((Math.abs(destX - startX) === 2 && Math.abs(destY - startY) === 1)
+	|| (Math.abs(destX - startX) === 1 && Math.abs(destY - startY) === 2)){
+		return true;
+	}
+	return false;
+}
+
+function bishop(startX, startY, destX, destY, board){
 	//just uses the params from parent function
 	var nothingInBetween = function(){
 		var upperBoundX;
-		var upperBoundY;
 		var lowerBoundX;
 		var lowerBoundY;
-
+		/*don't need to do upperBoundY because we
+		use upperBoundX to get the number of spaces that the bishop
+		moves vertically*/
 		if(destX > startX){
 			upperBoundX = destX;
 			lowerBoundX = startX;
@@ -100,10 +109,8 @@ function bishop(color, startX, startY, destX, destY, board){
 		}
 		
 		if(destY > startY){
-			upperBoundY = destY;
 			lowerBoundY = startY;
 		}else{
-			upperBoundY = startY;
 			lowerBoundY = destY;
 		}
 	
@@ -123,11 +130,12 @@ function bishop(color, startX, startY, destX, destY, board){
 }
 
 // castling is done elsewhere
-function king(color, startX, startY, destX, destY, board){
+function king(startX, startY, destX, destY){
 	//since eating its own piece is already checked for, nothing to really check
 	if((Math.abs(startX - destX) === 1) && (Math.abs(startY - destY) === 1)){
 		return true;
 	}
+	return false;
 }
 
 /**
@@ -163,17 +171,18 @@ module.exports.isValidMove = function (color, piece, startX, startY, destX, dest
 			isValid = pawn(color, startX, startY, destX, destY, board);
 			break;
 		case "R":
-			isValid = rook(color, startX, startY, destX, destY, board);
+			isValid = rook(startX, startY, destX, destY, board);
 			break;
 		case "N":
+			isValid = knight(startX, startY, destX, destY);
 			break;
 		case "B":
-			isValid = bishop(color, startX, startY, destX, destY, board);
+			isValid = bishop(startX, startY, destX, destY, board);
 			break;
 		case "Q":
 			break;
 		case "K":
-			isValid = king(color, startX, startY, destX, destY, board);
+			isValid = king(startX, startY, destX, destY);
 			break;
 	}
 	
