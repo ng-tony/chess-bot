@@ -5,16 +5,17 @@ takes in string value from move command from message,
 converts it to value that can be used for accessing
 the board array
 **/
-function coordToArrPos(val){
+function stringToNumber(val){
 	const convert = { 
-		"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7, 
-		"8": 0, "7": 1, "6": 2, "5": 3, "4": 4, "3": 5, "2": 6, "1": 7};
+		"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7,
+		"8": 0, "7": 1, "6": 2, "5": 3, "4": 4, "3": 5, "2": 6, "1": 7
+	};
 	
 	//check for bad coords
 	if(convert[val] !== undefined){
 		return convert[val];
 	}else{
-		return false;
+		throw new Error('invalid string to convert to coordinate');
 	}
 }
 
@@ -24,8 +25,29 @@ function getColor(board, x, y){
 	return board[y][x].charAt(0);
 }
 
-function getPiece(board, x, y){
-	return board[y][x].charAt(1);
+function getPiece(startX, startY, board){
+	var piece = board[startY][startX].toUpperCase();
+	if(piece in ["P","R","N","B","Q","K"]){
+		return board[startY][startX].char(1);
+	}else{
+		throw new Error('no valid piece found');
+	}
+}
+
+function getCoords(movePhrase, isDest){
+	var adjust = 0;
+	if(isDest){
+		adjust = 2;
+	}
+	var coordX = stringToNumber(movePhrase.charAt(0+adjust));
+	var coordY = stringToNumber(movePhrase.charAt(1+adjust));
+	
+	//letter is between a to h
+	if(coordX && coordY){
+		return [coordX, coordY];
+	}else{
+		throw new Error('invalid coordinates');
+	}
 }
 
 function nothingBetweenDiag(startX, startY, destX, destY, board){
@@ -56,32 +78,52 @@ function nothingBetweenDiag(startX, startY, destX, destY, board){
 			return false;
 		}
 	}
+	return true;
 }
 
 function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
-		//check that nothing is inbetween
-		var upperBound;
-		var lowerBound;
-		if(dest > start){
-			upperBound = dest;
-			lowerBound = start;
-		}else{
-			upperBound = start;
-			lowerBound = dest;
+	//check that nothing is inbetween
+	var upperBound;
+	var lowerBound;
+	if(dest > start){
+		upperBound = dest;
+		lowerBound = start;
+	}else{
+		upperBound = start;
+		lowerBound = dest;
+	}
+	
+	/* since rook can't jump over piece, return false if trying that
+	   lowerBound + 1 since its not looking at either end points
+	*/
+	for(var i = 1; i < upperBound - lowerBound - 1; i++){
+		if((isVertical && (board[lowerBound + i][startX] === 0))
+		||(!isVertical && (board[startY][lowerBound + i] === 0))){
+			return false;
 		}
 		
-		/* since rook can't jump over piece, return false if trying that
-		   lowerBound + 1 since its not looking at either end points
-		*/
-		for(var i = 1; i < upperBound - lowerBound - 1; i++){
-			if((isVertical && (board[lowerBound + i][startX] === 0))
-			||(!isVertical && (board[startY][lowerBound + i] === 0))){
-				return false;
-			}
-			
-		}
-		return true;
 	}
+	return true;
+}
+
+function isCheck(color, piece, startX, startY, destX, destY, board){
+	var kingX;
+	var kingY;
+	var king = color + "K";
+	
+	//find the king of same color
+	for(var y = 0; y < 8; y++){
+		for(var x = 0; x < 8; x++){
+			if(board[y][x] === king){
+				kingX = x;
+				kingY = y;
+			}
+		}
+	}
+	
+	
+	
+}
 
 function pawn(color, startX, startY, destX, destY, board){
 	if(color === "w"){
@@ -181,38 +223,64 @@ module.exports.initBoard = function (){
 	return board;
 }
 
-/* *** need to check if move is out of range of board
-	check if it puts king into check
-	check if invalid move command(letter and numbers are out of order or something)
-	check if move is not putting piece in the same place its already in
-	check if move tries to kill piece of own colour
+/* *** need to check if move is out of range of board - done
+	check if it puts own king into check
+	check if invalid move command(letter and numbers are out of order or something) - done
+	check if move is not putting piece in the same place its already in - done
+	check if move tries to kill piece of own colour -done
+	check if it is indeed moving its own color piece - done
 */
-module.exports.isValidMove = function (startX, startY, destX, destY, board){
-	var color = getColor(board, startX, startY);
-	var piece = getPiece(board, startX, startY);
-	
-	
-	
+
+//color is taken in as "w" or "b"
+//move phrase is [PIECE][START][DEST]
+module.exports.isValidMove = function (movePhrase, color, board){
 	var isValid = false;
-	switch(piece){
-		case "P":
-			isValid = pawn(color, startX, startY, destX, destY, board);
-			break;
-		case "R":
-			isValid = rook(startX, startY, destX, destY, board);
-			break;
-		case "N":
-			isValid = knight(startX, startY, destX, destY);
-			break;
-		case "B":
-			isValid = bishop(startX, startY, destX, destY, board);
-			break;
-		case "Q":
-			isValid = queen(startX, startY, destX, destY, board);
-			break;
-		case "K":
-			isValid = king(startX, startY, destX, destY);
-			break;
+	var startCoords = getCoords(movePhrase, false); 
+	var destCoords = getCoords(movePhrase, true);
+	
+	if(startCoords && destCoords){
+		var startX = startCoords[0];
+		var startY = startCoords[1];
+		
+		var destX = destCoords[0];
+		var destY = destCoords[1];
+		
+		if(startX && startY && destX && destY){
+			var piece = getPiece(startX, startY, board);
+			//if piece is good and dest is not starting position
+			if(piece){
+				//moving to same space
+				if(((startX === destX) && (startY === destY))
+				//moving piece of not own color
+				|| (getColor(board, startX, startY) !== color)
+				//killing piece of own color
+				|| (getColor(board, destX, destY) === color)
+				//check if it puts king in check
+				|| (isCheck(color, startX, startY, destX, destY, board))){
+					return false;
+				}
+				switch(piece){
+					case "P":
+						isValid = pawn(color, startX, startY, destX, destY, board);
+						break;
+					case "R":
+						isValid = rook(startX, startY, destX, destY, board);
+						break;
+					case "N":
+						isValid = knight(startX, startY, destX, destY);
+						break;
+					case "B":
+						isValid = bishop(startX, startY, destX, destY, board);
+						break;
+					case "Q":
+						isValid = queen(startX, startY, destX, destY, board);
+						break;
+					case "K":
+						isValid = king(startX, startY, destX, destY);
+						break;
+				}
+			}
+		}
 	}
 	
 	return isValid;
