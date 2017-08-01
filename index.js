@@ -117,6 +117,7 @@ function messageHandler(sender, text){
 				//LIKE DISPLAY GAME OR SOME SHIT?
 			}
 			catch (e) {
+				console.log("Unabled ot start game " + e);
 				sendTextMessage(sender, "Unable to start game" + e);
 			}
 			break;

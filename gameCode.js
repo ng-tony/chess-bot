@@ -104,22 +104,29 @@ module.exports.genCode = function() {
 	return makeNewCode();
 };
 
-module.exports.acceptGame = function (code) {
+module.exports.acceptGame = function (code, opponent) {
 	MongoClient.connect(mongoURI, function(err, db) {
 		if (err) {
 			console.log("Opening GameDB acceptGame: ", err);
 		}
 		else {
+			var filter = {"gameCode":  code};
 			var collection = db.collection('games');
-			collection.find({"gameCode":  code}).toArray(function(err, res) {
+			collection.find(filter).toArray(function(err, res) {
 				if (err) {
 					console.log("acceptGame: Finding game", err);
 				}
 				else {
 					console.log(res);
 					if (res.length == 0){
-						throw "Game Not Found";
+						throw "Game not found";
 					}
+					if (typeof res[0].black !== "undefined" ){
+						throw "Game already has opponent";
+					}
+					res[0].black = opponent;
+					collection.updateOne(filter, res[0])
+					
 					//Check game is init or not and then do stuff
 					return;
 					//
