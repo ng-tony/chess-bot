@@ -121,6 +121,7 @@ module.exports.acceptGame = function (code, opponent) {
 						console.log(res);
 						console.log(res.length);
 						if (res.length == 0) {
+							console.log(res.length);
 							reject("Game not found");
 						}
 						if (typeof res[0].black != "undefined") {
