@@ -116,10 +116,10 @@ module.exports.acceptGame = function (code) {
 					console.log("acceptGame: Finding game", err);
 				}
 				else {
+					console.log(res[0]);
 					if (res[0].length == 0){
 						throw "Game Not Found";
 					}
-					console.log(res[0]);
 					return;
 					//
 				}
