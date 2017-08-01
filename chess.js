@@ -113,46 +113,43 @@ function isCheck(color, piece, startX, startY, destX, destY, board){
 		var opponents = [oppositeColor + "Q", oppositeColor + "R"];
 		//check for potential vertical attack
 		for(var y = 0; y < 8; y++){
-			if(board[y][startX] !== 0){
-				//check if king is exposed
-				if(board[y][startX] === ownKing){
-					var seekY;
-					var seekAdjust;
-					var seekCondition;
-					if((startY - y) > 0){
-					//check higher numbers(over startY) for things that can attack vertically
-						seekY = startY + 1;
-						seekAdjust = 1;
-						seekCondition = function(seekY){
-							return (seekY < 8);
-						};
-						
-					}else{
-						//check lower numbers(under startY) for things that can attack vertically
-						seekY = startY - 1;
-						seekAdjust = -1;
-						seekCondition = function(seekY){
-							return (seekY > 0);
-						};
-					}
-					//
-					for(; seekCondition; seekY += seekAdjust){
-						//once the piece is not empty
-						if(board[seekY][startX] !== 0){
-							//king is in vertical check
-							//!!! DON'T KNOW HOW TO SIGNIFY DIFF CHECK TYPES(WHICH SIDE)
-							if(board[seekY][startX].charAt(1) in opponents){
-								return true;
-							}else{//king not in vertical check
-								return false;
-							}
+			//check if king is in same column
+			if(board[y][startX] === ownKing){
+				var seekY;
+				var seekAdjust;
+				var seekCondition;
+				if((startY - y) > 0){
+				//check higher numbers(over startY) for things that can attack vertically
+					seekY = startY + 1;
+					seekAdjust = 1;
+					seekCondition = function(seekY){
+						return (seekY < 8);
+					};
+					
+				}else{
+				//check lower numbers(under startY) for things that can attack vertically
+					seekY = startY - 1;
+					seekAdjust = -1;
+					seekCondition = function(seekY){
+						return (seekY > 0);
+					};
+				}
+				//now find the first piece in the line of sight
+				for(; seekCondition(seekY); seekY += seekAdjust){
+					//once the piece is not empty
+					if(board[seekY][startX] !== 0){
+						//king is in vertical check
+						//!!! DON'T KNOW HOW TO SIGNIFY DIFF CHECK TYPES(WHICH SIDE)
+						if(board[seekY][startX] in opponents){
+							return true;
+						}else{//king not in vertical check
+							return false;
 						}
 					}
 				}
-			}else{
-				return false;
 			}
 		}
+		return false;
 	}
 	return false;
 	
