@@ -117,7 +117,6 @@ module.exports.acceptGame = function (code) {
 				}
 				else {
 					console.log(res);
-					console.log(res[0]);
 					if (res.length == 0){
 						throw "Game Not Found";
 					}
