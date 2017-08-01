@@ -122,7 +122,7 @@ module.exports.acceptGame = function (code, opponent) {
 						if (res.length == 0) {
 							reject("Game not found");
 						}
-						if (typeof res[0].black !== "undefined") {
+						if (typeof res[0].black != "undefined") {
 							reject("Game already has opponent");
 						}
 						res[0].black = opponent;
