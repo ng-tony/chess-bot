@@ -10,13 +10,13 @@ var fs = require('fs'),
 	codeCounter = "codeCounter";
 
 function init() {
-	MongoClient.connect(mongoURI, function(err, db) {
+	MongoClient.connect(mongoURI, function (err, db) {
 		if (err) {
 			console.log("GET CURRCODE: OPENING", err);
 		}
 		else {
 			var collection = db.collection('codeCounter');
-			collection.find().toArray(function(err, res) {
+			collection.find().toArray(function (err, res) {
 				if (err) {
 					console.log("GET CURRCODE: READING", err);
 				}
@@ -29,7 +29,7 @@ function init() {
 		}
 	});
 
-	fs.readFile('dict.json', 'utf8', function(err, data) {
+	fs.readFile('dict.json', 'utf8', function (err, data) {
 		if (err) throw err;
 		console.log(JSON.parse(data));
 		dict = JSON.parse(data);
@@ -37,8 +37,8 @@ function init() {
 }
 init();
 
-var dict = (function() {
-	fs.readFile('dict.json', 'utf8', function(err, data) {
+var dict = (function () {
+	fs.readFile('dict.json', 'utf8', function (err, data) {
 		if (err) throw err;
 		console.log(JSON.parse(data));
 		return JSON.parse(data);
@@ -47,7 +47,7 @@ var dict = (function() {
 
 /*limitation, if codeCounter exceeds [n,n,n,n], where n
 is dictSize, counter does not change*/
-var makeNewCode = function() {
+var makeNewCode = function () {
 	//I wonder if there is going to be any async issues, if u run two of these at the same time hmm
 	var isFinished = false;
 	var curr = codeCounter.length - 1;
@@ -74,7 +74,7 @@ var makeNewCode = function() {
 		}
 	}
 
-	MongoClient.connect(mongoURI, function(err, db) {
+	MongoClient.connect(mongoURI, function (err, db) {
 		if (err) {
 			console.log("WRITING CURRCODE TO DB: ", err);
 		}
@@ -82,7 +82,7 @@ var makeNewCode = function() {
 			var collection = db.collection('codeCounter');
 			collection.updateOne({}, {
 				"codeCounter": codeCounter
-			}, function(err, res) {
+			}, function (err, res) {
 				if (err) {
 					console.log("WRITING CURRCODE TO DB: ", err);
 				}
@@ -97,7 +97,7 @@ var makeNewCode = function() {
 	return retv;
 }
 
-module.exports.genCode = function() {
+module.exports.genCode = function () {
 	console.log("genCode");
 	console.log("fs: " + fs);
 	console.log("codeCounter: " + codeCounter);
@@ -105,33 +105,32 @@ module.exports.genCode = function() {
 };
 
 module.exports.acceptGame = function (code, opponent) {
-	MongoClient.connect(mongoURI, function(err, db) {
-		if (err) {
-			console.log("Opening GameDB acceptGame: ", err);
-		}
-		else {
-			var filter = {"gameCode":  code};
-			var collection = db.collection('games');
-			collection.find(filter).toArray(function(err, res) {
-				if (err) {
-					console.log("acceptGame: Finding game", err);
-				}
-				else {
-					console.log(res);
-					if (res.length == 0){
-						throw "Game not found";
+	return new Promise((resolve, reject) => {
+		MongoClient.connect(mongoURI, function (err, db) {
+			if (err) {
+				console.log("Opening GameDB acceptGame: ", err);
+			}
+			else {
+				var filter = { "gameCode": code };
+				var collection = db.collection('games');
+				collection.find(filter).toArray(function (err, res) {
+					if (err) {
+						console.log("acceptGame: Finding game", err);
 					}
-					if (typeof res[0].black !== "undefined" ){
-						throw "Game already has opponent";
+					else {
+						console.log(res);
+						if (res.length == 0) {
+							throw "Game not found";
+						}
+						if (typeof res[0].black !== "undefined") {
+							throw "Game already has opponent";
+						}
+						res[0].black = opponent;
+						collection.updateOne(filter, res[0])
+						resolve();
 					}
-					res[0].black = opponent;
-					collection.updateOne(filter, res[0])
-					
-					//Check game is init or not and then do stuff
-					return;
-					//
-				}
-			})
-		}
+				})
+			}
+		});
 	});
 }

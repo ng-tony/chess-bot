@@ -111,11 +111,13 @@ function messageHandler(sender, text){
 			initGame(sender,newGameCode);
 			break;
 		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
+			console.log(text.split(" ")[1] + "!!!");
 			try {
-				console.log(text.split(" ")[1] + "!!!");
-				gameCode.acceptGame(text.split(" ")[1]);
-				console.log("Why you no catch?");
-				//LIKE DISPLAY GAME OR SOME SHIT?
+				
+				gameCode.acceptGame(text.split(" ")[1]).then(() => {
+					sendTextMessage(sender, "Game Started!");
+					//Display shit eh?
+				});
 			}
 			catch (e) {
 				console.log("Unabled ot start game " + e);
