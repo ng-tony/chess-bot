@@ -107,21 +107,54 @@ function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
 }
 
 function isCheck(color, piece, startX, startY, destX, destY, board){
-	var kingX;
-	var kingY;
-	var king = color + "K";
-	
-	//find the king of same color
-	for(var y = 0; y < 8; y++){
-		for(var x = 0; x < 8; x++){
-			if(board[y][x] === king){
-				kingX = x;
-				kingY = y;
+	var isVertCheck = function (color, startX, startY, board){
+		var ownKing = color+"K";
+		var oppositeColor = color === "w" ? "b" : "w";
+		var opponents = [oppositeColor + "Q", oppositeColor + "R"];
+		//check for potential vertical attack
+		for(var y = 0; y < 8; y++){
+			if(board[y][startX] !== 0){
+				//check if king is exposed
+				if(board[y][startX] === ownKing){
+					var seekY;
+					var seekAdjust;
+					var seekCondition;
+					if((startY - y) > 0){
+					//check higher numbers(over startY) for things that can attack vertically
+						seekY = startY + 1;
+						seekAdjust = 1;
+						seekCondition = function(seekY){
+							return (seekY < 8);
+						};
+						
+					}else{
+						//check lower numbers(under startY) for things that can attack vertically
+						seekY = startY - 1;
+						seekAdjust = -1;
+						seekCondition = function(seekY){
+							return (seekY > 0);
+						};
+					}
+					//
+					for(; seekCondition; seekY += seekAdjust){
+						//once the piece is not empty
+						if(board[seekY][startX] !== 0){
+							//king is in vertical check
+							//!!! DON'T KNOW HOW TO SIGNIFY DIFF CHECK TYPES(WHICH SIDE)
+							if(board[seekY][startX].charAt(1) in opponents){
+								return true;
+							}else{//king not in vertical check
+								return false;
+							}
+						}
+					}
+				}
+			}else{
+				return false;
 			}
 		}
 	}
-	
-	
+	return false;
 	
 }
 
@@ -256,7 +289,7 @@ module.exports.isValidMove = function (movePhrase, color, board){
 				//killing piece of own color
 				|| (getColor(board, destX, destY) === color)
 				//check if it puts king in check
-				|| (isCheck(color, startX, startY, destX, destY, board))){
+				|| (isCheck(color, piece, startX, startY, destX, destY, board))){
 					return false;
 				}
 				switch(piece){
