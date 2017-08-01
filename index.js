@@ -112,10 +112,11 @@ function messageHandler(sender, text){
 			break;
 		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
 			try {
-				acceptGame(textsplit[1]);
+				gameCode.acceptGame(textsplit[1]);
+				//LIKE DISPLAY GAME OR SOME SHIT?
 			}
 			catch (e) {
-				sendTextMessage(sender, "Unable to start game");
+				sendTextMessage(sender, "Unable to start game" + e);
 			}
 			break;
 		case "move":
