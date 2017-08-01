@@ -111,7 +111,7 @@ module.exports.acceptGame = function (code) {
 		}
 		else {
 			var collection = db.collection('game');
-			collection.find({"gameCode":  code}).toArray(function(err, res) {
+			collection.find({"gameCode":  code.toString()}).toArray(function(err, res) {
 				if (err) {
 					console.log("acceptGame: Finding game", err);
 				}
