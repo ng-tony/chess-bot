@@ -103,3 +103,27 @@ module.exports.genCode = function() {
 	console.log("codeCounter: " + codeCounter);
 	return makeNewCode();
 };
+
+module.exports.acceptGame = function (code) {
+	MongoClient.connect(mongoURI, function(err, db) {
+		if (err) {
+			console.log("Opening GameDB acceptGame: ", err);
+		}
+		else {
+			var collection = db.collection('game');
+			collection.find({"GameCode":  code}).toArray(function(err, res) {
+				if (err) {
+					console.log("acceptGame: Finding game", err);
+				}
+				else {
+					if (res[0].length == 0){
+						throw "Game Not Found";
+					}
+					console.log(res[0]);
+					return;
+					//
+				}
+			})
+		}
+	});
+}
