@@ -111,15 +111,16 @@ module.exports.acceptGame = function (code) {
 		}
 		else {
 			var collection = db.collection('game');
-			collection.find({"GameCode":  code}).toArray(function(err, res) {
+			collection.find({"gameCode":  code}).toArray(function(err, res) {
 				if (err) {
 					console.log("acceptGame: Finding game", err);
 				}
 				else {
 					console.log(res[0]);
-					if (res[0].length == 0){
+					if (res.length == 0){
 						throw "Game Not Found";
 					}
+					//Check game is init or not and then do stuff
 					return;
 					//
 				}
