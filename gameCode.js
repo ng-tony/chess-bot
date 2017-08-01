@@ -121,17 +121,19 @@ module.exports.acceptGame = function (code, opponent) {
 						console.log(res);
 						console.log(res.length);
 						if (res.length == 0) {
-							console.log(res.length);
 							reject("Game not found");
+							return;
 						}
 						if (typeof res[0].black != "undefined") {
 							reject("Game already has opponent");
+							return;
 						}
 						res[0].black = opponent;
 						collection.updateOne(filter, res[0], function(err, res){
 							if(err){
 								console.log("Cannot write opponent to DB: ", err);
 								reject("Unexpected error, Try Again");
+								return;
 							}
 							resolve();
 						})
