@@ -35,16 +35,14 @@ function getPiece(startX, startY, board){
 }
 
 function getCoords(movePhrase, isDest){
-	var adjust = 0;
-	if(isDest){
-		adjust = 2;
-	}
-	var coordX = stringToNumber(movePhrase.charAt(0+adjust));
-	var coordY = stringToNumber(movePhrase.charAt(1+adjust));
-	
+	var startX = stringToNumber(movePhrase.charAt(0));
+	var startY = stringToNumber(movePhrase.charAt(1));
+	var destX = stringToNumber(movePhrase.charAt(2));
+	var destY = stringToNumber(movePhrase.charAt(3));
+
 	//letter is between a to h
-	if(coordX && coordY){
-		return [coordX, coordY];
+	if(startX && startY && destX && destY){
+		return [startX, startY, destX, destY];
 	}else{
 		throw new Error('invalid coordinates');
 	}
@@ -265,15 +263,14 @@ module.exports.initBoard = function (){
 //move phrase is [PIECE][START][DEST]
 module.exports.isValidMove = function (movePhrase, color, board){
 	var isValid = false;
-	var startCoords = getCoords(movePhrase, false); 
-	var destCoords = getCoords(movePhrase, true);
-	
-	if(startCoords && destCoords){
-		var startX = startCoords[0];
-		var startY = startCoords[1];
+	var moveCoords = getCoords(movePhrase); 
+
+	if(moveCoords){
+		var startX = moveCoords[0];
+		var startY = moveCoords[1];
 		
-		var destX = destCoords[0];
-		var destY = destCoords[1];
+		var destX = moveCoords[2];
+		var destY = moveCoords[3];
 		
 		if(startX && startY && destX && destY){
 			var piece = getPiece(startX, startY, board);
