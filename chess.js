@@ -45,7 +45,7 @@ function getMoveInfo(movePhrase, board){
 			"destX": destX, 
 			"destY":destY,
 			"piece": getPiece(startX, startY),
-			"color": getColor(board, startX, startY)
+			"pieceColor": getColor(board, startX, startY)
 	};
 }
 
@@ -271,7 +271,7 @@ module.exports.isValidMove = function (movePhrase, color, board){
 	var destX = moveInfo["destX"];
 	var destY = moveInfo["destY"];
 	var piece = moveInfo["piece"];
-	var pieceColor = moveInfo["color"];
+	var pieceColor = moveInfo["pieceColor"];
 	
 	//moving to same space
 	if(((startX === destX) && (startY === destY))
