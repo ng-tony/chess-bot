@@ -34,18 +34,19 @@ function getPiece(startX, startY, board){
 	}
 }
 
-function getCoords(movePhrase, isDest){
+function getMoveInfo(movePhrase, board){
 	var startX = stringToNumber(movePhrase.charAt(0));
 	var startY = stringToNumber(movePhrase.charAt(1));
 	var destX = stringToNumber(movePhrase.charAt(2));
 	var destY = stringToNumber(movePhrase.charAt(3));
 
-	//letter is between a to h
-	if(startX && startY && destX && destY){
-		return [startX, startY, destX, destY];
-	}else{
-		throw new Error('invalid coordinates');
-	}
+	return {"startX": startX,
+			"startY": startY, 
+			"destX": destX, 
+			"destY":destY,
+			"piece": getPiece(startX, startY),
+			"color": getColor(board, startX, startY)
+	};
 }
 
 function nothingBetweenDiag(startX, startY, destX, destY, board){
@@ -263,52 +264,45 @@ module.exports.initBoard = function (){
 //move phrase is [PIECE][START][DEST]
 module.exports.isValidMove = function (movePhrase, color, board){
 	var isValid = false;
-	var moveCoords = getCoords(movePhrase); 
+	var moveInfo = getMoveInfo(movePhrase); 
 
-	if(moveCoords){
-		var startX = moveCoords[0];
-		var startY = moveCoords[1];
-		
-		var destX = moveCoords[2];
-		var destY = moveCoords[3];
-		
-		if(startX && startY && destX && destY){
-			var piece = getPiece(startX, startY, board);
-			//if piece is good and dest is not starting position
-			if(piece){
-				//moving to same space
-				if(((startX === destX) && (startY === destY))
-				//moving piece of not own color
-				|| (getColor(board, startX, startY) !== color)
-				//killing piece of own color
-				|| (getColor(board, destX, destY) === color)
-				//check if it puts king in check
-				|| (isCheck(color, piece, startX, startY, destX, destY, board))){
-					return false;
-				}
-				switch(piece){
-					case "P":
-						isValid = pawn(color, startX, startY, destX, destY, board);
-						break;
-					case "R":
-						isValid = rook(startX, startY, destX, destY, board);
-						break;
-					case "N":
-						isValid = knight(startX, startY, destX, destY);
-						break;
-					case "B":
-						isValid = bishop(startX, startY, destX, destY, board);
-						break;
-					case "Q":
-						isValid = queen(startX, startY, destX, destY, board);
-						break;
-					case "K":
-						isValid = king(startX, startY, destX, destY);
-						break;
-				}
-			}
-		}
-	}
+	var startX = moveInfo["startX"];
+	var startY = moveInfo["startY"];
+	var destX = moveInfo["destX"];
+	var destY = moveInfo["destY"];
+	var piece = moveInfo["piece"];
+	var pieceColor = moveInfo["color"];
 	
+	//moving to same space
+	if(((startX === destX) && (startY === destY))
+	//moving piece of not own color
+	|| (pieceColor !== color)
+	//killing piece of own color
+	|| (getColor(board, destX, destY) === color)
+	//check if it puts king in check
+	|| (isCheck(color, piece, startX, startY, destX, destY, board))){
+		return false;
+	}
+	switch(piece){
+		case "P":
+			isValid = pawn(color, startX, startY, destX, destY, board);
+			break;
+		case "R":
+			isValid = rook(startX, startY, destX, destY, board);
+			break;
+		case "N":
+			isValid = knight(startX, startY, destX, destY);
+			break;
+		case "B":
+			isValid = bishop(startX, startY, destX, destY, board);
+			break;
+		case "Q":
+			isValid = queen(startX, startY, destX, destY, board);
+			break;
+		case "K":
+			isValid = king(startX, startY, destX, destY);
+			break;
+	}
+
 	return isValid;
 }
