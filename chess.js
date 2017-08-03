@@ -39,13 +39,15 @@ function getMoveInfo(movePhrase, board){
 	var startY = stringToNumber(movePhrase.charAt(1));
 	var destX = stringToNumber(movePhrase.charAt(2));
 	var destY = stringToNumber(movePhrase.charAt(3));
+	var piece = getPiece(startX, startY);
+	var pieceColor = getColor(board, startX, startY);
 
 	return {"startX": startX,
 			"startY": startY, 
 			"destX": destX, 
 			"destY":destY,
-			"piece": getPiece(startX, startY),
-			"pieceColor": getColor(board, startX, startY)
+			"piece": piece,
+			"pieceColor": pieceColor
 	};
 }
 
