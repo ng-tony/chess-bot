@@ -5,7 +5,7 @@ takes in string value from move command from message,
 converts it to value that can be used for accessing
 the board array
 **/
-function stringToNumber(val){
+function getCoord(val){
 	const convert = { 
 		"a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7,
 		"8": 0, "7": 1, "6": 2, "5": 3, "4": 4, "3": 5, "2": 6, "1": 7
@@ -21,26 +21,29 @@ function stringToNumber(val){
 
 /*return the first letter of the unit on that board coord
 i.e. the color of the piece*/
-function getColor(board, x, y){
-	return board[y][x].charAt(0);
+function getColor(x, y, board){
+	if(x > 7 || x < 0 || y > 7 || y < 0){
+		throw new Error('trying to get color of something out of bounds');
+	}else{
+		return board[y][x].charAt(0);
+	}
 }
 
-function getPiece(startX, startY, board){
-	var piece = board[startY][startX].toUpperCase();
-	if(piece in ["P","R","N","B","Q","K"]){
-		return board[startY][startX].char(1);
+function getPiece(x, y, board){
+	if(x > 7 || x < 0 || y > 7 || y < 0){
+		throw new Error('trying to get piece type of something out of bounds');
 	}else{
-		throw new Error('no valid piece found');
+		return board[y][x].charAt(1);
 	}
 }
 
 function getMoveInfo(movePhrase, board){
-	var startX = stringToNumber(movePhrase.charAt(0));
-	var startY = stringToNumber(movePhrase.charAt(1));
-	var destX = stringToNumber(movePhrase.charAt(2));
-	var destY = stringToNumber(movePhrase.charAt(3));
-	var piece = getPiece(startX, startY);
-	var pieceColor = getColor(board, startX, startY);
+	var startX = getCoord(movePhrase.charAt(0));
+	var startY = getCoord(movePhrase.charAt(1));
+	var destX = getCoord(movePhrase.charAt(2));
+	var destY = getCoord(movePhrase.charAt(3));
+	var piece = getPiece(startX, startY, board);
+	var pieceColor = getColor(startX, startY, board);
 
 	return {"startX": startX,
 			"startY": startY, 
@@ -108,7 +111,7 @@ function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
 }
 
 function findNextPiece(adjustX, adjustY, startX, startY, board){
-	if(startX > 7 || startX < 0 || startY > 7 || startY < 0 || Math.abs(adjustX) > 1 || Math.abs(adjustY) > 1){
+	if(startX <= 7 && startX >= 0 && startY <= 7 && startY >= 0 && Math.abs(adjustX) in [0,1] && Math.abs(adjustY) in [0,1]){
 		return 0;
 	}else if(board[startX][startY] !== 0){
 		return board[startX][startY];
@@ -117,8 +120,12 @@ function findNextPiece(adjustX, adjustY, startX, startY, board){
 	}
 }
 
+/**to check if current move leaves your king exposed to check input is old startX and startY
+to check if current move puts enemy king in check, input new starX and startY
+**/
 function isCheck(color, piece, startX, startY, destX, destY, board){
-	
+	var abovePiece = findNextPiece(0, 1, startX, startY, board);
+	var belowPiece = findNextPiece(0, -1, startX, startY, board);
 	return false;
 	
 }
