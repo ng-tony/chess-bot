@@ -107,6 +107,15 @@ function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
 	return true;
 }
 
+//assumes adjustX and adjustY have abs val of 1 and 0<= [startX,startY] <= 7
+function findNextPiece(color, adjustX, adjustY, startX, startY, board){
+	if(board[startX][startY] !== 0){
+		return board[startX][startY];
+	}else{
+		return findNextPiece(color, adjustX, adjustY, startX+adjustX, startY+adjustY, board);
+	}
+}
+
 function isCheck(color, piece, startX, startY, destX, destY, board){
 	var isVertCheck = function (color, startX, startY, board){
 		var ownKing = color+"K";
