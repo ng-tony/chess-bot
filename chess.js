@@ -29,12 +29,20 @@ function getColor(x, y, board){
 	}
 }
 
+function getColor(piece){
+	return piece.charAt(0);
+}
+
 function getPiece(x, y, board){
 	if(x > 7 || x < 0 || y > 7 || y < 0){
 		throw new Error('trying to get piece type of something out of bounds');
 	}else{
 		return board[y][x].charAt(1);
 	}
+}
+
+function getPiece(piece){
+	return piece.charAt(1);
 }
 
 function getMoveInfo(movePhrase, board){
@@ -124,8 +132,25 @@ function findNextPiece(adjustX, adjustY, startX, startY, board){
 to check if current move puts enemy king in check, input new starX and startY
 **/
 function isCheck(color, piece, startX, startY, destX, destY, board){
-	var abovePiece = findNextPiece(0, 1, startX, startY, board);
-	var belowPiece = findNextPiece(0, -1, startX, startY, board);
+	var findAdjacents = function(isDiag, adjustX, adjustY, startX, startY, board){
+		var searchSet;
+		if(isDiag){
+			searchSet = ["Q", "B"];
+		}else{
+			searchSet = ["Q", "R"];
+		}
+		var abovePiece = findNextPiece(adjustX, adjustY, startX, startY, board);
+		var belowPiece = findNextPiece(adjustX*-1, adjustY*-1, startX, startY, board);
+		//check if they are diff color so check is possible
+		if(getColor(abovePiece) !== getColor(belowPiece)){
+			if((abovePiece in searchSet && belowPiece === "K") 
+			|| (belowPiece in searchSet && abovePiece === "K")){
+				return true;
+			}
+		}
+	}
+	
+	
 	return false;
 	
 }
