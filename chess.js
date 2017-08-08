@@ -108,11 +108,9 @@ function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
 }
 
 function findNextPiece(adjustX, adjustY, startX, startY, board){
-	//returns empty piece on out of bounds or bad adjustment incrementing variable
 	if(startX > 7 || startX < 0 || startY > 7 || startY < 0 || Math.abs(adjustX) > 1 || Math.abs(adjustY) > 1){
 		return 0;
-	}
-	if(board[startX][startY] !== 0){
+	}else if(board[startX][startY] !== 0){
 		return board[startX][startY];
 	}else{
 		return findNextPiece(adjustX, adjustY, startX+adjustX, startY+adjustY, board);
