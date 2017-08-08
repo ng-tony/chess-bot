@@ -107,60 +107,20 @@ function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
 	return true;
 }
 
-//assumes adjustX and adjustY have abs val of 1 and 0<= [startX,startY] <= 7
-function findNextPiece(color, adjustX, adjustY, startX, startY, board){
+function findNextPiece(adjustX, adjustY, startX, startY, board){
+	//returns empty piece on out of bounds or bad adjustment incrementing variable
+	if(startX > 7 || startX < 0 || startY > 7 || startY < 0 || Math.abs(adjustX) > 1 || Math.abs(adjustY) > 1){
+		return 0;
+	}
 	if(board[startX][startY] !== 0){
 		return board[startX][startY];
 	}else{
-		return findNextPiece(color, adjustX, adjustY, startX+adjustX, startY+adjustY, board);
+		return findNextPiece(adjustX, adjustY, startX+adjustX, startY+adjustY, board);
 	}
 }
 
 function isCheck(color, piece, startX, startY, destX, destY, board){
-	var isVertCheck = function (color, startX, startY, board){
-		var ownKing = color+"K";
-		var oppositeColor = color === "w" ? "b" : "w";
-		var opponents = [oppositeColor + "Q", oppositeColor + "R"];
-		//check for potential vertical attack
-		for(var y = 0; y < 8; y++){
-			//check if king is in same column
-			if(board[y][startX] === ownKing){
-				var seekY;
-				var seekAdjust;
-				var seekCondition;
-				if((startY - y) > 0){
-				//check higher numbers(over startY) for things that can attack vertically
-					seekY = startY + 1;
-					seekAdjust = 1;
-					seekCondition = function(seekY){
-						return (seekY < 8);
-					};
-					
-				}else{
-				//check lower numbers(under startY) for things that can attack vertically
-					seekY = startY - 1;
-					seekAdjust = -1;
-					seekCondition = function(seekY){
-						return (seekY > 0);
-					};
-				}
-				//now find the first piece in the line of sight
-				for(; seekCondition(seekY); seekY += seekAdjust){
-					//once the piece is not empty
-					if(board[seekY][startX] !== 0){
-						//king is in vertical check
-						//!!! DON'T KNOW HOW TO SIGNIFY DIFF CHECK TYPES(WHICH SIDE)
-						if(board[seekY][startX] in opponents){
-							return true;
-						}else{//king not in vertical check
-							return false;
-						}
-					}
-				}
-			}
-		}
-		return false;
-	}
+	
 	return false;
 	
 }
