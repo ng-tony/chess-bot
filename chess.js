@@ -180,8 +180,8 @@ function isCheck(color, piece, x, y, board){
 	}else if(findAdjacents(false, -1, 1, x, y)){
 	//look bottom right to top left diagonal
 		return true;
-	}else //king is piece that is moving case
-	if(piece === "K"){
+	}else if(piece === "K"){
+		//king is piece that is moving case
 		//check vertical, horiz, diagonals, and possible knight positions
 		var straightSet = ["Q", "R"];
 		var diagonalSet = ["Q", "B"];
