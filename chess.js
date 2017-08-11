@@ -45,6 +45,10 @@ function getPiece(piece){
 	return piece.charAt(1);
 }
 
+function isInBoard(coord){
+	return (coord > 0 && coord < 7);
+}
+
 function getMoveInfo(movePhrase, board){
 	var startX = getCoord(movePhrase.charAt(0));
 	var startY = getCoord(movePhrase.charAt(1));
@@ -119,7 +123,7 @@ function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
 }
 
 function findNextPiece(adjustX, adjustY, startX, startY, board){
-	if(startX <= 7 && startX >= 0 && startY <= 7 && startY >= 0 && Math.abs(adjustX) in [0,1] && Math.abs(adjustY) in [0,1]){
+	if(isInBoard(startX) && isInBoard(startY) && Math.abs(adjustX) in [0,1] && Math.abs(adjustY) in [0,1]){
 		return 0;
 	}else if(board[startX][startY] !== 0){
 		return board[startX][startY];
@@ -128,29 +132,112 @@ function findNextPiece(adjustX, adjustY, startX, startY, board){
 	}
 }
 
-/**to check if current move leaves your king exposed to check input is old startX and startY
-to check if current move puts enemy king in check, input new starX and startY
+/**to check if current move leaves your king exposed to check input is old x and y
+to check if current move puts enemy king in check, input new x and y
+
+assumes destination x and y are given if king is the moving piece
+
 **/
-function isCheck(color, piece, startX, startY, destX, destY, board){
-	var findAdjacents = function(isDiag, adjustX, adjustY, startX, startY, board){
+function isCheck(color, piece, x, y, board){
+	var findAdjacents = function(isDiag, adjustX, adjustY, x, y){
 		var searchSet;
 		if(isDiag){
 			searchSet = ["Q", "B"];
 		}else{
 			searchSet = ["Q", "R"];
 		}
-		var abovePiece = findNextPiece(adjustX, adjustY, startX, startY, board);
-		var belowPiece = findNextPiece(adjustX*-1, adjustY*-1, startX, startY, board);
-		//check if they are diff color so check is possible
-		if(getColor(abovePiece) !== getColor(belowPiece)){
+		var abovePiece = getPiece(findNextPiece(adjustX, adjustY, x, y, board));
+		var belowPiece = getPiece(findNextPiece(adjustX * -1, adjustY * -1, x, y, board));
+		var aboveColor = getColor(aboveColor);
+		var belowColor = getColor(belowColor);
+		//check if they are diff color so check is possible-
+		if(aboveColor !== belowColor){
 			if((abovePiece in searchSet && belowPiece === "K") 
-			|| (belowPiece in searchSet && abovePiece === "K")){
+			||(belowPiece in searchSet && abovePiece === "K")){
 				return true;
 			}
+		//check if piece being moved puts enemy king in check
+		}else if((piece in searchSet && (abovePiece === "K") && (color !== aboveColor))
+			  ||(piece in searchSet && (belowPiece === "K") && (color !== belowColor))){
+			return true;
 		}
+		return false;
 	}
 	
 	
+	
+	//if piece moving is a knight
+	
+	if(findAdjacents(false, 0, 1, x, y)){
+	//looking vertically
+		return true;
+	}else if(findAdjacents(false, 1, 0, x, y)){
+	//look horizontally
+		return true;
+	}else if(findAdjacents(false, 1, 1, x, y)){
+	//look bottom left to top right diagonal
+		return true;
+	}else if(findAdjacents(false, -1, 1, x, y)){
+	//look bottom right to top left diagonal
+		return true;
+	}else //king is piece that is moving case
+	if(piece === "K"){
+		//check vertical, horiz, diagonals, and possible knight positions
+		var straightSet = ["Q", "R"];
+		var diagonalSet = ["Q", "B"];
+		
+		if(getPiece(findNextPiece(0, 1, x, y + 1, board)) in straightSet){
+		//up
+			return true;
+		}else if(getPiece(findNextPiece(0, -1, x, y - 1, board)) in straightSet){
+		//down
+			return true;
+		}else if(getPiece(findNextPiece(1, 0, x + 1, y, board)) in straightSet){
+		//to the right
+			return true;
+		}else if(getPiece(findNextPiece(-1, 0, x - 1, y, board)) in straightSet){
+		//to the left
+			return true;
+		}else if(getPiece(findNextPiece(1, 1, x + 1, y + 1, board)) in diagonalSet){
+		//up and to the right
+			return true;
+		}else if(getPiece(findNextPiece(-1, 1, x - 1, y + 1, board)) in diagonalSet){
+		//up and to the left
+			return true;
+		}else if(getPiece(findNextPiece(1, -1, x + 1, y - 1, board)) in diagonalSet){
+		//down and to the right
+			return true;
+		}else if(getPiece(findNextPiece(-1, -1, x - 1, y - 1, board)) in diagonalSet){
+		//down and to the left
+			return true;
+		}
+		
+		/**
+		runs through all the possible locations of the knight
+		with less code to look at
+		there might be smarter way to do this...
+		definitely runs 4 loops however
+		**/
+		var ones = [-1, 1];
+		var twos = [-2, 2];
+		
+		for(var i = 0; i < 2; i++){
+			for(var n = 0; i < 2; n++){
+				/**if both coordinates are in the board and they are knights
+				then the king is in check**/
+				if(isInBoard(x+ones[i]) && isInBoard(y+twos[n])){
+					if(getPiece(board[x+ones[i]][y+twos[n]]) === "N"){
+						return true;
+					}
+				}else if(isInBoard(x+twos[i]) && isInBoard(y+ones[n])){
+				//reverse the adjustment to coord
+					if(getPiece(board[x+twos[i]][y+ones[n]]) === "N"){
+						return true;
+					}
+				}
+			}
+		}
+	}
 	return false;
 	
 }
