@@ -167,20 +167,7 @@ function isCheck(color, piece, x, y, board){
 	
 	
 	//if piece moving is a knight
-	
-	if(findAdjacents(false, 0, 1, x, y)){
-	//looking vertically
-		return true;
-	}else if(findAdjacents(false, 1, 0, x, y)){
-	//look horizontally
-		return true;
-	}else if(findAdjacents(false, 1, 1, x, y)){
-	//look bottom left to top right diagonal
-		return true;
-	}else if(findAdjacents(false, -1, 1, x, y)){
-	//look bottom right to top left diagonal
-		return true;
-	}else if(piece === "K"){
+	if(piece === "K"){
 		//king is piece that is moving case
 		//check vertical, horiz, diagonals, and possible knight positions
 		var straightSet = ["Q", "R"];
@@ -237,6 +224,18 @@ function isCheck(color, piece, x, y, board){
 				}
 			}
 		}
+	}else if(findAdjacents(false, 0, 1, x, y)){
+	//looking vertically
+		return true;
+	}else if(findAdjacents(false, 1, 0, x, y)){
+	//look horizontally
+		return true;
+	}else if(findAdjacents(false, 1, 1, x, y)){
+	//look bottom left to top right diagonal
+		return true;
+	}else if(findAdjacents(false, -1, 1, x, y)){
+	//look bottom right to top left diagonal
+		return true;
 	}
 	return false;
 	
