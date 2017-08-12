@@ -164,9 +164,6 @@ function isCheck(color, piece, x, y, board){
 		return false;
 	}
 	
-	
-	//if piece moving is a knight
-	
 	if(piece === "K"){
 		//king is piece that is moving case
 		//check vertical, horiz, diagonals, and possible knight positions
@@ -209,7 +206,6 @@ function isCheck(color, piece, x, y, board){
 		var ones = [-1, 1];
 		var twos = [-2, 2];
 		
-		//*** should check if also opposite colour
 		for(var i = 0; i < 2; i++){
 			for(var n = 0; i < 2; n++){
 				/**if both coordinates are in the board and they are knights
@@ -227,10 +223,11 @@ function isCheck(color, piece, x, y, board){
 			}
 		}
 	}else if(piece === "N"){
+	//if piece moving is a knight
+		var oppositeColor = color === "w" ? "b" : "w";
 		var ones = [-1, 1];
 		var twos = [-2, 2];
-		
-		//*** should check if also opposite colour
+
 		for(var i = 0; i < 2; i++){
 			for(var n = 0; i < 2; n++){
 				/**if both coordinates are in the board and they are knights
