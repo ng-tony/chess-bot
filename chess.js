@@ -165,36 +165,37 @@ function isCheck(color, piece, x, y, board){
 	}
 	
 	
-	
 	//if piece moving is a knight
+	
 	if(piece === "K"){
 		//king is piece that is moving case
 		//check vertical, horiz, diagonals, and possible knight positions
-		var straightSet = ["Q", "R"];
-		var diagonalSet = ["Q", "B"];
+		var oppositeColor = color === "w" ? "b" : "w";
+		var straightSet = [oppositeColor+"Q", oppositeColor+"R"];
+		var diagonalSet = [oppositeColor+"Q", oppositeColor+"B"];
 		
-		if(getPiece(findNextPiece(0, 1, x, y + 1, board)) in straightSet){
+		if(findNextPiece(0, 1, x, y + 1, board) in straightSet){
 		//up
 			return true;
-		}else if(getPiece(findNextPiece(0, -1, x, y - 1, board)) in straightSet){
+		}else if(findNextPiece(0, -1, x, y - 1, board) in straightSet){
 		//down
 			return true;
-		}else if(getPiece(findNextPiece(1, 0, x + 1, y, board)) in straightSet){
+		}else if(findNextPiece(1, 0, x + 1, y, board) in straightSet){
 		//to the right
 			return true;
-		}else if(getPiece(findNextPiece(-1, 0, x - 1, y, board)) in straightSet){
+		}else if(findNextPiece(-1, 0, x - 1, y, board) in straightSet){
 		//to the left
 			return true;
-		}else if(getPiece(findNextPiece(1, 1, x + 1, y + 1, board)) in diagonalSet){
+		}else if(findNextPiece(1, 1, x + 1, y + 1, board) in diagonalSet){
 		//up and to the right
 			return true;
-		}else if(getPiece(findNextPiece(-1, 1, x - 1, y + 1, board)) in diagonalSet){
+		}else if(findNextPiece(-1, 1, x - 1, y + 1, board) in diagonalSet){
 		//up and to the left
 			return true;
-		}else if(getPiece(findNextPiece(1, -1, x + 1, y - 1, board)) in diagonalSet){
+		}else if(findNextPiece(1, -1, x + 1, y - 1, board) in diagonalSet){
 		//down and to the right
 			return true;
-		}else if(getPiece(findNextPiece(-1, -1, x - 1, y - 1, board)) in diagonalSet){
+		}else if(findNextPiece(-1, -1, x - 1, y - 1, board) in diagonalSet){
 		//down and to the left
 			return true;
 		}
@@ -208,17 +209,39 @@ function isCheck(color, piece, x, y, board){
 		var ones = [-1, 1];
 		var twos = [-2, 2];
 		
+		//*** should check if also opposite colour
 		for(var i = 0; i < 2; i++){
 			for(var n = 0; i < 2; n++){
 				/**if both coordinates are in the board and they are knights
 				then the king is in check**/
 				if(isInBoard(x+ones[i]) && isInBoard(y+twos[n])){
-					if(getPiece(board[x+ones[i]][y+twos[n]]) === "N"){
+					if(getPiece(board[x+ones[i]][y+twos[n]]) === oppositeColor+"N"){
 						return true;
 					}
 				}else if(isInBoard(x+twos[i]) && isInBoard(y+ones[n])){
 				//reverse the adjustment to coord
-					if(getPiece(board[x+twos[i]][y+ones[n]]) === "N"){
+					if(getPiece(board[x+twos[i]][y+ones[n]]) === oppositeColor+"N"){
+						return true;
+					}
+				}
+			}
+		}
+	}else if(piece === "N"){
+		var ones = [-1, 1];
+		var twos = [-2, 2];
+		
+		//*** should check if also opposite colour
+		for(var i = 0; i < 2; i++){
+			for(var n = 0; i < 2; n++){
+				/**if both coordinates are in the board and they are knights
+				then the king is in check**/
+				if(isInBoard(x+ones[i]) && isInBoard(y+twos[n])){
+					if(getPiece(board[x+ones[i]][y+twos[n]]) === oppositeColor+"K"){
+						return true;
+					}
+				}else if(isInBoard(x+twos[i]) && isInBoard(y+ones[n])){
+				//reverse the adjustment to coord
+					if(getPiece(board[x+twos[i]][y+ones[n]]) === oppositeColor+"K"){
 						return true;
 					}
 				}
