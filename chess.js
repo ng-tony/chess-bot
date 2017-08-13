@@ -138,123 +138,94 @@ function findNextPiece(adjustX, adjustY, startX, startY, board){
 	this should really check if a king is put in check from old position(your king is in check)
 	and from new position (enemy king is in check)
 **/
-module.exports.isCheck = function(color, piece, x, y, board){
-	var findAdjacents = function(color, piece, isDiag, adjustX, adjustY, x, y){
-		var searchSet = isDiag ? ["Q","B"] : ["Q", "R"];
+module.exports.isCheck = function(color, board){
+	var findKing = function(color, board){
+		var ownKing = color+"K";
+		var ownKingCoords;
+		for(var y = 0; y < 8; y++){
+			for(var x = 0; x < 8; x++){
+				if(board[y][x] === ownKing){
+					ownKingCoords = [x, y];
+				}
+			}
+		}
+		if(ownKingCoords !== undefined){
+			return ownKingCoords;
+		}else{
+			throw new Error("king of ${color} color was not found.");
+		}
+	}
+	
+	var horseCheck = function(color, ownKingX, ownKingY, board){
+		let dirArray = [[-1, -2], [-1, 2], [1, -2], [1, 2], 
+						[-2, -1], [-2, 1], [2, -1], [2, 1]]
 		
-		/**
-		the reason why these are incremented on their first call is to skip
-		the center position from where they start
-		if the piece has already been moved from there, then its irrelevant
-		if the piece is still in there, then it should be checked against 
-		any kings found elsewhere
-		**/
-		var abovePiece = findNextPiece(adjustX, adjustY, x+adjustX, y+adjustY, board);
-		var belowPiece = findNextPiece(adjustX * -1, adjustY * -1, x-adjustX, y-adjustY, board);
-		var abovePieceType = getPiece(abovePiece);
-		var belowPieceType = getPiece(belowPiece);
-		var aboveColor = getColor(abovePiece);
-		var belowColor = getColor(belowPiece);
-		/*if we are looking at move destination, check it against any enemy kings found*/
-		if(getPiece(board[y][x]) === piece){
-			/**check if piece in searchset only after knowing piece is obstructing
-			above and below piece, so above and below piece dont cause false checks
-			**/
-			if(piece in searchSet){
-				if((abovePieceType === "K" && aboveColor !== color)
-				||(belowPieceType === "K" && belowColor !== color)){
-					return true;
-				}
-			}else if(piece === "K"){
-				//case where king is moving
-				if((abovePieceType in searchSet && aboveColor !== color)
-				||(belowPieceType in searchSet && belowColor !== color)){
-					return true;
+		for(var i = 0; i < dirArray.length; i++){
+			for(var n = 0; n < 2; n++){
+				/**if both coordinates are in the board and they are knights
+				then the king is in check**/
+				if(isInBoard(ownKingY+dirArray[i][n]) && isInBoard(ownKingX+dirArray[i][n])){
+					if(getPiece(board[ownKingY+dirArray[i][n]][ownKingX+dirArray[i][n]]) === oppositeColor+"N"){
+						return true;
+					}
 				}
 			}
-		}else if(aboveColor !== belowColor){
-			//else, it should be a clear pathway between above and below piece
-			if((abovePieceType in searchSet && belowPieceType === "K") 
-			||(belowPieceType in searchSet && abovePieceType === "K")){
-				return true;
-			}
-		//check if piece being moved puts enemy king in check
-		}else if((piece in searchSet && (abovePieceType === "K") && (color !== aboveColor))
-			  ||(piece in searchSet && (belowPieceType === "K") && (color !== belowColor))){
+		}
+	}
+	
+	var kingCheck = function(color, ownKingX, ownKingY, board){
+		
+		
+		if((isInBoard(ownKingY + 1, ownKingX)) && board[ownKingY + 1][ownKingX]){
+		//up
+			return true;
+		}else if((isInBoard(ownKingY - 1, ownKingX)) && board[ownKingY - 1][ownKingX]){
+		//down
 			return true;
 		}
-		
-		return false;
 	}
-	
-	//both these cases are for if the move has already been made
-	if(piece === "K" && board[y][x] === piece){
-		/** if an opponent knight is not found, still runs the find adjacent logic
-			to find if king is endangered anywhere else(vertically, horizontally, diagonally)
-		**/
-		/**
-		runs through all the possible locations of the knight
-		with less code to look at
-		there might be smarter way to do this...
-		definitely runs 4 loops however
-		**/
-		var ones = [-1, 1];
-		var twos = [-2, 2];
-		
-		for(var i = 0; i < 2; i++){
-			for(var n = 0; i < 2; n++){
-				/**if both coordinates are in the board and they are knights
-				then the king is in check**/
-				if(isInBoard(x+ones[i]) && isInBoard(y+twos[n])){
-					if(getPiece(board[y+twos[n]][x+ones[i]]) === oppositeColor+"N"){
-						return true;
-					}
-				}else if(isInBoard(x+twos[i]) && isInBoard(y+ones[n])){
-				//reverse the adjustment to coord
-					if(getPiece(board[y+ones[n]][x+twos[i]]) === oppositeColor+"N"){
-						return true;
-					}
-				}
-			}
-		}
-	}else if(piece === "N" && board[y][x] === piece){
-	//if piece moving is a knight
-		var oppositeColor = color === "w" ? "b" : "w";
-		var ones = [-1, 1];
-		var twos = [-2, 2];
 
-		for(var i = 0; i < 2; i++){
-			for(var n = 0; i < 2; n++){
-				/**if both coordinates are in the board and they are knights
-				then the king is in check**/
-				if(isInBoard(x+ones[i]) && isInBoard(y+twos[n])){
-					if(getPiece(board[y+twos[n]][x+ones[i]]) === oppositeColor+"K"){
-						return true;
-					}
-				}else if(isInBoard(x+twos[i]) && isInBoard(y+ones[n])){
-				//reverse the adjustment to coord
-					if(getPiece(board[y+ones[n]][x+twos[i]]) === oppositeColor+"K"){
-						return true;
-					}
-				}
-			}
-		}
-	}
+	var ownKingCoords = findKing(color, board);
+	var oppositeColor = color === "w" ? "b" : "w";
+	var vertSet = [oppositeColor+"Q", oppositeColor+"R"];
+	var diagSet = [oppositeColor+"Q", oppositeColor+"B"];
 	
-	//can look at move destination OR old coordinates(exposure of own king)
-	if(findAdjacents(color, piece, false, 0, 1, x, y)){
-	//looking vertically
+	if(findNextPiece(0, 1, ownKingCoords[0], ownKingCoords[1] + 1, board) in vertSet){
+	//up
 		return true;
-	}else if(findAdjacents(color, piece, false, 1, 0, x, y)){
-	//look horizontally
+	}else if(findNextPiece(0, -1, ownKingCoords[0], ownKingCoords[1] - 1, board) in vertSet){
+	//down
 		return true;
-	}else if(findAdjacents(color, piece, false, 1, 1, x, y)){
-	//look bottom left to top right diagonal
+	}else if(findNextPiece(1, 0, ownKingCoords[0] + 1, ownKingCoords[1], board) in vertSet){
+	//right
 		return true;
-	}else if(findAdjacents(color, piece, false, -1, 1, x, y)){
-	//look bottom right to top left diagonal
+	}else if(findNextPiece(-1, 0, ownKingCoords[0] - 1, ownKingCoords[1], board) in vertSet){
+	//left
+		return true;
+	}else if(findNextPiece(1, 1, ownKingCoords[0] + 1, ownKingCoords[1] + 1, board) in diagSet){
+	//up right
+		return true;
+	}else if(findNextPiece(1, -1, ownKingCoords[0] + 1, ownKingCoords[1] - 1, board) in diagSet){
+	//up left
+		return true;
+	}else if(findNextPiece(-1, 1, ownKingCoords[0] - 1, ownKingCoords[1] + 1, board) in diagSet){
+	//down right
+		return true;
+	}else if(findNextPiece(-1, -1, ownKingCoords[0] - 1, ownKingCoords[1] - 1, board) in diagSet){
+	//down left
+		return true;
+	}else if(color === "w" && ((board[ownKingCoords[1] + 1][ownKingCoords[0] + 1] === "P") || (board[ownKingCoords[1] + 1][ownKingCoords[0] - 1] === "P"))){
+	//white and pawn above in either diagonal, 1 space apart
+		return true;
+	}else if(color === "b" && ((board[ownKingCoords[1] - 1][ownKingCoords[0] - 1] === "P") || (board[ownKingCoords[1] - 1][ownKingCoords[0] + 1] === "P"))){
+	//black and pawn below in either diagonal, 1 space apart
+		return true;
+	}else if(horseCheck(color, ownKingCoords[0], ownKingCoords[1], board)){
+		return true;
+	}else if(kingCheck(color, ownKingCoords[0], ownKingCoords[1], board)){
 		return true;
 	}
+
 	return false;
 	
 }
