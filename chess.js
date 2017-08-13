@@ -157,32 +157,43 @@ module.exports.isCheck = function(color, board){
 	}
 	
 	var horseCheck = function(color, ownKingX, ownKingY, board){
+		var oppositeColor = color === "w" ? "b" : "w";
+		
+		//possible places that a knight could attack from
 		let dirArray = [[-1, -2], [-1, 2], [1, -2], [1, 2], 
-						[-2, -1], [-2, 1], [2, -1], [2, 1]]
+						[-2, -1], [-2, 1], [2, -1], [2, 1]];
 		
 		for(var i = 0; i < dirArray.length; i++){
 			for(var n = 0; n < 2; n++){
 				/**if both coordinates are in the board and they are knights
 				then the king is in check**/
 				if(isInBoard(ownKingY+dirArray[i][n]) && isInBoard(ownKingX+dirArray[i][n])){
-					if(getPiece(board[ownKingY+dirArray[i][n]][ownKingX+dirArray[i][n]]) === oppositeColor+"N"){
+					if(board[ownKingY+dirArray[i][n]][ownKingX+dirArray[i][n]] === oppositeColor+"N"){
 						return true;
 					}
 				}
 			}
 		}
+		return false;
 	}
 	
 	var kingCheck = function(color, ownKingX, ownKingY, board){
+		var oppositeColor = color === "w" ? "b" : "w";
 		
+		//all around the king(possible places king could attack from)
+		let dirArray = [[0, 1], [0, -1], [1, 0], [1, 1], 
+						[1, -1], [-1, -1], [-1, 0], [-1, 1]];
 		
-		if((isInBoard(ownKingY + 1, ownKingX)) && board[ownKingY + 1][ownKingX]){
-		//up
-			return true;
-		}else if((isInBoard(ownKingY - 1, ownKingX)) && board[ownKingY - 1][ownKingX]){
-		//down
-			return true;
+		for(var i = 0; i < 8; i++){
+			for(var n = 0; n < 2; n++){
+				if(isInBoard(ownKingY+dirArray[i][n]) && isInBoard(ownKingX+dirArray[i][n])){
+					if(board[ownKingY+dirArray[i][n]][ownKingX+dirArray[i][n]] === oppositeColor+"K"){
+						return true;
+					}
+				}
+			}
 		}
+		return false;
 	}
 
 	var ownKingCoords = findKing(color, board);
