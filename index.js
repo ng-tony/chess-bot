@@ -216,7 +216,7 @@ function sendImage(sender) {
 					}
 				},
 			}}
-		).form().append("file", fs.createReadStream('./output.png'));
+		).form().append("filedata", fs.createReadStream('./output.png'));
 		/*request.post({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
 			qs: {
