@@ -7,13 +7,8 @@ module.exports.createTestImage = function(){
 		//idk if i need this call back;
 	});
 	console.log("Entering create Test Image");
-	console.log(image.getExtension());
-	image.write("./output.png").then(function () {
-		console.log("Made image");
-	}).catch(function () {
-		console.log("Error creating image");
-		console.log(err);
-	});
+	console.log("TEST IMAGE: " + image.getExtension());
+	image.write("./output.png");
 	console.log("Exiting create Test Image");
 }
 
