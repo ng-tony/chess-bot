@@ -7,7 +7,7 @@ var MongoClient = require('mongodb').MongoClient,
 const express = require('express'),
 	bodyParser = require('body-parser'),
 	request = require('request'),
-	Curl =  require('node-libcurl').Curl;
+	Curl =  require('node-libcurl').Curl,
 	app = express(),
 	token = process.env.PAGE_ACCESS_TOKEN,
 	mongoURI = process.env.MONGODB_URI;
@@ -127,6 +127,9 @@ function messageHandler(sender, text){
 				sendTextMessage(sender, "Unable to start game" + e);
 			}
 			break;
+		case "test":
+			sendImage();
+			break;
 		case "move":
 			break;
 		case "resign":
@@ -189,7 +192,7 @@ function sendTextMessage(sender, text) {
 	})
 }
 
-function sendImage(sender, text) {
+function sendImage(sender) {
 	var curl = new Curl();
 	curl.setOpt('URL',  'https://graph.facebook.com/v2.6/me/messages?access_token=' + token);
 	curl.setOpt('recipient', {id: sender});
