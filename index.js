@@ -199,7 +199,7 @@ function sendImage(sender) {
 	imageTest.doesImageExists();
 	imageTest.createTestImage().then(function (){
 		imageTest.doesImageExists();
-		var req = request.post({
+		/*var req = request.post({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
 			qs: {
 				access_token: token
@@ -216,8 +216,8 @@ function sendImage(sender) {
 					}
 				},
 			}}
-		).form().append("filedata", fs.createReadStream('./output.png'));
-		/*request.post({
+		).form().append("filedata", fs.createReadStream('./output.png'));*/
+		request.post({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
 			qs: {
 				access_token: token
@@ -241,7 +241,7 @@ function sendImage(sender) {
 				} else if (response.body.error) {
 					console.log('Error: ', response.body.error)
 				}
-		});*/
+		});
 	});/*
 		request({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
