@@ -7,6 +7,7 @@ var MongoClient = require('mongodb').MongoClient,
 const express = require('express'),
 	bodyParser = require('body-parser'),
 	request = require('request'),
+	Curl =  require('node-libcurl').Curl;
 	app = express(),
 	token = process.env.PAGE_ACCESS_TOKEN,
 	mongoURI = process.env.MONGODB_URI;
@@ -186,6 +187,19 @@ function sendTextMessage(sender, text) {
 			console.log('Error: ', response.body.error)
 		}
 	})
+}
+
+function sendImage(sender, text) {
+	var curl = new Curl();
+	curl.setOpt('URL',  'https://graph.facebook.com/v2.6/me/messages?access_token=' + token);
+	curl.setOpt('recipient', {id: sender});
+	curl.setOpt('message', {"attachment":{"type":"audio", "payload":{}}});
+	curl.setOpt('filedata', "./output.png");
+	curl.on ('end', close);
+	curl.on ('error', function(err){
+		console.log("Error sending image");
+		console.log(err);
+	});
 }
 
 function sendHelp(sender){
