@@ -14,7 +14,9 @@ module.exports.doesImageExists = function(){
 	Jimp.read("./output.png", function (err, image){
 		if(err){
 			console.log("Image not tehre");
+			return;
 		}
+		console.log("Image is here?!?!?!?");
 		
 	})
 }
