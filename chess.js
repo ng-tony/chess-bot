@@ -49,23 +49,6 @@ function isInBoard(coord){
 	return (coord > 0 && coord < 7);
 }
 
-function getMoveInfo(movePhrase, board){
-	var startX = getCoord(movePhrase.charAt(0));
-	var startY = getCoord(movePhrase.charAt(1));
-	var destX = getCoord(movePhrase.charAt(2));
-	var destY = getCoord(movePhrase.charAt(3));
-	var piece = getPiece(startX, startY, board);
-	var pieceColor = getColor(startX, startY, board);
-
-	return {"startX": startX,
-			"startY": startY,
-			"destX": destX,
-			"destY":destY,
-			"piece": piece,
-			"pieceColor": pieceColor
-	};
-}
-
 function nothingBetweenDiag(startX, startY, destX, destY, board){
 	var upperBoundX;
 	var lowerBoundX;
@@ -231,6 +214,23 @@ var self = module.exports = {
 				 ["wR", "wN", "wB", "wQ", "wK", "wB", "wN", "wR"]];
 		return board;
 	},
+	
+	getMoveInfo: function(movePhrase, board){
+		var startX = getCoord(movePhrase.charAt(0));
+		var startY = getCoord(movePhrase.charAt(1));
+		var destX = getCoord(movePhrase.charAt(2));
+		var destY = getCoord(movePhrase.charAt(3));
+		var piece = getPiece(startX, startY, board);
+		var pieceColor = getColor(startX, startY, board);
+	
+		return {"startX": startX,
+				"startY": startY,
+				"destX": destX,
+				"destY": destY,
+				"piece": piece,
+				"pieceColor": pieceColor
+		};
+	}
 	
 	/**checks if moving side's king is put in check
 	but knight case checks if its putitng opponent king into check

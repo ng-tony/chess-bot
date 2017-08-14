@@ -131,6 +131,7 @@ function messageHandler(sender, text){
 			sendImage();
 			break;
 		case "move":
+			
 			break;
 		case "resign":
 			break;
