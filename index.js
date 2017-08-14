@@ -199,6 +199,32 @@ function sendImage(sender) {
 	imageTest.doesImageExists();
 	imageTest.createTestImage().then(function (){
 		imageTest.doesImageExists();
+		request.post({
+			url: 'https://graph.facebook.com/v2.6/me/messages',
+			qs: {
+				access_token: token
+			},
+			method: 'POST',
+			json: {
+				recipient: {
+					id: sender
+				},
+				message: {
+					attachment: {
+						type: "image",
+						payload: {}
+					}
+				},
+				filedata: fs.createReadStream('./output.png')
+			}
+			}, function(error, response, body) {
+				if (error) {
+					console.log('Error sending messages: ', error)
+				} else if (response.body.error) {
+					console.log('Error: ', response.body.error)
+				}
+		});
+	});/*
 		request({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
 			qs: {
