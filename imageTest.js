@@ -8,7 +8,10 @@ module.exports.createTestImage = function(){
 	});
 	console.log("Entering create Test Image");
 	console.log("TEST IMAGE: " + image.getExtension());
-	image.write("./output.png", function (cb){
+	image.write("./output.png", function (err, cb){
+		if (err){
+			console.log("Writing err " + err);
+		}
 		console.log("inside cb");
 		console.log(cb);
 	});
