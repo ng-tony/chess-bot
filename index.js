@@ -223,17 +223,17 @@ function sendImage(sender) {
 				access_token: token
 			},
 			method: 'POST',
-			json: {
+			formData: {
 				recipient: {
 					id: sender
 				},
 				message: {
 					attachment: {
 						type: "image",
-						payload: {}
+						payload: "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
 					}
-				},
-				filedata: "word"//fs.createReadStream('./output.png')
+				}
+			//	filedata: "word"//fs.createReadStream('./output.png')
 			}
 		}, function (error, response, body) {
 			if (error) {
