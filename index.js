@@ -194,7 +194,7 @@ function sendTextMessage(sender, text) {
 }
 
 function sendImage(sender) {
-	var req  = request.post('"https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function(err, resp, body){
+	var req  = request.post('https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function(err, resp, body){
 		if (err){
 			console.log(err);
 		} else {
