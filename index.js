@@ -111,7 +111,6 @@ function messageHandler(sender, text){
 			initGame(sender, newGameCode);
 			break;
 		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
-<<<<<<< HEAD
 			gameCode.acceptGame(text.split(" ")[1], sender.toString()).then(() => {
 				sendTextMessage(sender, "Game Started!");
 				//Display shit eh?
@@ -119,7 +118,6 @@ function messageHandler(sender, text){
 				console.log("Unabled ot start game " + e.toString());
 				sendTextMessage(sender, "Unable to start game: " + e.toString());
 			})
-=======
 			try {
 				gameCode.acceptGame(textSplit[1]);
 				//LIKE DISPLAY GAME OR SOME SHIT?
@@ -127,7 +125,6 @@ function messageHandler(sender, text){
 			catch (e) {
 				sendTextMessage(sender, "Unable to start game" + e);
 			}
->>>>>>> aa4621181113f26e4717a3bbc0cf0772eade193a
 			break;
 		case "move":
 			break;
