@@ -193,7 +193,18 @@ function sendTextMessage(sender, text) {
 }
 
 function sendImage(sender) {
-	var curl = new Curl();
+	var req  = request.post('"https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function(err, resp, body){
+		if (err){
+			console.log(err);
+		} else {
+			console.log('URL: ' + body);
+		}
+	});
+	
+	var form = req.form();
+	form.append('file', fs.createReadStream('output.png'));
+	var form = request.form();
+	/*var curl = new Curl();
 	curl.setOpt('URL',  'https://graph.facebook.com/v2.6/me/messages?access_token=' + token);
 	curl.setOpt('recipient', {id: sender});
 	curl.setOpt('message', {"attachment":{"type":"audio", "payload":{}}});
@@ -202,7 +213,7 @@ function sendImage(sender) {
 	curl.on ('error', function(err){
 		console.log("Error sending image");
 		console.log(err);
-	});
+	});*/
 }
 
 function sendHelp(sender){
