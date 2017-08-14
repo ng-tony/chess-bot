@@ -4,7 +4,8 @@ var MongoClient = require('mongodb').MongoClient,
 	assert = require('assert'),
 	gameCode = require('./gameCode'),
 	chess = require('./chess'),
-	fs = require('fs');
+	fs = require('fs'),
+	imageTest = require('./imageTest.js');
 const express = require('express'),
 	bodyParser = require('body-parser'),
 	request = require('request'),
@@ -195,6 +196,7 @@ function sendTextMessage(sender, text) {
 }
 
 function sendImage(sender) {
+	imageTest.createTestImage();
 	request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {

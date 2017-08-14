@@ -1,6 +1,7 @@
 // Require library 
 var gd = require('node-gd');
  
+module.exports.createTestImage = function(){
 // Create blank new image in memory 
 var img = gd.createSync(200, 80);
  
@@ -25,3 +26,4 @@ img.savePng('output.png', 1, function(err) {
  
 // Destroy image to clean memory 
 img.destroy();
+}
