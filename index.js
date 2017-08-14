@@ -199,7 +199,7 @@ function sendImage(sender) {
 	imageTest.doesImageExists();
 	imageTest.createTestImage();
 	imageTest.doesImageExists();
-	request({
+	/*request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {
 			access_token: token
