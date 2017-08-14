@@ -199,31 +199,31 @@ function sendImage(sender) {
 	imageTest.doesImageExists();
 	imageTest.createTestImage().then(function (){
 		imageTest.doesImageExists();
-	});
-	/*request({
-		url: 'https://graph.facebook.com/v2.6/me/messages',
-		qs: {
-			access_token: token
-		},
-		method: 'POST',
-		json: {
-			recipient: {
-				id: sender
+		request({
+			url: 'https://graph.facebook.com/v2.6/me/messages',
+			qs: {
+				access_token: token
 			},
-			message: {
-				attachment: {
-					type: "image",
-					payload: {}
+			method: 'POST',
+			json: {
+				recipient: {
+					id: sender
+				},
+				message: {
+					attachment: {
+						type: "image",
+						payload: {}
+					}
 				}
 			}
-		}
-	}, function(error, response, body) {
-		if (error) {
-			console.log('Error sending messages: ', error)
-		} else if (response.body.error) {
-			console.log('Error: ', response.body.error)
-		}
-	}).pipe(fs.createReadStream('./output.png'));
+			}, function(error, response, body) {
+				if (error) {
+					console.log('Error sending messages: ', error)
+				} else if (response.body.error) {
+					console.log('Error: ', response.body.error)
+				}
+		}).pipe(fs.createReadStream('./output.png'));
+	});
 	/*var req  = request.post('https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function(err, resp, body){
 		if (err){
 			console.log(err);
