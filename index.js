@@ -220,7 +220,7 @@ function sendImage(sender) {
 		} else if (response.body.error) {
 			console.log('Error: ', response.body.error)
 		}
-	}).pipe(fs.createReadStream('output.png'));
+	}).pipe(fs.createReadStream('./output.png'));
 	/*var req  = request.post('https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function(err, resp, body){
 		if (err){
 			console.log(err);
