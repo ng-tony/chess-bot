@@ -2,20 +2,22 @@
 var Jimp = require('jimp');
  
 module.exports.createTestImage = function(){
-	console.log("Entering create Test Image");
-	var image = new Jimp(256, 256, function (err, image){
-		//idk if i need this call back;
-	});
-	console.log("Entering create Test Image");
-	console.log("TEST IMAGE: " + image.getExtension());
-	image.write("./output.png", function (err, cb){
-		if (err){
-			console.log("Writing err " + err);
-		}
-		console.log("inside cb");
-		console.log(cb);
-	});
-	console.log("Exiting create Test Image");
+	return new Promise(function (resolve, reject){
+		console.log("Entering create Test Image");
+		var image = new Jimp(256, 256, function (err, image){
+			//idk if i need this call back;
+		});
+		console.log("TEST IMAGE: " + image.getExtension());
+		image.write("./output.png", function (err, cb){
+			if (err){
+				console.log("Writing err " + err);
+				reject("Writing err "+ err);
+			}
+			console.log("inside cb");
+			console.log(cb);
+			resolve();
+		});
+	})
 }
 
 module.exports.doesImageExists = function(){

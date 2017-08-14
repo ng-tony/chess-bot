@@ -197,8 +197,9 @@ function sendTextMessage(sender, text) {
 
 function sendImage(sender) {
 	imageTest.doesImageExists();
-	imageTest.createTestImage();
-	imageTest.doesImageExists();
+	imageTest.createTestImage().then(function (){
+		imageTest.doesImageExists();
+	});
 	/*request({
 		url: 'https://graph.facebook.com/v2.6/me/messages',
 		qs: {
