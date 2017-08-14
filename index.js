@@ -130,7 +130,7 @@ function messageHandler(sender, text){
 			}
 			break;
 		case "test":
-			sendImage();
+			sendImage(sender);
 			break;
 		case "move":
 			
