@@ -21,6 +21,7 @@
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
     "mongodb": "^2.2.29",
+    "node-libcurl": "^1.1.0",
     "request": "^2.81.0"
   }
 }
