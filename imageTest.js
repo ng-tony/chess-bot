@@ -17,6 +17,7 @@ module.exports.doesImageExists = function(){
 			console.log("Image not tehre");
 			return;
 		}
+		console.log(image.getExtension());
 		console.log("Image is here?!?!?!?");
 		
 	})
