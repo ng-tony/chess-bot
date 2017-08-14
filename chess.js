@@ -230,7 +230,7 @@ var self = module.exports = {
 				"piece": piece,
 				"pieceColor": pieceColor
 		};
-	}
+	},
 	
 	/**checks if moving side's king is put in check
 	but knight case checks if its putitng opponent king into check
