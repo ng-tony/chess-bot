@@ -219,11 +219,8 @@ function sendImage(sender) {
 		).form().append("filedata", fs.createReadStream('./output.png'));*/
 		request.post({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
+			access_token: token,
 			form: {
-				qs: {
-				access_token: token
-				},
-				method: 'POST',
 				recipient: {
 					id: sender
 				},
