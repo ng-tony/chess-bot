@@ -133,7 +133,7 @@ function messageHandler(sender, text){
 			sendImage(sender);
 			break;
 		case "move":
-			
+			textSplit[1]
 			break;
 		case "resign":
 			break;
