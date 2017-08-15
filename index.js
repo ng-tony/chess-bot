@@ -229,7 +229,7 @@ function sendImage(sender) {
 				message: {
 					attachment: {
 						type: "image",
-						payload: "https://images.pexels.com/photos/104827/cat-pet-animal-domestic-104827.jpeg?w=1260&h=750&auto=compress&cs=tinysrgb"
+						payload: {url:"http://www.pngmart.com/files/1/Cat-PNG-Free-Download.png"}
 					}
 				}
 			//	filedata: "word"//fs.createReadStream('./output.png')
