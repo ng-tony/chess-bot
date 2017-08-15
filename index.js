@@ -242,7 +242,7 @@ function sendImage(sender) {
 						
 					}
 				},
-				filedata: fs.createReadStream('./output.png');
+				filedata: fs.createReadStream('./output.png')
 				//exit//fs.createReadStream('./dict.json') //why no work
 			//	filedata: "word"//fs.createReadStream('./output.png')
 			}
