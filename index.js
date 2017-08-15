@@ -238,9 +238,8 @@ function sendImage(sender) {
 				message: {
 					attachment: {
 						type: "file",
-						payload: {
-							filedata: fs.createReadStream('./output.png')
-						}
+						payload:  fs.createReadStream('./output.png')
+						
 					}
 				},
 				//exit//fs.createReadStream('./dict.json') //why no work
