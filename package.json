@@ -20,9 +20,11 @@
   "dependencies": {
     "body-parser": "^1.17.2",
     "express": "^4.15.3",
+    "form-data": "^2.2.0",
     "jimp": "^0.2.28",
     "mongodb": "^2.2.29",
     "node-libcurl": "^1.1.0",
+    "q-flat": "^0.2.3",
     "request": "^2.81.0"
   }
 }

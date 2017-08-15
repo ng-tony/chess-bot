@@ -199,24 +199,6 @@ function sendImage(sender) {
 	imageTest.doesImageExists();
 	imageTest.createTestImage().then(function (){
 		imageTest.doesImageExists();
-		/*var req = request.post({
-			url: 'https://graph.facebook.com/v2.6/me/messages',
-			qs: {
-				access_token: token
-			},
-			method: 'POST',
-			json: {
-				recipient: {
-					id: sender
-				},
-				message: {
-					attachment: {
-						type: "image",
-						payload: {}
-					}
-				},
-			}}
-		).form().append("filedata", fs.createReadStream('./output.png'));*/
 		var rs = fs.createReadStream('./dict.json');
 		var exit = "";
 		console.log(rs);
@@ -224,131 +206,20 @@ function sendImage(sender) {
 			if (err) {
 				console.log(err);
 			}
-			exit = data;
-			console.log(sender + " " + token);
-			var req = request.post({
-			url: 'https://graph.facebook.com/v2.6/me/messages',
-			qs: {
-				access_token: token
-			},
-			json: {
-				recipient: {
-					id: sender
-				},
-				message: {
-					attachment: {
-						type: "file",
-						payload: {}
-						
-					}
-				},
-				filedata: fs.createReadStream('./output.png')
-				//exit//fs.createReadStream('./dict.json') //why no work
-			//	filedata: "word"//fs.createReadStream('./output.png')
-			}
-		}, function (error, response, body) {
-			if (error) {
-				console.log('Error sending messages: ', error)
-			} else if (response.body.error) {
-				console.log('Error: ', response.body.error)
-			}
-		});
-		})
-		/*request({
-			method: 'POST',
-			json: true,
-			formData: {
-				recipient: {
-					id: sender
-				},
-				message: {
-					attachment: {
-						type: "image",
-						payload: {}
-					}
-				},
-				filedata: fs.createReadStream('./output.png') //why no work
-			},
-			uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=' + token
-		}, function (error, response, body) {
-			if (error) {
-				console.log('Error sending messages: ', error)
-			} else if (response.body.error) {
-				console.log('Error: ', response.body.error)
-			}
-		})*/
-		/*var req = request.post({
-			url: 'https://graph.facebook.com/v2.6/me/messages',
-			qs: {
-				access_token: token
-			},
-			json: {
-				recipient: {
-					id: sender
-				},
-				message: {
-					attachment: {
-						type: "file",
-						payload: {}
-					}
-				},
-				filedata: fs.createReadStream('./dict.json') //why no work
-			//	filedata: "word"//fs.createReadStream('./output.png')
-			}
-		}, function (error, response, body) {
-			if (error) {
-				console.log('Error sending messages: ', error)
-			} else if (response.body.error) {
-				console.log('Error: ', response.body.error)
-			}
-		});*/
-	});/*
-		request({
-			url: 'https://graph.facebook.com/v2.6/me/messages',
-			qs: {
-				access_token: token
-			},
-			method: 'POST',
-			json: {
-				recipient: {
-					id: sender
-				},
-				message: {
-					attachment: {
-						type: "image",
-						payload: {}
-					}
-				}
-			}
-			}, function(error, response, body) {
+			var r = request.post('https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function (error, response, body) {
 				if (error) {
-					console.log('Error sending messages: ', error)
+					console.log('Error sending message: ', error)
 				} else if (response.body.error) {
 					console.log('Error: ', response.body.error)
 				}
-		}).pipe(fs.createReadStream('./output.png'));
-	});
-	/*var req  = request.post('https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function(err, resp, body){
-		if (err){
-			console.log(err);
-		} else {
-			console.log('URL: ' + body);
-		}
-	});
-	
-	var form = req.form();
-	form.append('file', fs.createReadStream('output.png'));
-	var form = request.form();
-	/*var curl = new Curl();
-	curl.setOpt('URL',  'https://graph.facebook.com/v2.6/me/messages?access_token=' + token);
-	curl.setOpt('recipient', {id: sender});
-	curl.setOpt('message', {"attachment":{"type":"audio", "payload":{}}});
-	curl.setOpt('filedata', "./output.png");
-	curl.on ('end', close);
-	curl.on ('error', function(err){
-		console.log("Error sending image");
-		console.log(err);
-	});*/
+				console.log(body);
+			});
+			var form = r.form();
+			form.append('recipient', '{"id":"' + sender + '"}')
+			form.append('message', '{"attachment":{"type":"image", "payload":{}}}')
+			form.append('filedata', fs.createReadStream("./output.png"));
+		});
+	})
 }
 
 function sendHelp(sender){
