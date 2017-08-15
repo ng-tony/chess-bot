@@ -209,6 +209,7 @@ function sendImage(sender) {
 				}
 				console.log(body);
 			});
+			console.log(image);
 			var form = r.form();
 			form.append('recipient', '{"id":"' + sender + '"}');
 			form.append('message', '{"attachment":{"type":"image", "payload":{}}}');
