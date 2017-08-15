@@ -196,8 +196,27 @@ function sendTextMessage(sender, text) {
 }
 
 function sendImage(sender) {
-	imageTest.doesImageExists();
-	imageTest.createTestImage().then(function (){
+	imageTest.createTestImage().then(function (image){
+		fs.readFile("./dict.json", function(err, data){
+			if (err) {
+				console.log(err);
+			}
+			var r = request.post('https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function (error, response, body) {
+				if (error) {
+					console.log('Error sending message: ', error)
+				} else if (response.body.error) {
+					console.log('Error: ', response.body.error)
+				}
+				console.log(body);
+			});
+			var form = r.form();
+			form.append('recipient', '{"id":"' + sender + '"}');
+			form.append('message', '{"attachment":{"type":"image", "payload":{}}}');
+			form.append('filedata', image);
+		});
+	})
+	//////
+	/*imageTest.createTestImage().then(function (){
 		imageTest.doesImageExists();
 		var rs = fs.createReadStream('./dict.json');
 		var exit = "";
@@ -219,7 +238,7 @@ function sendImage(sender) {
 			form.append('message', '{"attachment":{"type":"image", "payload":{}}}')
 			form.append('filedata', fs.createReadStream("./output.png"));
 		});
-	})
+	})*/
 }
 
 function sendHelp(sender){
