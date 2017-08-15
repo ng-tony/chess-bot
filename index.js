@@ -241,7 +241,7 @@ function sendImage(sender) {
 						payload: {}
 					}
 				},
-				filedata: exit//fs.createReadStream('./dict.json') //why no work
+				//exit//fs.createReadStream('./dict.json') //why no work
 			//	filedata: "word"//fs.createReadStream('./output.png')
 			}
 		}, function (error, response, body) {
