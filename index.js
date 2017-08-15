@@ -221,7 +221,7 @@ function sendImage(sender) {
 		rs.on('end', function() {
 			rs.close();
 			console.log(rs);
-		}
+		});
 		request.post({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
 			qs: {
