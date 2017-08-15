@@ -217,7 +217,7 @@ function sendImage(sender) {
 				},
 			}}
 		).form().append("filedata", fs.createReadStream('./output.png'));*/
-		var rs = fs.createReadStream('./output12.png');
+		var rs = fs.createReadStream('./output.png');
 		console.log(rs);
 		/*request({
 			method: 'POST',
