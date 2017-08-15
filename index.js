@@ -218,7 +218,40 @@ function sendImage(sender) {
 			}}
 		).form().append("filedata", fs.createReadStream('./output.png'));*/
 		var rs = fs.createReadStream('./dict.json');
+		var exit = "";
 		console.log(rs);
+		fs.readFile("./dict.json", function(err, data){
+			if (err) {
+				console.log(err);
+			}
+			exit = data;
+			console.log(data);
+			var req = request.post({
+			url: 'https://graph.facebook.com/v2.6/me/messages',
+			qs: {
+				access_token: token
+			},
+			json: {
+				recipient: {
+					id: sender
+				},
+				message: {
+					attachment: {
+						type: "file",
+						payload: {}
+					}
+				},
+				filedata: exit//fs.createReadStream('./dict.json') //why no work
+			//	filedata: "word"//fs.createReadStream('./output.png')
+			}
+		}, function (error, response, body) {
+			if (error) {
+				console.log('Error sending messages: ', error)
+			} else if (response.body.error) {
+				console.log('Error: ', response.body.error)
+			}
+		});
+		})
 		/*request({
 			method: 'POST',
 			json: true,
@@ -242,7 +275,7 @@ function sendImage(sender) {
 				console.log('Error: ', response.body.error)
 			}
 		})*/
-		var req = request.post({
+		/*var req = request.post({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
 			qs: {
 				access_token: token
@@ -266,7 +299,7 @@ function sendImage(sender) {
 			} else if (response.body.error) {
 				console.log('Error: ', response.body.error)
 			}
-		});
+		});*/
 	});/*
 		request({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
