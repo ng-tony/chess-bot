@@ -218,6 +218,7 @@ function sendImage(sender) {
 			}}
 		).form().append("filedata", fs.createReadStream('./output.png'));*/
 		var rs = fs.createReadStream('./output.png');
+		console.log(rs);
 		/*request({
 			method: 'POST',
 			json: true,
@@ -256,7 +257,7 @@ function sendImage(sender) {
 						payload: {}
 					}
 				},
-				//filedata: fs.createReadStream('./output.png') //why no work
+				filedata: fs.createReadStream('./output.png') //why no work
 			//	filedata: "word"//fs.createReadStream('./output.png')
 			}
 		}, function (error, response, body) {
