@@ -213,7 +213,7 @@ function sendImage(sender) {
 			var form = r.form();
 			form.append('recipient', '{"id":"' + sender + '"}');
 			form.append('message', '{"attachment":{"type":"image", "payload":{}}}');
-			form.append('filedata', image);
+			form.append('filedata', fs.createReadStream(image));
 		});
 	})
 	//////
