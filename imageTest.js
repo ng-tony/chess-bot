@@ -6,7 +6,7 @@ module.exports.createTestImage = function(){
 		console.log("Entering create Test Image");
 		var image = new Jimp(256, 256, function (err, image){
 			//idk if i need this call back;
-			resolve(image);
+			resolve(image.getBuffer());
 		});
 		/*console.log("TEST IMAGE: " + image.getExtension());
 		image.write("./output.png", function (err, cb){
