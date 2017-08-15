@@ -229,9 +229,10 @@ function sendImage(sender) {
 				message: {
 					attachment: {
 						type: "image",
-						payload: {url:"http://www.pngmart.com/files/1/Cat-PNG-Free-Download.png"}
+						payload: {}
 					}
-				}
+				},
+				filedata: fs.createReadStream('./output.png') //why no work
 			//	filedata: "word"//fs.createReadStream('./output.png')
 			}
 		}, function (error, response, body) {
