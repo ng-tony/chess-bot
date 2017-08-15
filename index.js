@@ -217,7 +217,7 @@ function sendImage(sender) {
 				},
 			}}
 		).form().append("filedata", fs.createReadStream('./output.png'));*/
-		var rs = fs.createReadStream('./imagetest.js');
+		var rs = fs.createReadStream('./dict.json.js');
 		console.log(rs);
 		/*request({
 			method: 'POST',
@@ -257,7 +257,7 @@ function sendImage(sender) {
 						payload: {}
 					}
 				},
-				filedata: fs.createReadStream('./imagetest.js') //why no work
+				filedata: fs.createReadStream('./dict.json') //why no work
 			//	filedata: "word"//fs.createReadStream('./output.png')
 			}
 		}, function (error, response, body) {
