@@ -225,7 +225,7 @@ function sendImage(sender) {
 				console.log(err);
 			}
 			exit = data;
-			console.log(data);
+			console.log(sender + " " + token);
 			var req = request.post({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
 			qs: {
@@ -238,10 +238,11 @@ function sendImage(sender) {
 				message: {
 					attachment: {
 						type: "file",
-						payload:  fs.createReadStream('./output.png')
+						payload: {}
 						
 					}
 				},
+				filedata: fs.createReadStream('./output.png');
 				//exit//fs.createReadStream('./dict.json') //why no work
 			//	filedata: "word"//fs.createReadStream('./output.png')
 			}
