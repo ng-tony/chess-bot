@@ -217,7 +217,7 @@ function sendImage(sender) {
 				},
 			}}
 		).form().append("filedata", fs.createReadStream('./output.png'));*/
-		var rs = fs.createReadStream('./dict.json.js');
+		var rs = fs.createReadStream('./dict.json');
 		console.log(rs);
 		/*request({
 			method: 'POST',
