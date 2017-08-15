@@ -222,7 +222,30 @@ function sendImage(sender) {
 			rs.close();
 			console.log(rs);
 		});
-		request.post({
+		request({
+			method: 'POST',
+			json: true,
+			formData: {
+				recipient: {
+					id: sender
+				},
+				message: {
+					attachment: {
+						type: "image",
+						payload: {}
+					}
+				},
+				filedata: fs.createReadStream('./output.png') //why no work
+			},
+			uri: 'https://graph.facebook.com/v2.6/me/messages?access_token=' + token
+		}, function (error, response, body) {
+			if (error) {
+				console.log('Error sending messages: ', error)
+			} else if (response.body.error) {
+				console.log('Error: ', response.body.error)
+			}
+		})
+		/*request.post({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
 			qs: {
 				access_token: token
@@ -246,7 +269,7 @@ function sendImage(sender) {
 			} else if (response.body.error) {
 				console.log('Error: ', response.body.error)
 			}
-		});
+		});*/
 	});/*
 		request({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
