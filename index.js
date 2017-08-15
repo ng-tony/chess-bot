@@ -217,7 +217,7 @@ function sendImage(sender) {
 				},
 			}}
 		).form().append("filedata", fs.createReadStream('./output.png'));*/
-		var rs = fs.createReadStream('./output.png');
+		var rs = fs.createReadStream('./output12.png');
 		console.log(rs);
 		/*request({
 			method: 'POST',
@@ -267,12 +267,6 @@ function sendImage(sender) {
 				console.log('Error: ', response.body.error)
 			}
 		});
-		fs.createReadStream('./output.png').pipe(req);
-		req.then(data => {
-			console.log(data);
-		}).catch(err => {
-			console.log(err);
-		})
 	});/*
 		request({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
