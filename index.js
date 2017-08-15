@@ -218,11 +218,7 @@ function sendImage(sender) {
 			}}
 		).form().append("filedata", fs.createReadStream('./output.png'));*/
 		var rs = fs.createReadStream('./output.png');
-		rs.on('end', function() {
-			rs.close();
-			console.log(rs);
-		});
-		request({
+		/*request({
 			method: 'POST',
 			json: true,
 			formData: {
@@ -244,8 +240,8 @@ function sendImage(sender) {
 			} else if (response.body.error) {
 				console.log('Error: ', response.body.error)
 			}
-		})
-		/*request.post({
+		})*/
+		var req = request.post({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
 			qs: {
 				access_token: token
@@ -260,7 +256,7 @@ function sendImage(sender) {
 						payload: {}
 					}
 				},
-				filedata: fs.createReadStream('./output.png') //why no work
+				//filedata: fs.createReadStream('./output.png') //why no work
 			//	filedata: "word"//fs.createReadStream('./output.png')
 			}
 		}, function (error, response, body) {
@@ -269,7 +265,13 @@ function sendImage(sender) {
 			} else if (response.body.error) {
 				console.log('Error: ', response.body.error)
 			}
-		});*/
+		});
+		fs.createReadStream('./output.png').pipe(req);
+		req.then(data => {
+			console.log(data);
+		}).catch(err => {
+			console.log(err);
+		})
 	});/*
 		request({
 			url: 'https://graph.facebook.com/v2.6/me/messages',
