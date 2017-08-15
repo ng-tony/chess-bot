@@ -4,6 +4,21 @@ var Jimp = require('jimp');
 module.exports.createTestImage = function(){
 	return new Promise(function (resolve, reject){
 		console.log("Entering create Test Image");
+		var image = new Jimp(1024, 1024, function (err, image){
+			//idk if i need this call back;
+			image.getBuffer(Jimp.MIME_PNG, function(err, thing){
+				console.log("err: "+err);
+				console.log(thing);
+				resolve(thing);
+			})
+		});
+	})
+}
+
+module.exports.createImage = function(board){
+	//do some shit with board
+	return new Promise(function (resolve, reject){
+		console.log("Entering create Test Image");
 		var image = new Jimp(256, 256, function (err, image){
 			//idk if i need this call back;
 			image.getBuffer(Jimp.MIME_PNG, function(err, thing){
@@ -12,16 +27,6 @@ module.exports.createTestImage = function(){
 				resolve(thing);
 			})
 		});
-		/*console.log("TEST IMAGE: " + image.getExtension());
-		image.write("./output.png", function (err, cb){
-			if (err){
-				console.log("Writing err " + err);
-				reject("Writing err "+ err);
-			}
-			console.log("inside cb");
-			console.log(cb);
-			resolve();
-		});*/
 	})
 }
 
