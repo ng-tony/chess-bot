@@ -1,6 +1,7 @@
 // Require library 
 var Jimp = require('jimp');
-var baseImage = (function(){
+var baseImage;
+(function(){
 	return new Promise(function (resolve, reject){
 		Jimp.read("base_board.png").then(function(image){
 			console.log(image);
@@ -11,7 +12,7 @@ var baseImage = (function(){
 		})
 	})
 })().then(function(image){
-	return image;
+	baseImage = image;
 }).catch(function(err){
 	console.log("ERROR LOADING BASE IMAGE: " + err);
 });
