@@ -133,8 +133,13 @@ function messageHandler(sender, text){
 			sendTestImage(sender);
 			break;
 		case "move":
-			getMoverInfo(sender).then(function(value){
-			    console.log(value);
+			getMoverInfo(sender).then(function(moverInfo){
+			    console.log(moverInfo);
+			    var color = (moverInfo.turnNum % 2 === 0) ? "w" : "b";
+			    var checkStatus = (color === "w") ? moverInfo.isCheckWhite : moverInfo.isCheckBlack;
+			    //(start)letter number,(destination) letter Number, 
+			    var movePhrase = textSplit[1];
+			    console.log(chess.isValid(movePhrase, color, checkStatus, moverInfo.board));
 			});
 			break;
 		case "resign":
@@ -159,7 +164,8 @@ function initGame(sender, gameCode){
 					"board": chess.initBoard(),
 					"gameCode": gameCode,
 					"turnNum": 0,
-					"isCheck": false,
+					"isCheckBlack": false,
+					"isCheckWhite": false,
 					"drawOffered": false,
 					"movePiece": 0,
 					"moveLocationX": 0,
