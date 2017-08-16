@@ -133,7 +133,7 @@ function messageHandler(sender, text){
 			sendTestImage(sender);
 			break;
 		case "move":
-			getMoverInfo.then(function(value){
+			getMoverInfo(sender).then(function(value){
 			    console.log(value);
 			});
 			break;
