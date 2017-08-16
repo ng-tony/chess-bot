@@ -214,7 +214,6 @@ var self = module.exports = {
 		var destX = getCoord(movePhrase.charAt(2));
 		var destY = getCoord(movePhrase.charAt(3));
 		var piece = getPiece(startX, startY, board);
-		console.log("$(startY) $(startX) $(board[startY][startX])");
 		var pieceColor = getColor(startX, startY, board);
 	
 		return {"startX": startX,
@@ -349,8 +348,10 @@ var self = module.exports = {
 	//move phrase is [PIECE][START][DEST]
 	isValidMove: function(movePhrase, color, checkStatus, board){
 		var isValid = false;
+		console.log("BEFORE GET MOVE INFO");
 		var moveInfo = self.getMoveInfo(movePhrase);
-	
+		console.log("AFTER GET MOVE INFO");
+
 		var startX = moveInfo["startX"];
 		var startY = moveInfo["startY"];
 		var destX = moveInfo["destX"];
