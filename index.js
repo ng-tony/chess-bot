@@ -133,7 +133,9 @@ function messageHandler(sender, text){
 			sendTestImage(sender);
 			break;
 		case "move":
-			textSplit[1]
+			getMoverInfo.then(function(value){
+			    console.log(value);
+			});
 			break;
 		case "resign":
 			break;
@@ -167,6 +169,23 @@ function initGame(sender, gameCode){
 			console.log("NEW GAME ADDED! CHALLENGER:" + sender.toString);
 			db.close();
 		})
+	});
+}
+
+function getMoverInfo(sender){
+	return new Promise((resolve, reject) => {
+		MongoClient.connect(mongoURI, function (err, db) {
+			if(err){
+				console.log("Opening GameDB getMoverInfo: ", err);
+				reject('getMoverInfo: games db not opening')
+			}
+			else {
+				var collection = db.collection('games');
+				var moverInfo = collection.findOne({$or: [{white: sender}, {black: sender}]});
+				console.log(moverInfo);
+				resolve(moverInfo);
+			}
+		});
 	});
 }
 
