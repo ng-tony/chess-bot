@@ -12,7 +12,8 @@ function getCoord(val){
 	};
 
 	//check for bad coords
-	if(convert[val] !== undefined){
+	// tolowercase will not do anything to numbers
+	if(convert[val.toLowerCase()] !== undefined){
 		return convert[val];
 	}else{
 		throw new Error('invalid string to convert to coordinate');
