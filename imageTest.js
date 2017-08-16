@@ -30,6 +30,7 @@ module.exports.createImage = function(board){
 	//do some shit with board
 	return new Promise(function (resolve, reject){
 		console.log("Entering create Test Image");
+		console.log(baseImage);
 		var image = baseImage.clone();
 		return image.getBuffer(Jimp.MIME_PNG, function(err, thing){
 			console.log("err: " + err);
