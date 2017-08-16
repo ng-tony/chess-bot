@@ -214,6 +214,7 @@ var self = module.exports = {
 		var destX = getCoord(movePhrase.charAt(2));
 		var destY = getCoord(movePhrase.charAt(3));
 		var piece = getPiece(startX, startY, board);
+		console.log("$(startY) $(startX) $(board[startY][startX])");
 		var pieceColor = getColor(startX, startY, board);
 	
 		return {"startX": startX,
