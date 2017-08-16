@@ -182,7 +182,11 @@ function getMoverInfo(sender){
 			else {
 				var collection = db.collection('games');
 				var moverInfo = collection.findOne({$or: [{white: sender}, {black: sender}]});
-				resolve(moverInfo);
+				if(moverInfo !== undefined){
+					resolve(moverInfo);
+				}else{
+					reject('getMoverInfo: Game not found');
+				}
 			}
 		});
 	});
