@@ -135,7 +135,11 @@ function messageHandler(sender, text){
 		case "move":
 			getMoverInfo(sender).then(function(moverInfo){
 			    console.log(moverInfo);
-			    
+			    var color = (moverInfo.turnNum % 2 === 0) ? "w" : "b";
+			    var checkStatus = (color === "w") ? moverInfo.isCheckWhite : moverInfo.isCheckBlack;
+			    //(start)letter number,(destination) letter Number, 
+			    var movePhrase = textSplit[1];
+			    console.log(chess.isValid(movePhrase, color, checkStatus, moverInfo.board));
 			});
 			break;
 		case "resign":
