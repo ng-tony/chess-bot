@@ -30,20 +30,12 @@ function getColor(x, y, board){
 	}
 }
 
-function getColor(piece){
-	return piece.charAt(0);
-}
-
 function getPiece(x, y, board){
 	if(x > 7 || x < 0 || y > 7 || y < 0){
 		throw new Error('trying to get piece type of something out of bounds');
 	}else{
 		return board[y][x].charAt(1);
 	}
-}
-
-function getPiece(piece){
-	return piece.charAt(1);
 }
 
 function isInBoard(coord){
