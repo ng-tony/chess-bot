@@ -216,6 +216,7 @@ var self = module.exports = {
 		console.log("BEFORE GET PIECE");
 		console.log(typeof startY + " " + startY);
 		console.log(typeof startX + " " + startX);
+		console.log(typeof board + " " + board[startY][startX]);
 		var piece = getPiece(startX, startY, board);
 		console.log("AFTER GET PIECE");
 		var pieceColor = getColor(startX, startY, board);
