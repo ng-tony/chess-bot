@@ -182,7 +182,6 @@ function getMoverInfo(sender){
 			else {
 				var collection = db.collection('games');
 				var moverInfo = collection.findOne({$or: [{white: sender}, {black: sender}]});
-				console.log(moverInfo);
 				resolve(moverInfo);
 			}
 		});
