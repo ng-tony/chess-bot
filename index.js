@@ -5,7 +5,7 @@ var MongoClient = require('mongodb').MongoClient,
 	gameCode = require('./gameCode'),
 	chess = require('./chess'),
 	fs = require('fs'),
-	imageTest = require('./imageTest.js');
+	imageGenerator = require('./imageGenerator.js');
 const express = require('express'),
 	bodyParser = require('body-parser'),
 	request = require('request'),
@@ -130,7 +130,7 @@ function messageHandler(sender, text){
 			}
 			break;
 		case "test":
-			sendImage(sender);
+			sendTestImage(sender);
 			break;
 		case "move":
 			textSplit[1]
@@ -194,43 +194,34 @@ function sendTextMessage(sender, text) {
 		}
 	})
 }
+//TODO better error handling? 
+function sendImage(sender, image, filename){
+	var r = request.post({
+		url:'https://graph.facebook.com/v2.6/me/messages?',
+		qs:{access_token: token}
+	},
+	function (error, response, body) {
+		if (error) {
+			console.log('Error sending Image: ', error);
+		} else if (response.body.error) {
+			console.log('Error sending Image: ', response.body.error);
+		}
+	});
+	var form = r.form();
+	form.append('recipient', '{"id":"' + sender + '"}');
+	form.append('message', '{"attachment":{"type":"image", "payload":{}}}');
+	form.append('filedata', image, { "filename": filename });
+}
 
-function sendImage(sender) {
-	imageTest.createImage("danny i need a board duh").then(function (image) {
-		var r = request.post('https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function (error, response, body) {
-			if (error) {
-				console.log('Error sending message: ', error)
-			} else if (response.body.error) {
-				console.log('Error: ', response.body.error)
-			}
-		});
-		console.log(image);
-		var form = r.form();
-		form.append('recipient', '{"id":"' + sender + '"}');
-		form.append('message', '{"attachment":{"type":"image", "payload":{}}}');
-		form.append('filedata', image, { filename: "board.png" });
-	})
-	/*imageTest.createTestImage().then(function (image){
-		fs.readFile("./dict.json", function(err, data){
-			if (err) {
-				console.log(err);
-			}
-			var r = request.post('https://graph.facebook.com/v2.6/me/messages?access_token=' + token, function (error, response, body) {
-				if (error) {
-					console.log('Error sending message: ', error)
-				} else if (response.body.error) {
-					console.log('Error: ', response.body.error)
-				}
-				console.log(body);
-			});
-			console.log(image);
-			var form = r.form();
-			form.append('recipient', '{"id":"' + sender + '"}');
-			form.append('message', '{"attachment":{"type":"image", "payload":{}}}');
-			form.append('filedata', image, {filename: "board.png"});
-		});
-	})*/
-	
+function sendBoard(sender, board){
+	imageGenerator.createImage(board);
+	sendImage(sender, image, filename);
+}
+
+function sendTestImage(sender) {
+	imageGenerator.createImage("danny i need a board duh").then(function (image) {
+		sendImage(sender, image, "test.png");
+	});
 }
 
 function sendHelp(sender){
