@@ -353,7 +353,7 @@ var self = module.exports = {
 	//move phrase is [PIECE][START][DEST]
 	isValidMove: function(movePhrase, color, checkStatus, board){
 		var isValid = false;
-		var moveInfo = self.getMoveInfo(movePhrase);
+		var moveInfo = self.getMoveInfo(movePhrase, board);
 
 		var startX = moveInfo["startX"];
 		var startY = moveInfo["startY"];
