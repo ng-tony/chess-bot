@@ -213,12 +213,7 @@ var self = module.exports = {
 		var startY = getCoord(movePhrase.charAt(1));
 		var destX = getCoord(movePhrase.charAt(2));
 		var destY = getCoord(movePhrase.charAt(3));
-		console.log("BEFORE GET PIECE");
-		console.log(typeof startY + " " + startY);
-		console.log(typeof startX + " " + startX);
-		console.log(typeof board + " " + board[startY][startX]);
 		var piece = getPiece(startX, startY, board);
-		console.log("AFTER GET PIECE");
 		var pieceColor = getColor(startX, startY, board);
 	
 		return {"startX": startX,
