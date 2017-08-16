@@ -356,13 +356,12 @@ var self = module.exports = {
 		var destY = moveInfo["destY"];
 		var piece = moveInfo["piece"];
 		var pieceColor = moveInfo["pieceColor"];
-		console.log("what 0");
 		//moving to same space
 		if(((startX === destX) && (startY === destY))
 		//moving piece of not own color
 		|| (pieceColor !== color)
 		//killing piece of own color
-		|| (getColor(board, destX, destY) === color)){
+		|| (getColor(destX, destY, board) === color)){
 			return false;
 		}
 		console.log("what 1");
