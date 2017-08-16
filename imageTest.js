@@ -10,7 +10,11 @@ var baseImage = (function(){
 			reject(err);
 		})
 	})
-})();
+})().then(function(image){
+	return image;
+}).catch(function(err){
+	console.log("ERROR LOADING BASE IMAGE: " + err);
+});
 
 module.exports.createTestImage = function(){
 	return new Promise(function (resolve, reject){
