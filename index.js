@@ -139,7 +139,7 @@ function messageHandler(sender, text){
 			    var checkStatus = (color === "w") ? moverInfo.isCheckWhite : moverInfo.isCheckBlack;
 			    //(start)letter number,(destination) letter Number, 
 			    var movePhrase = textSplit[1];
-			    console.log(chess.isValid(movePhrase, color, checkStatus, moverInfo.board));
+			    console.log(chess.isValidMove(movePhrase, color, checkStatus, moverInfo.board));
 			});
 			break;
 		case "resign":
