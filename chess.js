@@ -349,7 +349,6 @@ var self = module.exports = {
 	isValidMove: function(movePhrase, color, checkStatus, board){
 		var isValid = false;
 		var moveInfo = self.getMoveInfo(movePhrase, board);
-		console.log("what -1");
 		var startX = moveInfo["startX"];
 		var startY = moveInfo["startY"];
 		var destX = moveInfo["destX"];
@@ -362,7 +361,7 @@ var self = module.exports = {
 		//moving piece of not own color
 		|| (pieceColor !== color)
 		//killing piece of own color
-		|| (getColor(destX, destY, board) === color)){
+		|| ((board[destY][destX] !== 0) && getColor(destX, destY, board) === color)){
 			return false;
 		}
 		console.log("what 1");
