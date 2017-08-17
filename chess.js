@@ -357,6 +357,7 @@ var self = module.exports = {
 		var piece = moveInfo["piece"];
 		var pieceColor = moveInfo["pieceColor"];
 		//moving to same space
+		console.log(destX + " "+ destY);
 		if(((startX === destX) && (startY === destY))
 		//moving piece of not own color
 		|| (pieceColor !== color)
