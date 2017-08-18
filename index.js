@@ -191,17 +191,13 @@ function getGameInfo(sender, movePhrase){
 			}
 			else {
 				var collection = db.collection('games');
-				var gameInfo = collection.findOne({$or: [{white: sender}, {black: sender}]}, function(err){
-					if(err){
-						reject(new Error("getGameInfo: cant' reach db"));
-					}else{
-						if(gameInfo !== undefined){
-							resolve({"sender": sender, "movePhrase": movePhrase, "gameInfo": gameInfo});
-						}else{
-							reject(new Error('getGameInfo: Game not found'));
-						}
-					}
-				});
+				var gameInfo = collection.findOne({$or: [{"white": sender}, {"black": sender}]});
+				if(gameInfo){
+					console.log(gameInfo);
+					resolve({"sender": sender, "movePhrase": movePhrase, "gameInfo": gameInfo});
+				}else{
+					reject(new Error('getGameInfo: Game not found'));
+				}
 			}
 		});
 	});
