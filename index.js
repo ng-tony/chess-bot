@@ -213,6 +213,7 @@ function moveIfValid(resolveObj){
 		var movePhrase = resolveObj["movePhrase"];
 		var gameInfo = resolveObj["gameInfo"];
 		
+		console.log(resolveObj);
 		console.log(gameInfo);
 		var board = gameInfo["board"].map(function(arr) {
 		    return arr.slice();
