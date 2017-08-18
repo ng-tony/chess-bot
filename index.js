@@ -247,7 +247,6 @@ function moveIfValid(resolveObj){
 
 function updateGame(resolveObj){
 	return new Promise((resolve, reject) => {
-		console.log(resolveObj);
 		var sender = resolveObj["sender"];
 		var isCheckWhite = resolveObj["isCheckWhite"];
 		var isCheckBlack = resolveObj["isCheckBlack"];
