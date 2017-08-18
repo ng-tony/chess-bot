@@ -107,7 +107,6 @@ function messageHandler(sender, text){
 			sendTextMessage(sender, "Hey!" + sender.toString());
 			break;
 		case "create":
-			sendTextMessage(sender, chess.initBoard().toString());
 			var newGameCode = gameCode.genCode();
 			console.log(newGameCode);
 			sendTextMessage(sender, newGameCode.toString());
@@ -133,13 +132,18 @@ function messageHandler(sender, text){
 			sendTestImage(sender);
 			break;
 		case "move":
-			getMoverInfo(sender).then(function(moverInfo){
-			    console.log(moverInfo);
-			    var color = (moverInfo.turnNum % 2 === 0) ? "w" : "b";
-			    var checkStatus = (color === "w") ? moverInfo.isCheckWhite : moverInfo.isCheckBlack;
-			    //(start)letter number,(destination) letter Number, 
-			    var movePhrase = textSplit[1];
-			    console.log(chess.isValidMove(movePhrase, color, checkStatus, moverInfo.board));
+			if(textSplit[1] === undefined){
+				sendTextMessage(sender, "Bad move phrase.");
+				break;
+			}
+			
+			getGameInfo(sender, textSplit[1])
+			//issue here where i need textsplit[1] and sender
+			.then(moveIfValid)
+			.then(updateGame)
+			.then(tellBothSides)
+			.catch(error => {
+			  console.log(error.message);
 			});
 			break;
 		case "resign":
@@ -178,23 +182,108 @@ function initGame(sender, gameCode){
 	});
 }
 
-function getMoverInfo(sender){
+function getGameInfo(sender, movePhrase){
 	return new Promise((resolve, reject) => {
 		MongoClient.connect(mongoURI, function (err, db) {
 			if(err){
 				console.log("Opening GameDB getMoverInfo: ", err);
-				reject('getMoverInfo: games db not opening')
+				reject('getGameInfo: games db not opening')
 			}
 			else {
 				var collection = db.collection('games');
-				var moverInfo = collection.findOne({$or: [{white: sender}, {black: sender}]});
-				if(moverInfo !== undefined){
-					resolve(moverInfo);
+				var gameInfo = collection.findOne({$or: [{white: sender}, {black: sender}]});
+				
+				if(gameInfo !== undefined){
+					resolve({"sender": sender, "movePhrase": movePhrase, "gameInfo": gameInfo});
 				}else{
-					reject('getMoverInfo: Game not found');
+					reject('getGameInfo: Game not found');
 				}
 			}
 		});
+	});
+}
+
+function moveIfValid(resolveObj){
+	return new Promise((resolve, reject) => {
+		var sender = resolveObj["sender"];
+		var movePhrase = resolveObj["movePhrase"];
+		var gameInfo = resolveObj["gameInfo"];
+		
+		var board = gameInfo.board.map(function(arr) {
+		    return arr.slice();
+		});
+	    var color = (gameInfo.turnNum % 2 === 0) ? "w" : "b";
+	    //(start)letter number,(destination) letter Number, 
+	    var moveInfo = chess.getMoveInfo(movePhrase);
+	    
+	    var isCheckWhite = gameInfo.isCheckWhite;
+	    var isCheckBlack = gameInfo.isCheckBlack;
+	    var checkStatus = (color === "w") ? isCheckWhite : isCheckBlack;
+	    
+	    //check if turn number and person moving is same person
+	    if(color === "w" && (gameInfo.white !== sender)
+	    || color === "b" && (gameInfo.black !== sender)){
+	    	sendTextMessage(sender, "It's not your turn.");
+	    	reject("not your turn");
+	    }
+	    
+	    if(chess.isValidMove(movePhrase, color, checkStatus, board)){
+	    	board[moveInfo.destY][moveInfo.destX] = moveInfo.pieceColor + moveInfo.piece;
+			board[moveInfo.startY][moveInfo.startX] = 0;
+			if(chess.isCheck("w", board)){
+				isCheckWhite = true;
+			}
+			if(chess.isCheck("b", board)){
+				isCheckBlack = true;
+			}
+			resolve({"sender": sender, "gameInfo": gameInfo, "isCheckWhite": isCheckWhite, "isCheckBlack": isCheckBlack, "board": board});
+	    }else{
+	    	sendTextMessage(sender, "That's an invalid move!");
+	    	reject("invalid move");
+	    }
+	});
+}
+
+function updateGame(resolveObj){
+	return new Promise((resolve, reject) => {
+		var sender = resolveObj["sender"];
+		var isCheckWhite = resolveObj["isCheckWhite"];
+		var isCheckBlack = resolveObj["isCheckBlack"];
+		var board = resolveObj["board"];
+		var gameInfo = resolveObj["gameInfo"];
+		MongoClient.connect(mongoURI, function (err, db) {
+			if (err) {
+				reject("Opening GameDB updateGame: ", err);
+			}
+			else {
+				var collection = db.collection('games');
+
+				gameInfo.isCheckWhite = isCheckWhite;
+				gameInfo.isCheckBlack = isCheckBlack;
+				gameInfo.board = board;
+				
+				collection.updateOne({$or: [{white: sender}, {black: sender}]}, gameInfo, function(err, res){
+					if(err){
+						reject("updateGame: can't write to db");
+						return;
+					}
+					resolve(resolveObj);
+				});
+			}
+		});
+	});
+}
+
+function tellBothSides(resolveObj){
+	return new Promise((resolve, reject) =>{
+		var mover = (resolveObj["gameInfo"].turnNum % 2 === 0) ? "White" : "Black";
+		var movePhrase = resolveObj["movePhrase"];
+		var isCheckPhrase = "";
+		isCheckPhrase += (resolveObj["isCheckWhite"]) ? "White is in Check.\n" : "";
+		isCheckPhrase += (resolveObj["isCheckBlack"]) ? "Black is in Check.\n" : "";
+		
+		sendTextMessage(resolveObj["sender"], 
+						mover + " move: " + movePhrase + " " + isCheckPhrase);
 	});
 }
 
