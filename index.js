@@ -212,6 +212,8 @@ function moveIfValid(resolveObj){
 		var board = gameInfo["board"].map(function(arr) {
 		    return arr.slice();
 		});
+		
+		console.log(board);
 	    var color = (gameInfo.turnNum % 2 === 0) ? "w" : "b";
 	    //(start)letter number,(destination) letter Number, 
 	    var moveInfo = chess.getMoveInfo(movePhrase);
