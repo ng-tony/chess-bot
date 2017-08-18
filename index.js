@@ -229,8 +229,8 @@ function moveIfValid(resolveObj){
 	    }
 
 	    if(chess.isValidMove(movePhrase, color, checkStatus, board)){
-	    	board[moveInfo.destY][moveInfo.destX] = moveInfo.pieceColor + moveInfo.piece;
-			board[moveInfo.startY][moveInfo.startX] = 0;
+	    	board[moveInfo["destY"]][moveInfo["destX"]] = moveInfo.pieceColor + moveInfo.piece;
+			board[moveInfo["startY"]][moveInfo["startX"]] = 0;
 			if(chess.isCheck("w", board)){
 				isCheckWhite = true;
 			}

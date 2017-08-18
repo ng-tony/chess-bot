@@ -390,7 +390,6 @@ var self = module.exports = {
 			var afterBoard = board.map(function(arr) {
 			    return arr.slice();
 			});
-			console.log("move that crap");
 			afterBoard[startY][startX] = 0
 			afterBoard[destY][destX] = piece;
 			if(self.isCheck(color, afterBoard)){
