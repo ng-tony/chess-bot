@@ -239,6 +239,7 @@ var self = module.exports = {
 				for(var x = 0; x < 8; x++){
 					if(board[y][x] === ownKing){
 						ownKingCoords = [x, y];
+						break;
 					}
 				}
 			}
@@ -257,13 +258,11 @@ var self = module.exports = {
 							[-2, -1], [-2, 1], [2, -1], [2, 1]];
 	
 			for(var i = 0; i < dirArray.length; i++){
-				for(var n = 0; n < 2; n++){
-					/**if both coordinates are in the board and they are knights
-					then the king is in check**/
-					if(isInBoard(ownKingY+dirArray[i][n]) && isInBoard(ownKingX+dirArray[i][n])){
-						if(board[ownKingY+dirArray[i][n]][ownKingX+dirArray[i][n]] === oppositeColor+"N"){
-							return true;
-						}
+				/**if both coordinates are in the board and they are knights
+				then the king is in check**/
+				if(isInBoard(ownKingY+dirArray[i][0]) && isInBoard(ownKingX+dirArray[i][1])){
+					if(board[ownKingY+dirArray[i][0]][ownKingX+dirArray[i][1]] === oppositeColor+"N"){
+						return true;
 					}
 				}
 			}
@@ -278,11 +277,9 @@ var self = module.exports = {
 							[1, -1], [-1, 1], [1, 1], [-1, -1]];
 	
 			for(var i = 0; i < 8; i++){
-				for(var n = 0; n < 2; n++){
-					if(isInBoard(ownKingY+dirArray[i][n]) && isInBoard(ownKingX+dirArray[i][n])){
-						if(board[ownKingY+dirArray[i][n]][ownKingX+dirArray[i][n]] === oppositeColor+"K"){
-							return true;
-						}
+				if(isInBoard(ownKingY+dirArray[i][0]) && isInBoard(ownKingX+dirArray[i][1])){
+					if(board[ownKingY+dirArray[i][0]][ownKingX+dirArray[i][1]] === oppositeColor+"K"){
+						return true;
 					}
 				}
 			}
@@ -331,7 +328,6 @@ var self = module.exports = {
 		//check if opponent king can kill king from this position
 			return true;
 		}
-		console.log("where does this stop");
 
 		return false;
 	
