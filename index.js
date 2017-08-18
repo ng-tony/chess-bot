@@ -231,13 +231,13 @@ function moveIfValid(resolveObj){
 	    if(chess.isValidMove(movePhrase, color, checkStatus, board)){
 	    	board[moveInfo["destY"]][moveInfo["destX"]] = moveInfo.pieceColor + moveInfo.piece;
 			board[moveInfo["startY"]][moveInfo["startX"]] = 0;
-			console.log("where does this stop");
 			if(chess.isCheck("w", board)){
 				isCheckWhite = true;
 			}
 			if(chess.isCheck("b", board)){
 				isCheckBlack = true;
 			}
+			console.log("where does this stop");
 			resolve({"sender": sender, "gameInfo": gameInfo, "isCheckWhite": isCheckWhite, "isCheckBlack": isCheckBlack, "board": board});
 	    }else{
 	    	sendTextMessage(sender, "That's an invalid move!");
