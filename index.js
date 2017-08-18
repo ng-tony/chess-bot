@@ -191,13 +191,13 @@ function getGameInfo(sender, movePhrase){
 			}
 			else {
 				var collection = db.collection('games');
-				var gameInfo = collection.findOne({$or: [{"white": sender}, {"black": sender}]});
-				if(gameInfo){
+				collection.findOne({$or: [{"white": sender}, {"black": sender}]})
+				.then(function(gameInfo){
 					console.log(gameInfo);
 					resolve({"sender": sender, "movePhrase": movePhrase, "gameInfo": gameInfo});
-				}else{
-					reject(new Error('getGameInfo: Game not found'));
-				}
+				}).catch(function(){
+					reject(new Error('getGameinfo: Game not found'));
+				});
 			}
 		});
 	});
