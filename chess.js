@@ -348,6 +348,8 @@ var self = module.exports = {
 	//move phrase is [PIECE][START][DEST]
 	isValidMove: function(movePhrase, color, checkStatus, board){
 		var isValid = false;
+				console.log(board);
+
 		var moveInfo = self.getMoveInfo(movePhrase, board);
 		var startX = moveInfo["startX"];
 		var startY = moveInfo["startY"];
@@ -356,7 +358,6 @@ var self = module.exports = {
 		var piece = moveInfo["piece"];
 		var pieceColor = moveInfo["pieceColor"];
 		
-		console.log(board);gq
 		//moving to same space
 		if(((startX === destX) && (startY === destY))
 		//moving piece of not own color
