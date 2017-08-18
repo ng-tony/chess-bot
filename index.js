@@ -227,7 +227,7 @@ function moveIfValid(resolveObj){
 	    	sendTextMessage(sender, "It's not your turn.");
 	    	reject(new Error("not your turn"));
 	    }
-
+		console.log(moveInfo["destY"] + " " + moveInfo["destX"]);
 	    if(chess.isValidMove(movePhrase, color, checkStatus, board)){
 	    	board[moveInfo["destY"]][moveInfo["destX"]] = moveInfo.pieceColor + moveInfo.piece;
 			board[moveInfo["startY"]][moveInfo["startX"]] = 0;
