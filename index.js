@@ -191,13 +191,17 @@ function getGameInfo(sender, movePhrase){
 			}
 			else {
 				var collection = db.collection('games');
-				var gameInfo = collection.findOne({$or: [{white: sender}, {black: sender}]});
-				
-				if(gameInfo !== undefined){
-					resolve({"sender": sender, "movePhrase": movePhrase, "gameInfo": gameInfo});
-				}else{
-					reject('getGameInfo: Game not found');
-				}
+				var gameInfo = collection.findOne({$or: [{white: sender}, {black: sender}]}, function(err){
+					if(err){
+						reject("getGameInfo: cant' reach db");
+					}else{
+						if(gameInfo !== undefined){
+							resolve({"sender": sender, "movePhrase": movePhrase, "gameInfo": gameInfo});
+						}else{
+							reject('getGameInfo: Game not found');
+						}
+					}
+				});
 			}
 		});
 	});
@@ -267,8 +271,9 @@ function updateGame(resolveObj){
 					if(err){
 						reject("updateGame: can't write to db");
 						return;
+					}else{
+						resolve(resolveObj);
 					}
-					resolve(resolveObj);
 				});
 			}
 		});
