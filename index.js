@@ -187,18 +187,18 @@ function getGameInfo(sender, movePhrase){
 		MongoClient.connect(mongoURI, function (err, db) {
 			if(err){
 				console.log("Opening GameDB getMoverInfo: ", err);
-				reject('getGameInfo: games db not opening')
+				reject(new Error('getGameInfo: games db not opening'));
 			}
 			else {
 				var collection = db.collection('games');
 				var gameInfo = collection.findOne({$or: [{white: sender}, {black: sender}]}, function(err){
 					if(err){
-						reject("getGameInfo: cant' reach db");
+						reject(new Error("getGameInfo: cant' reach db"));
 					}else{
 						if(gameInfo !== undefined){
 							resolve({"sender": sender, "movePhrase": movePhrase, "gameInfo": gameInfo});
 						}else{
-							reject('getGameInfo: Game not found');
+							reject(new Error('getGameInfo: Game not found'));
 						}
 					}
 				});
@@ -213,8 +213,6 @@ function moveIfValid(resolveObj){
 		var movePhrase = resolveObj["movePhrase"];
 		var gameInfo = resolveObj["gameInfo"];
 		
-		console.log(resolveObj);
-		console.log(gameInfo);
 		var board = gameInfo["board"].map(function(arr) {
 		    return arr.slice();
 		});
@@ -230,7 +228,7 @@ function moveIfValid(resolveObj){
 	    if(color === "w" && (gameInfo.white !== sender)
 	    || color === "b" && (gameInfo.black !== sender)){
 	    	sendTextMessage(sender, "It's not your turn.");
-	    	reject("not your turn");
+	    	reject(new Error("not your turn"));
 	    }
 	    
 	    if(chess.isValidMove(movePhrase, color, checkStatus, board)){
@@ -245,7 +243,7 @@ function moveIfValid(resolveObj){
 			resolve({"sender": sender, "gameInfo": gameInfo, "isCheckWhite": isCheckWhite, "isCheckBlack": isCheckBlack, "board": board});
 	    }else{
 	    	sendTextMessage(sender, "That's an invalid move!");
-	    	reject("invalid move");
+	    	reject(new Error("invalid move"));
 	    }
 	});
 }
@@ -259,7 +257,7 @@ function updateGame(resolveObj){
 		var gameInfo = resolveObj["gameInfo"];
 		MongoClient.connect(mongoURI, function (err, db) {
 			if (err) {
-				reject("Opening GameDB updateGame: ", err);
+				reject(new Error("Opening GameDB updateGame: " + err));
 			}
 			else {
 				var collection = db.collection('games');
@@ -270,7 +268,7 @@ function updateGame(resolveObj){
 				
 				collection.updateOne({$or: [{white: sender}, {black: sender}]}, gameInfo, function(err, res){
 					if(err){
-						reject("updateGame: can't write to db");
+						reject(new Error("updateGame: can't write to db"));
 						return;
 					}else{
 						resolve(resolveObj);
