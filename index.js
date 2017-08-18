@@ -217,7 +217,6 @@ function moveIfValid(resolveObj){
 	    var color = (gameInfo.turnNum % 2 === 0) ? "w" : "b";
 	    //(start)letter number,(destination) letter Number, 
 	    var moveInfo = chess.getMoveInfo(movePhrase, board);
-		console.log("where does this stop");
 	    
 	    var isCheckWhite = gameInfo.isCheckWhite;
 	    var isCheckBlack = gameInfo.isCheckBlack;
@@ -230,6 +229,7 @@ function moveIfValid(resolveObj){
 	    	reject(new Error("not your turn"));
 	    }
 	    if(chess.isValidMove(movePhrase, color, checkStatus, board)){
+			console.log("where does this stop");
 	    	board[moveInfo["destY"]][moveInfo["destX"]] = moveInfo.pieceColor + moveInfo.piece;
 			board[moveInfo["startY"]][moveInfo["startX"]] = 0;
 			if(chess.isCheck("w", board)){
