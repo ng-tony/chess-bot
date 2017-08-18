@@ -331,7 +331,8 @@ var self = module.exports = {
 		//check if opponent king can kill king from this position
 			return true;
 		}
-	
+		console.log("where does this stop");
+
 		return false;
 	
 	},
