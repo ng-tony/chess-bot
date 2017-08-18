@@ -110,7 +110,7 @@ function findNextPiece(adjustX, adjustY, startX, startY, board){
 
 
 function pawn(color, startX, startY, destX, destY, board){
-	console.log("${color} ${startX} ${startY} ${destX} ${destY}");
+	console.log(color + " " + startX + " " + startY + " " + destX + " " + destY);
 	if(color === "w"){
 		//move forward 1
 		if(destY - startY === 1){
