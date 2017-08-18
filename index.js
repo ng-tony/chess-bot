@@ -209,7 +209,7 @@ function moveIfValid(resolveObj){
 		var movePhrase = resolveObj["movePhrase"];
 		var gameInfo = resolveObj["gameInfo"];
 		
-		var board = gameInfo.board.map(function(arr) {
+		var board = gameInfo["board"].map(function(arr) {
 		    return arr.slice();
 		});
 	    var color = (gameInfo.turnNum % 2 === 0) ? "w" : "b";
