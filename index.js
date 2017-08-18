@@ -205,7 +205,6 @@ function getGameInfo(sender, movePhrase){
 
 function moveIfValid(resolveObj){
 	return new Promise((resolve, reject) => {
-				console.log("where does this stop");
 
 		var sender = resolveObj["sender"];
 		var movePhrase = resolveObj["movePhrase"];
@@ -215,6 +214,7 @@ function moveIfValid(resolveObj){
 		    return arr.slice();
 		});
 		
+		console.log("where does this stop");
 	    var color = (gameInfo.turnNum % 2 === 0) ? "w" : "b";
 	    //(start)letter number,(destination) letter Number, 
 	    var moveInfo = chess.getMoveInfo(movePhrase, board);
