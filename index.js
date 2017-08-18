@@ -213,7 +213,6 @@ function moveIfValid(resolveObj){
 		    return arr.slice();
 		});
 		
-		console.log(board[6][0]);
 	    var color = (gameInfo.turnNum % 2 === 0) ? "w" : "b";
 	    //(start)letter number,(destination) letter Number, 
 	    var moveInfo = chess.getMoveInfo(movePhrase);
@@ -248,6 +247,7 @@ function moveIfValid(resolveObj){
 
 function updateGame(resolveObj){
 	return new Promise((resolve, reject) => {
+		console.log(resolveObj);
 		var sender = resolveObj["sender"];
 		var isCheckWhite = resolveObj["isCheckWhite"];
 		var isCheckBlack = resolveObj["isCheckBlack"];
