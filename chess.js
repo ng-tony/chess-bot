@@ -367,6 +367,7 @@ var self = module.exports = {
 		switch(piece){
 			case "P":
 				isValid = pawn(color, startX, startY, destX, destY, board);
+				console.log(isValid);
 				break;
 			case "R":
 				isValid = rook(startX, startY, destX, destY, board);
