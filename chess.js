@@ -110,7 +110,6 @@ function findNextPiece(adjustX, adjustY, startX, startY, board){
 
 
 function pawn(color, startX, startY, destX, destY, board){
-	console.log(color + " " + startX + " " + startY + " " + destX + " " + destY);
 	if(color === "w"){
 		//move forward 1
 		if(destY - startY === -1){
@@ -368,7 +367,6 @@ var self = module.exports = {
 		switch(piece){
 			case "P":
 				isValid = pawn(color, startX, startY, destX, destY, board);
-				console.log(isValid);
 				break;
 			case "R":
 				isValid = rook(startX, startY, destX, destY, board);
@@ -387,13 +385,12 @@ var self = module.exports = {
 				break;
 		}
 		
-		console.log(isValid);
-		
 		//if the move is valid but mover's king is in check before move
 		if(isValid && checkStatus){
 			var afterBoard = board.map(function(arr) {
 			    return arr.slice();
 			});
+			console.log("move that crap");
 			afterBoard[startY][startX] = 0
 			afterBoard[destY][destX] = piece;
 			if(self.isCheck(color, afterBoard)){
