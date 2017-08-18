@@ -113,7 +113,7 @@ function pawn(color, startX, startY, destX, destY, board){
 	console.log(color + " " + startX + " " + startY + " " + destX + " " + destY);
 	if(color === "w"){
 		//move forward 1
-		if(destY - startY === 1){
+		if(destY - startY === -1){
 			//moving diagonal 1, so killing a piece
 			if((Math.abs(destX - startX) === 1)
 			||(destX === startX && board[destY][destX] === 0)){
@@ -128,7 +128,7 @@ function pawn(color, startX, startY, destX, destY, board){
 		also, can move two if start at y === 1
 	*/
 	}else if(color === "b"){
-		if(destY - startY === -1){
+		if(destY - startY === 1){
 			if((Math.abs(destX - startX) === 1)
 			||(destX === startX && board[destY][destX] === 0)){
 				return true;
