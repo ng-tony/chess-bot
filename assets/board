@@ -1,8 +1,8 @@
 magick -size 1024x1024 canvas:white \
 -stroke "#000000" \
--fill "#FFCE9E" \
+-fill "#D18B47" \
 -draw "rectangle 72,72 952,952" \
--fill "#FFFFFF" \
+-fill "#FFCE9E" \
 -draw "rectangle 72,72 182,182" \
 -draw "rectangle 72,292 182,402" \
 -draw "rectangle 72,512 182,622" \
@@ -52,4 +52,4 @@ magick -size 1024x1024 canvas:white \
 -draw "text 765,54 'G'" \
 -draw "text 18,921 '1'" \
 -draw "text 875,54 'H'" \
-board_test2.png 
+board_image.png

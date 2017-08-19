@@ -1,20 +1,23 @@
 // Require library 
 var Jimp = require('jimp');
 var baseImage;
-
+var pieces;
+var coords  = {
+	"wK": {x: 0,   y: 0}, "bK":{x: 0,   y: 110},
+	"wQ": {x: 110, y: 0}, "bQ":{x: 110, y: 110},
+	"wB": {x: 220, y: 0}, "bB":{x: 220, y: 110},
+	"wN": {x: 330, y: 0}, "bN":{x: 330, y: 110},
+	"wR": {x: 440, y: 0}, "bR":{x: 440, y: 110},
+	"wP": {x: 550, y: 0}, "bP":{x: 550, y: 110}
+}
 (function init(){
-	new Promise(function (resolve, reject){
-		Jimp.read("base_board.png").then(function(image){
-			console.log(image);
-			resolve(image);
-		}).catch(function(err){
-			console.log("ERROR LOADING BASE IMAGE: " + err);
-			reject(err);
-		})
-	}).then(function(image){
-		baseImage = image;
+	var baseImageP = Jimp.read("./assets/base_board.png");
+	var chessPieceP = Jimp.read("./assets/chess_pieces.png");
+	Promise.all([baseImageP, baseImageP]).then(function(values){
+		baseImage = values[0];
+		chessPieceP = values[1];
 	}).catch(function(err){
-		console.log("ERROR LOADING BASE IMAGE: " + err);
+		console.log("ERROR LOADING PICTURES: " + err);
 	});
 })();
 

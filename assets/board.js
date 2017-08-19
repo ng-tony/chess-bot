@@ -1,8 +1,8 @@
 console.log("magick -size 1024x1024 canvas:white \\");
 console.log("-stroke \"#000000\" \\");
-console.log("-fill \"#FFCE9E\" \\");
+console.log("-fill \"#D18B47\" \\");
 console.log("-draw \"rectangle 72,72 952,952\" \\");
-console.log("-fill \"#FFFFFF\" \\");
+console.log("-fill \"#FFCE9E\" \\");
 for(var i =  0; i < 8; i++){
     for (var t = 0; t < 8; t += 2){
         if(i % 2 == 0){
