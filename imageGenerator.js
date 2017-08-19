@@ -10,7 +10,6 @@ var coords = {
 	"wR": {x: 440, y: 0}, "bR":{x: 440, y: 110},
 	"wP": {x: 550, y: 0}, "bP":{x: 550, y: 110}
 }
-(function init(){
 	var baseImageP = Jimp.read("./assets/base_board.png");
 	var chessPieceP = Jimp.read("./assets/chess_pieces.png");
 	Promise.all([baseImageP, chessPieceP]).then(function(values){
@@ -19,8 +18,6 @@ var coords = {
 	}).catch(function(err){
 		console.log("ERROR LOADING PICTURES: " + err);
 	});
-})();
-
 module.exports.createTestImage = function(){
 	return new Promise(function (resolve, reject){
 		console.log("Entering create Test Image");
