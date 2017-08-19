@@ -2,7 +2,7 @@
 var Jimp = require('jimp');
 var baseImage;
 var pieces;
-var coords  = {
+var coords = {
 	"wK": {x: 0,   y: 0}, "bK":{x: 0,   y: 110},
 	"wQ": {x: 110, y: 0}, "bQ":{x: 110, y: 110},
 	"wB": {x: 220, y: 0}, "bB":{x: 220, y: 110},
@@ -13,9 +13,9 @@ var coords  = {
 (function init(){
 	var baseImageP = Jimp.read("./assets/base_board.png");
 	var chessPieceP = Jimp.read("./assets/chess_pieces.png");
-	Promise.all([baseImageP, baseImageP]).then(function(values){
+	Promise.all([baseImageP, chessPieceP]).then(function(values){
 		baseImage = values[0];
-		chessPieceP = values[1];
+		pieces = values[1];
 	}).catch(function(err){
 		console.log("ERROR LOADING PICTURES: " + err);
 	});
