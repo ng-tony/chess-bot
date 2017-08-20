@@ -288,8 +288,10 @@ function tellBothSides(resolveObj){
 		isCheckPhrase += (resolveObj["isCheckWhite"]) ? "White is in Check.\n" : "";
 		isCheckPhrase += (resolveObj["isCheckBlack"]) ? "Black is in Check.\n" : "";
 		
-		sendTextMessage(resolveObj["sender"], 
+		sendTextMessage(resolveObj.gameInfo["white"], 
 						mover + " move: " + movePhrase + " " + isCheckPhrase);
+		sendTextMessage(resolveObj.gameInfo["black"], 
+		mover + " move: " + movePhrase + " " + isCheckPhrase);
 	});
 }
 
