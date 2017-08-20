@@ -130,6 +130,11 @@ function messageHandler(sender, text){
 			break;
 		case "test":
 			sendTestImage(sender);
+			getBoard(sender);
+			var gameInfo;
+			getGameInfo(sender, "").then((gameinfo) => {
+				sendBoard(sender, gameinfo.gameinfo.board);
+			});
 			break;
 		case "move":
 			if(textSplit[1] === undefined){
@@ -205,7 +210,6 @@ function getGameInfo(sender, movePhrase){
 
 function moveIfValid(resolveObj){
 	return new Promise((resolve, reject) => {
-
 		var sender = resolveObj["sender"];
 		var movePhrase = resolveObj["movePhrase"];
 		var gameInfo = resolveObj["gameInfo"];
@@ -213,10 +217,9 @@ function moveIfValid(resolveObj){
 		var board = gameInfo["board"].map(function(arr) {
 		    return arr.slice();
 		});
-		
 	    var color = (gameInfo.turnNum % 2 === 0) ? "w" : "b";
 	    //(start)letter number,(destination) letter Number, 
-	    var moveInfo = chess.getMoveInfo(movePhrase, board);
+	    var moveInfo = chess.getMoveInfo(movePhrase);
 	    
 	    var isCheckWhite = gameInfo.isCheckWhite;
 	    var isCheckBlack = gameInfo.isCheckBlack;
@@ -228,16 +231,16 @@ function moveIfValid(resolveObj){
 	    	sendTextMessage(sender, "It's not your turn.");
 	    	reject(new Error("not your turn"));
 	    }
+	    
 	    if(chess.isValidMove(movePhrase, color, checkStatus, board)){
-	    	board[moveInfo["destY"]][moveInfo["destX"]] = moveInfo.pieceColor + moveInfo.piece;
-			board[moveInfo["startY"]][moveInfo["startX"]] = 0;
+	    	board[moveInfo.destY][moveInfo.destX] = moveInfo.pieceColor + moveInfo.piece;
+			board[moveInfo.startY][moveInfo.startX] = 0;
 			if(chess.isCheck("w", board)){
 				isCheckWhite = true;
 			}
 			if(chess.isCheck("b", board)){
 				isCheckBlack = true;
 			}
-			console.log("where does this stop");
 			resolve({"sender": sender, "gameInfo": gameInfo, "isCheckWhite": isCheckWhite, "isCheckBlack": isCheckBlack, "board": board});
 	    }else{
 	    	sendTextMessage(sender, "That's an invalid move!");
