@@ -36,10 +36,19 @@ module.exports.createTestImage = function(){
 
 module.exports.createImage = function(board){
 	return new Promise(function (resolve, reject){
-		console.log("Entering create Test Image");
+		console.log("Creating Image");
 		console.log(baseImage);
 		var image = baseImage.clone();
-		return image.getBuffer(Jimp.MIME_PNG, function(err, thing){
+		for (var i = 0; i < 8; i++){
+			for (var k = 0; k < 8; k++){
+				let el = board[i][k];
+				if(el != 0){
+					console.log(el);
+				}
+			}
+		}
+		image.
+		image.getBuffer(Jimp.MIME_PNG, function(err, thing){
 			if (err){
 				console.log("err: " + err);
 				reject(err);
