@@ -144,7 +144,6 @@ function messageHandler(sender, text){
 			}
 			getGame(sender).then((game) => { 
 				if(isValidMove(game, movePhrase, sender)){
-					console.log("done that?");
 					updateGame(game, movePhrase, sender).then((updatedGame) => {
 						messagePlayers(updatedGame, movePhrase);
 					}).catch(error => {
@@ -259,6 +258,8 @@ function isValidMove(game, movePhrase, sender){
 function updateGame(game, movePhrase, sender){
 	return new Promise((resolve, reject) => {
 		var move = chess.getMoveInfo(movePhrase, game.board);
+		console.log(game.board);
+		console.log(move);
 		game.turnNum++;
 		game.board[move.startY][move.startX] = 0;
 		game.board[move.destY][move.destX] = move.pieceColor + move.piece;
