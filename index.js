@@ -142,8 +142,8 @@ function messageHandler(sender, text){
 				sendTextMessage(sender, "Bad move phrase.");
 				break;
 			}
-			getGame(sender).then((game) => {
-				if(chess.isMoveValid(game.board, movePhrase)){
+			getGame(sender).then((game) => { 
+				if(isValidMove(game, game.movePhrase, sender)){
 					updateGame(game, movePhrase).then((updatedGame) => {
 						messagePlayers(updatedGame);
 					}).catch(error => {
