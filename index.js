@@ -132,6 +132,8 @@ function messageHandler(sender, text){
 			//sendTestImage(sender);
 			getGame(sender).then((game) => {
 				sendBoard(sender, game.board);
+			}).catch((err) => {
+				console.log("test", err);
 			});
 			break;
 		case "move":
@@ -329,8 +331,9 @@ function sendImage(sender, image, filename){
 }
 
 function sendBoard(sender, board){
-	imageGenerator.createImage(board);
-	sendImage(sender, image, filename);
+	imageGenerator.createImage(board).then((image) => {
+		sendImage(sender, image, "board.png");
+	});
 }
 
 function sendTestImage(sender) {
