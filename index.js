@@ -143,7 +143,7 @@ function messageHandler(sender, text){
 				break;
 			}
 			getGame(sender).then((game) => {
-				if(chess.isMoveValid(game.board, movePhrase)){
+				if(isValidMove(game.board, movePhrase, sender)){
 					updateGame(game, movePhrase).then((updatedGame) => {
 						messagePlayers(updatedGame);
 					}).catch(error => {
