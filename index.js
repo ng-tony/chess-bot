@@ -143,7 +143,7 @@ function messageHandler(sender, text){
 				break;
 			}
 			getGame(sender).then((game) => {
-				if(isMoveValid(game.board, movePhrase)){
+				if(chess.isMoveValid(game.board, movePhrase)){
 					updateGame(game, movePhrase).then((updatedGame) => {
 						messagePlayers(updatedGame);
 					}).catch(error => {
@@ -239,7 +239,7 @@ function getGameInfo(sender, movePhrase){
 }
 function isValidMove(game, movePhrase, sender){
 	var board = game.board;
-	var color = (gameInfo.turnNum % 2) ? "white" : "black";
+	var color = (game.turnNum % 2) ? "white" : "black";
 	var moveInfo = chess.getMoveInfo(movePhrase);
 	if (sender !== game[color]){
 		sendTextMessage(sender, "It's not your turn");
@@ -259,11 +259,11 @@ function updateGame(game, movePhrase){
 		game.turnNum++;
 		game.board[move.startY][move.startX] = 0;
 		game.board[move.destY][move.destX] = move.pieceColor + move.piece;
-		game.isCheck = chess.isCheck((gameInfo.turnNum % 2) ? "w" : "b", board);
+		game.isCheck = chess.isCheck((game.turnNum % 2) ? "w" : "b", game.board);
 		
 		MongoClient.connect(mongoURI).then((db) => {
 			var collection = db.collection('games');
-			collection.updateOne({ $or: [{ "white": sender }, { "black": sender }] }, game)
+			collection.updateOne({ $or: [{ "white": game.sender }, { "black": game.sender }] }, game)
 				.then(resolve())
 				.catch((err) => {
 					reject(err);
