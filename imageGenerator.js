@@ -1,4 +1,6 @@
 // Require library 
+const PIECE_SIZE_X = 110,
+	  PIECE_SIZE_Y = 110;
 var Jimp = require('jimp');
 var baseImage;
 var pieces;
@@ -43,6 +45,7 @@ module.exports.createImage = function(board){
 			for (var k = 0; k < 8; k++){
 				let el = board[i][k];
 				if(el != 0){
+					image.composite(pieces.crop(coords[el].x, coords[el].y, PIECE_SIZE_X, PIECE_SIZE_Y), 72+k*110, 72+i*110)
 					console.log(el);
 				}
 			}
