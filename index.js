@@ -137,19 +137,35 @@ function messageHandler(sender, text){
 			});
 			break;
 		case "move":
-			if(textSplit[1] === undefined){
+			var movePhrase = textSplit[1];
+			if(movePhrase === undefined){
 				sendTextMessage(sender, "Bad move phrase.");
 				break;
 			}
-			
+			getGame(sender).then((game) => {
+				if(isMoveValid(game.board, movePhrase)){
+					updateGame(game, movePhrase).then((updatedGame) => {
+						messagePlayers(updatedGame);
+					}).catch(error => {
+						console.log(error.message);
+						sendTextMessage(sender, "Failed to submit move");
+					})
+				} else {
+					sendTextMessage(sender, "Invalid move");
+				}
+			})
+			.catch(error => {
+			  console.log(error.message);
+			});
+			/*
 			getGameInfo(sender, textSplit[1])
 			//issue here where i need textsplit[1] and sender
-			.then(moveIfValid)
+			.then(moveIfValid.bind(null, textSplit[1]))
 			.then(updateGame)
 			.then(tellBothSides)
 			.catch(error => {
 			  console.log(error.message);
-			});
+			});*/
 			break;
 		case "resign":
 			break;
@@ -173,8 +189,7 @@ function initGame(sender, gameCode){
 					"board": chess.initBoard(),
 					"gameCode": gameCode,
 					"turnNum": 0,
-					"isCheckBlack": false,
-					"isCheckWhite": false,
+					"isCheck": false,
 					"drawOffered": false,
 					"movePiece": 0,
 					"moveLocationX": 0,
@@ -185,6 +200,21 @@ function initGame(sender, gameCode){
 			db.close();
 		})
 	});
+}
+function getGame(sender){
+	return new Promise((resolve, reject) => {
+		MongoClient.connect(mongoURI).then((db) => {
+			var collection = db.collection('games');
+			collection.findOne({$or: [{"white": sender}, {"black": sender}]})
+			.then(resolve())
+			.catch(function(){
+				reject(new Error('getGame: Game not found'));
+			});
+		}).catch((err) => {
+			console.log("Opening GameDB getGame: ", err);
+			reject(new Error('getGame: games db not opening'));
+		})
+	})
 }
 
 function getGameInfo(sender, movePhrase){
@@ -207,91 +237,53 @@ function getGameInfo(sender, movePhrase){
 		});
 	});
 }
+function isValidMove(game, movePhrase, sender){
+	var board = game.board;
+	var color = (gameInfo.turnNum % 2) ? "white" : "black";
+	var moveInfo = chess.getMoveInfo(movePhrase);
+	if (sender !== game[color]){
+		sendTextMessage(sender, "It's not your turn");
+		return false; 
+	}
 
-function moveIfValid(resolveObj){
+	if(chess.isValidMove(movePhrase, color, game.isCheck, board)){
+		return true;
+	} else {
+		sendTextMessage(sender, "That's an invalid move!");
+		return false;
+	}
+}
+function updateGame(game, movePhrase){
 	return new Promise((resolve, reject) => {
-		var sender = resolveObj["sender"];
-		var movePhrase = resolveObj["movePhrase"];
-		var gameInfo = resolveObj["gameInfo"];
+		var move = chess.getMoveInfo(movePhrase)
+		game.turnNum++;
+		game.board[move.startY][move.startX] = 0;
+		game.board[move.destY][move.destX] = move.pieceColor + move.piece;
+		game.isCheck = chess.isCheck((gameInfo.turnNum % 2) ? "w" : "b", board);
 		
-		var board = gameInfo["board"].map(function(arr) {
-		    return arr.slice();
-		});
-	    var color = (gameInfo.turnNum % 2 === 0) ? "w" : "b";
-	    //(start)letter number,(destination) letter Number, 
-	    var moveInfo = chess.getMoveInfo(movePhrase);
-	    
-	    var isCheckWhite = gameInfo.isCheckWhite;
-	    var isCheckBlack = gameInfo.isCheckBlack;
-	    var checkStatus = (color === "w") ? isCheckWhite : isCheckBlack;
-	    
-	    //check if turn number and person moving is same person
-	    if(color === "w" && (gameInfo.white !== sender)
-	    || color === "b" && (gameInfo.black !== sender)){
-	    	sendTextMessage(sender, "It's not your turn.");
-	    	reject(new Error("not your turn"));
-	    }
-	    
-	    if(chess.isValidMove(movePhrase, color, checkStatus, board)){
-	    	board[moveInfo.destY][moveInfo.destX] = moveInfo.pieceColor + moveInfo.piece;
-			board[moveInfo.startY][moveInfo.startX] = 0;
-			if(chess.isCheck("w", board)){
-				isCheckWhite = true;
-			}
-			if(chess.isCheck("b", board)){
-				isCheckBlack = true;
-			}
-			resolve({"sender": sender, "gameInfo": gameInfo, "isCheckWhite": isCheckWhite, "isCheckBlack": isCheckBlack, "board": board});
-	    }else{
-	    	sendTextMessage(sender, "That's an invalid move!");
-	    	reject(new Error("invalid move"));
-	    }
-	});
+		MongoClient.connect(mongoURI).then((db) => {
+			var collection = db.collection('games');
+			collection.updateOne({ $or: [{ "white": sender }, { "black": sender }] }, game)
+				.then(resolve())
+				.catch((err) => {
+					reject(err);
+				})
+		}).catch((err) => {
+			console.log("Opening GameDB getGame: ", err);
+			reject(new Error('getGame: games db not opening'));
+		})
+	})
 }
 
-function updateGame(resolveObj){
-	return new Promise((resolve, reject) => {
-		var sender = resolveObj["sender"];
-		var isCheckWhite = resolveObj["isCheckWhite"];
-		var isCheckBlack = resolveObj["isCheckBlack"];
-		var board = resolveObj["board"];
-		var gameInfo = resolveObj["gameInfo"];
-		MongoClient.connect(mongoURI, function (err, db) {
-			if (err) {
-				reject(new Error("Opening GameDB updateGame: " + err));
-			}
-			else {
-				var collection = db.collection('games');
-
-				gameInfo.isCheckWhite = isCheckWhite;
-				gameInfo.isCheckBlack = isCheckBlack;
-				gameInfo.board = board;
-				
-				collection.updateOne({$or: [{white: sender}, {black: sender}]}, gameInfo, function(err, res){
-					if(err){
-						reject(new Error("updateGame: can't write to db"));
-						return;
-					}else{
-						resolve(resolveObj);
-					}
-				});
-			}
-		});
-	});
-}
-
-function tellBothSides(resolveObj){
+function messagePlayers(game, movePhrase){
 	return new Promise((resolve, reject) =>{
-		var mover = (resolveObj["gameInfo"].turnNum % 2 === 0) ? "White" : "Black";
-		var movePhrase = resolveObj["movePhrase"];
-		var isCheckPhrase = "";
-		isCheckPhrase += (resolveObj["isCheckWhite"]) ? "White is in Check.\n" : "";
-		isCheckPhrase += (resolveObj["isCheckBlack"]) ? "Black is in Check.\n" : "";
-		
-		sendTextMessage(resolveObj.gameInfo["white"], 
+		var mover = ((game.turnNum-1) % 2 === 0) ? "White" : "Black";
+		var movee = ((game.turnNum) % 2 === 0) ? "White" : "Black";
+		var isCheckPhrase = game.isCheck ? (movee + " is in Check.\n") : "";		
+		sendTextMessage(game["white"], 
 						mover + " move: " + movePhrase + " " + isCheckPhrase);
-		sendTextMessage(resolveObj.gameInfo["black"], 
-		mover + " move: " + movePhrase + " " + isCheckPhrase);
+		sendTextMessage(game["black"], 
+						mover + " move: " + movePhrase + " " + isCheckPhrase);
 	});
 }
 
