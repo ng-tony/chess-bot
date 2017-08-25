@@ -240,7 +240,7 @@ function getGameInfo(sender, movePhrase){
 function isValidMove(game, movePhrase, sender){
 	var board = game.board;
 	var color = (game.turnNum % 2) ? "white" : "black";
-	var moveInfo = chess.getMoveInfo(movePhrase);
+	var moveInfo = chess.getMoveInfo(movePhrase, board);
 	if (sender !== game[color]){
 		sendTextMessage(sender, "It's not your turn");
 		return false; 
