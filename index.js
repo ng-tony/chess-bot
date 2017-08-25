@@ -143,7 +143,7 @@ function messageHandler(sender, text){
 				break;
 			}
 			getGame(sender).then((game) => { 
-				if(isValidMove(game, game.movePhrase, sender)){
+				if(isValidMove(game, movePhrase, sender)){
 					updateGame(game, movePhrase).then((updatedGame) => {
 						messagePlayers(updatedGame);
 					}).catch(error => {
@@ -255,7 +255,7 @@ function isValidMove(game, movePhrase, sender){
 }
 function updateGame(game, movePhrase){
 	return new Promise((resolve, reject) => {
-		var move = chess.getMoveInfo(movePhrase, game.board)
+		var move = chess.getMoveInfo(movePhrase, game.board);
 		game.turnNum++;
 		game.board[move.startY][move.startX] = 0;
 		game.board[move.destY][move.destX] = move.pieceColor + move.piece;
