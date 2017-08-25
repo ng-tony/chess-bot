@@ -242,8 +242,8 @@ function isValidMove(game, movePhrase, sender){
 	var color = (game.turnNum % 2 === 0) ? "w" : "b";
 	var moveInfo = chess.getMoveInfo(movePhrase, board);
 	
-	if((color === "b" && game.white === sender)
-	|| (color === "w" && game.black === sender)){
+	if((color === "b" && game.black !== sender)
+	|| (color === "w" && game.white !== sender)){
 		sendTextMessage(sender, "It's not your turn");
 		return false;
 	}
