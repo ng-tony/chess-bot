@@ -47,7 +47,6 @@ module.exports.createImage = function(board){
 				}
 			}
 		}
-		image.
 		image.getBuffer(Jimp.MIME_PNG, function(err, thing){
 			if (err){
 				console.log("err: " + err);

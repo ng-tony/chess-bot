@@ -129,7 +129,7 @@ function messageHandler(sender, text){
 			}
 			break;
 		case "test":
-			sendTestImage(sender);
+			//sendTestImage(sender);
 			getGame(sender).then((game) => {
 				sendBoard(sender, game.board);
 			});
