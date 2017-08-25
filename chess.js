@@ -136,6 +136,7 @@ function pawn(color, startX, startY, destX, destY, board){
 			return true;
 		}
 	}
+	console.log("did you get here to pawn");
 	return false;
 }
 
