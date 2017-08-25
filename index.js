@@ -132,8 +132,8 @@ function messageHandler(sender, text){
 			sendTestImage(sender);
 			getBoard(sender);
 			var gameInfo;
-			getGameInfo(sender, "").then((gameinfo) => {
-				sendBoard(sender, gameinfo.gameinfo.board);
+			getGame(sender).then((game) => {
+				sendBoard(sender, game.board);
 			});
 			break;
 		case "move":
