@@ -144,9 +144,8 @@ function messageHandler(sender, text){
 			}
 			getGame(sender).then((game) => { 
 				if(isValidMove(game, movePhrase, sender)){
-					console.log("Trying to submit it");
 					updateGame(game, movePhrase, sender).then((updatedGame) => {
-						messagePlayers(updatedGame);
+						messagePlayers(updatedGame, movePhrase);
 					}).catch(error => {
 						console.log(error.message);
 						sendTextMessage(sender, "Failed to submit move");
