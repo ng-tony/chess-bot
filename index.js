@@ -204,7 +204,7 @@ function getGame(sender){
 		MongoClient.connect(mongoURI).then((db) => {
 			var collection = db.collection('games');
 			collection.findOne({$or: [{"white": sender}, {"black": sender}]})
-			.then(resolve(game))
+			.then(resolve)
 			.catch(function(){
 				reject(new Error('getGame: Game not found'));
 			});
