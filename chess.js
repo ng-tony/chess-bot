@@ -361,8 +361,7 @@ var self = module.exports = {
 		|| ((board[destY][destX] !== 0) && getColor(destX, destY, board) === color)){
 			return false;
 		}
-		console.log("after checking if stupid move");
-
+		
 		switch(piece){
 			case "P":
 				isValid = pawn(color, startX, startY, destX, destY, board);
@@ -384,8 +383,6 @@ var self = module.exports = {
 				break;
 		}
 		
-		console.log("after checking if valid piece move");
-		
 		//if the move is valid but mover's king is in check before move
 		if(isValid && checkStatus){
 			var afterBoard = board.map(function(arr) {
@@ -397,8 +394,6 @@ var self = module.exports = {
 				return false;
 			}
 		}
-		
-		console.log("after is check");
 		
 		return isValid;
 	}
