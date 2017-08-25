@@ -253,7 +253,7 @@ function isValidMove(game, movePhrase, sender){
 		return false;
 	}
 }
-function updateGame(game, movePhrase, sneder){
+function updateGame(game, movePhrase, sender){
 	return new Promise((resolve, reject) => {
 		var move = chess.getMoveInfo(movePhrase, game.board);
 		game.turnNum++;
