@@ -39,7 +39,7 @@ function getPiece(x, y, board){
 }
 
 function isInBoard(coord){
-	return (coord > 0 && coord < 7);
+	return (coord > 0 && coord < 7) ? true : false;
 }
 
 function nothingBetweenDiag(startX, startY, destX, destY, board){
