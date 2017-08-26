@@ -295,10 +295,12 @@ var self = module.exports = {
 				return false;
 			}
 			if (direction in ["up", "down", "left", "right"]){
-				return (horiKillerRange[i] > dist);
+				console.log("hor killer");
+				return (horiKillerRange[direction] > dist);
 			}
 			if (direction in ["nw", "ne", "se", "sw"]){
-				return (diagKillerRange[i] > dist);
+				console.log("diag killer");
+				return (diagKillerRange[direction] > dist);
 			}
 			return false;
 		}
