@@ -214,6 +214,7 @@ var self = module.exports = {
 		var startY = getCoord(movePhrase.charAt(1));
 		var destX = getCoord(movePhrase.charAt(2));
 		var destY = getCoord(movePhrase.charAt(3));
+		console.log(board[startY][startX]);
 		var piece = getPiece(startX, startY, board);
 		var pieceColor = getColor(startX, startY, board);
 	
