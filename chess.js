@@ -236,6 +236,7 @@ var self = module.exports = {
 	and from new position (enemy king is in check)
 	**/
 	isCheck: function(color, board){
+		console.log(board);
 		var king = (() => {
 			var kingPhrase = color + "K";
 			for(var y = 0; y < 8; y++){
