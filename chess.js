@@ -182,7 +182,9 @@ function queen(startX, startY, destX, destY, board){
 // castling is done elsewhere
 function king(startX, startY, destX, destY){
 	//since eating its own piece is already checked for, nothing to really check
+	console.log(startX, startY, destX, destY);
 	if((Math.abs(startX - destX) === 1) && (Math.abs(startY - destY) === 1)){
+		console.log("king is good")
 		return true;
 	}
 	return false;
@@ -256,8 +258,8 @@ var self = module.exports = {
 			if(isKiller(i, pieceInfo.name, pieceInfo.dist)) {return true};
 		}
 		for(var i in knightDirections){
-			var y = knightDirections[i][1] + king.x;
-			var x = knightDirections[i][0] + king.y;
+			var y = knightDirections[i][1] + king.y;
+			var x = knightDirections[i][0] + king.x;
 			if (0 <= x && 0 <= y &&
 				7 >= x  && 7 >= y ) {
 				if (board[y][x] == opponentColor + "N") {
@@ -267,18 +269,14 @@ var self = module.exports = {
 		}
 		return false;
 		function findPieceWithInfo(direction, x, y, board){
-			console.log(direction, x, y, board)
+			console.log(direction, x, y)
 			var dist = 0;
 			x = x + direction[0];
 			y = y + direction[1];
 			dist++;
 			while (0 <= x  && 0 <= y &&
-				   7 >= x  && 7 >= y ){
-				
-				
+				   7 >= x  && 7 >= y ){	
 				console.log("X: ", x, "Y: ", y);
-				console.log(board[4][7]);
-				console.log(board[4][8]);
 				if(board[y][x] != 0){
 					console.log("Direction: ",direction);
 					console.log("Name: ",board[y][x]);
