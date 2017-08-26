@@ -34,6 +34,9 @@ function getPiece(x, y, board){
 	if(x > 7 || x < 0 || y > 7 || y < 0){
 		throw new Error('trying to get piece type of something out of bounds');
 	}else{
+		if(board[y][x] == 0){
+			return 0;
+		}
 		return board[y][x].charAt(1);
 	}
 }
@@ -235,7 +238,6 @@ var self = module.exports = {
 		var startY = getCoord(movePhrase.charAt(1));
 		var destX = getCoord(movePhrase.charAt(2));
 		var destY = getCoord(movePhrase.charAt(3));
-		console.log(board[startY][startX]);
 		var piece = getPiece(startX, startY, board);
 		var pieceColor = getColor(startX, startY, board);
 	
