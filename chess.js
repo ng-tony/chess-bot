@@ -281,8 +281,8 @@ var self = module.exports = {
 				console.log(board[4][8]);
 				if(board[y][x] != 0){
 					console.log("Direction: ",direction);
-					onsole.log("Name: ",board[y][x]);
-					onsole.log("Dist: ",dist);
+					console.log("Name: ",board[y][x]);
+					console.log("Dist: ",dist);
 					return {name:board[y][x], dist:dist}
 				}
 				x = x + direction[0];
