@@ -265,7 +265,7 @@ var self = module.exports = {
 		const diagKillerRange = {"Q": 8, "P": 1, "K": 1, "B": 8};
 		const horiKillerRange = {"Q": 8, "K": 1, "R": 8};
 		const cardinalDirections = {up:[0, 1], down:[0, -1], right:[1, 0], left:[-1, 0],
-							se:[1, -1], nw:[-1, 1], ne:[1, 1], sw:[-1, -1]};
+							ne:[1, -1], sw:[-1, 1], se:[1, 1], nw:[-1, -1]};
 		const knightDirections = [[-1, -2], [-1, 2], [1, -2], [1, 2],
 								[-2, -1], [-2, 1], [2, -1], [2, 1]];
 		for(var i in cardinalDirections){
@@ -320,6 +320,9 @@ var self = module.exports = {
 			if (["nw", "ne", "se", "sw"].includes(direction)){
 				console.log("diag killer");
 				console.log((diagKillerRange[piece[1]] >= dist));
+				if (piece[1] == "P" && !((color == "w" ? ["nw", "ne"] : ["sw", "se"]).includes("direction"))){
+					return false;
+				}
 				return (diagKillerRange[piece[1]] >= dist);
 			}
 			return false;
