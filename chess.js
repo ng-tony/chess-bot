@@ -72,8 +72,19 @@ function nothingBetweenDiag(startX, startY, destX, destY, board){
 	}
 	return true;
 }
-
-function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
+function isPieceInBetween(x1, y1, x2, y2, board){
+	var xDir = (x1 - x2) == 0 ? 0 : (x1 - x2)/Math.abs((x1 - x2));
+	var yDir = (y1 - y2) == 0 ? 0 : (y1 - y2)/Math.abs((y1 - y2));
+	var x = x1 + xDir;
+	var y = y1 + yDir;
+	while (x != x2){ //implies y != y2
+		if(board[y][x] != 0){
+			return false;
+		}
+	}
+	return true;
+}
+function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){ 
 	//check that nothing is inbetween
 	var upperBound;
 	var lowerBound;
@@ -166,15 +177,17 @@ function bishop(startX, startY, destX, destY, board){
 }
 
 function queen(startX, startY, destX, destY, board){
-	if(Math.abs(destX - startX) === 0 && nothingBetweenLateral(startY, startX, startY, destY, board, true)){
-	//move vertical
-		return true;
-	}else if(Math.abs(destY - startY) === 0 && nothingBetweenLateral(startX, startX, startY, destY, board, false)){
-	//move horizontal
-		return true;
-	}else if((Math.abs(destY - startY) === Math.abs(destX - startX)) && nothingBetweenDiag(startX, startY, destX, destY, board)){
-	//move diagonal
-		return true;
+	if (isPieceInBetween(startX, startY, destY, destY, board)) {
+		if (Math.abs(destX - startX) === 0) {
+			//move vertical
+			return true;
+		} else if (Math.abs(destY - startY) === 0 ) {
+			//move horizontal
+			return true;
+		} else if ((Math.abs(destY - startY) === Math.abs(destX - startX))) {
+			//move diagonal
+			return true;
+		}
 	}
 	return false;
 }
