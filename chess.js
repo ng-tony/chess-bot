@@ -183,7 +183,7 @@ function queen(startX, startY, destX, destY, board){
 function king(startX, startY, destX, destY){
 	//since eating its own piece is already checked for, nothing to really check
 	console.log(startX, startY, destX, destY);
-	if((Math.abs(startX - destX) === 1) && (Math.abs(startY - destY) === 1)){
+	if((Math.abs(startX - destX) <= 1) && (Math.abs(startY - destY) <= 1)){
 		console.log("king is good")
 		return true;
 	}
