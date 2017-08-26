@@ -99,6 +99,7 @@ function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
 }
 
 function findNextPiece(adjustX, adjustY, startX, startY, board){
+	console.log(startX +" "+ startY);
 	if(isInBoard(startX) && isInBoard(startY) && Math.abs(adjustX) in [0,1] && Math.abs(adjustY) in [0,1]){
 		return 0;
 	}else if(board[startY][startX] !== 0){
@@ -291,25 +292,17 @@ var self = module.exports = {
 		var oppositeColor = color === "w" ? "b" : "w";
 		var vertSet = [oppositeColor+"Q", oppositeColor+"R"];
 		var diagSet = [oppositeColor+"Q", oppositeColor+"B"];
-	
+		
 		if(findNextPiece(0, 1, ownKingCoords[0], ownKingCoords[1] + 1, board) in vertSet){
 		//up
 			return true;
-		}
-		console.log("first check");
-		if(findNextPiece(0, -1, ownKingCoords[0], ownKingCoords[1] - 1, board) in vertSet){
+		}else if(findNextPiece(0, -1, ownKingCoords[0], ownKingCoords[1] - 1, board) in vertSet){
 		//down
 			return true;
-		}
-				console.log("2 check");
-
-		
-		if(findNextPiece(1, 0, ownKingCoords[0] + 1, ownKingCoords[1], board) in vertSet){
+		}else if(findNextPiece(1, 0, ownKingCoords[0] + 1, ownKingCoords[1], board) in vertSet){
 		//right
 			return true;
-		}
-		console.log("3 check");
-		if(findNextPiece(-1, 0, ownKingCoords[0] - 1, ownKingCoords[1], board) in vertSet){
+		}else if(findNextPiece(-1, 0, ownKingCoords[0] - 1, ownKingCoords[1], board) in vertSet){
 		//left
 			return true;
 		}else if(findNextPiece(1, 1, ownKingCoords[0] + 1, ownKingCoords[1] + 1, board) in diagSet){
