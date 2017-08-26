@@ -77,7 +77,7 @@ function isPieceInBetween(x1, y1, x2, y2, board){
 	var yDir = (y1 - y2) == 0 ? 0 : (y1 - y2)/Math.abs((y1 - y2));
 	var x = x1 + xDir;
 	var y = y1 + yDir;
-	while (x != x2){ //implies y != y2
+	while (x != x2 && y != y2){ //implies y != y2
 		if(board[y][x] != 0){
 			return false;
 		}
