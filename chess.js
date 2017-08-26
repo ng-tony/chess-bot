@@ -23,6 +23,7 @@ function getCoord(val){
 /*return the first letter of the unit on that board coord
 i.e. the color of the piece*/
 function getColor(x, y, board){
+	console.log("getColor: "+ x + " " + y + " "+ board);
 	if(x > 7 || x < 0 || y > 7 || y < 0){
 		throw new Error('trying to get color of something out of bounds');
 	}else{
@@ -330,7 +331,6 @@ var self = module.exports = {
 		//check if opponent king can kill king from this position
 			return true;
 		}
-		console.log("where did i go wrong");
 		return false;
 	
 	},
