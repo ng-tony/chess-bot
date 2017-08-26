@@ -73,11 +73,17 @@ function nothingBetweenDiag(startX, startY, destX, destY, board){
 	return true;
 }
 function isPieceInBetween(x1, y1, x2, y2, board){
-	var xDir = (x1 - x2) == 0 ? 0 : (x1 - x2)/Math.abs((x1 - x2));
-	var yDir = (y1 - y2) == 0 ? 0 : (y1 - y2)/Math.abs((y1 - y2));
+	var deltaX = x1 - x2;
+	var deltaY = y1 - y2;
+	if (Math.abs(deltaX) != Math.abs(deltaY) && (deltaX != 0 || deltaY !=0)){
+		console.log("isPieceInBetween: WARNING, NOT A CARDINAL DIRECTION!!!!!!!! THINGS BREAK");
+		return false;
+	}
+	var xDir = (deltaX) == 0 ? 0 : (deltaX)/Math.abs(deltaX);
+	var yDir = (deltaY) == 0 ? 0 : (deltaY)/Math.abs(deltaY);
 	var x = x1 + xDir;
 	var y = y1 + yDir;
-	while (x != x2 && y != y2){ //implies y != y2
+	while (x != x2 || y != y2){ //implies y != y2
 		if(board[y][x] != 0){
 			return false;
 		}
