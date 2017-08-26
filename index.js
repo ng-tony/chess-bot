@@ -283,6 +283,7 @@ function updateGame(game, movePhrase, sender){
 
 function messagePlayers(game, movePhrase){
 	return new Promise((resolve, reject) =>{
+		console.log("In message players");
 		var mover = ((game.turnNum-1) % 2 === 0) ? "White" : "Black";
 		var movee = ((game.turnNum) % 2 === 0) ? "White" : "Black";
 		var isCheckPhrase = game.isCheck ? (movee + " is in Check.\n") : "";		
