@@ -292,16 +292,16 @@ var self = module.exports = {
 
 		function isKiller(direction, piece, dist){
 			console.log(direction);
-			console.log(direction in ["up", "down", "left", "right"])
-			console.log(direction in ["nw", "ne", "se", "sw"])
+			console.log(["up", "down", "left", "right"].includes(direction))
+			console.log(["nw", "ne", "se", "sw"].includes(direction))
 			if(piece[0] == color){
 				return false;
 			}
-			if (direction in ["up", "down", "left", "right"]){
+			if (["up", "down", "left", "right"].includes(direction)){
 				console.log("hor killer");
 				return (horiKillerRange[piece[1]] > dist);
 			}
-			if (direction in ["nw", "ne", "se", "sw"]){
+			if (["nw", "ne", "se", "sw"].includes(direction)){
 				console.log("diag killer");
 				return (diagKillerRange[piece[1]] > dist);
 			}
