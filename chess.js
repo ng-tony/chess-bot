@@ -268,6 +268,9 @@ var self = module.exports = {
 				dist++;
 				x = x + direction[0];
 				y = y + direction[1];
+				console.log("X: ", x, "Y: ", y);
+				console.log(board[4][7]);
+				console.log(board[4][8]);
 				if(board[y][x] != 0){
 					return {name:board[y][x], dist:dist}
 				}
