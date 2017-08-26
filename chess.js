@@ -291,6 +291,9 @@ var self = module.exports = {
 		}
 
 		function isKiller(direction, piece, dist){
+			console.log(direction);
+			console.log(direction in ["up", "down", "left", "right"])
+			console.log(direction in ["nw", "ne", "se", "sw"])
 			if(piece[0] == color){
 				return false;
 			}
