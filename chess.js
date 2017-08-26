@@ -98,18 +98,6 @@ function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
 	return true;
 }
 
-function findNextPiece(adjustX, adjustY, startX, startY, board){
-	console.log(isInBoard(startY));
-	if(!isInBoard(startX) || !isInBoard(startY) || !(Math.abs(adjustX) in [0,1]) || !(Math.abs(adjustY) in [0,1])){
-		return 0;
-	}else if(board[startY][startX] !== 0){
-		return board[startY][startX];
-	}else{
-		return findNextPiece(adjustX, adjustY, startX+adjustX, startY+adjustY, board);
-	}
-}
-
-
 function pawn(color, startX, startY, destX, destY, board){
 	if(color === "w"){
 		//move forward 1
@@ -234,105 +222,61 @@ var self = module.exports = {
 	and from new position (enemy king is in check)
 	**/
 	isCheck: function(color, board){
-		var findKing = function(color, board){
-			var ownKing = color+"K";
-			var ownKingCoords;
+		var king = (() => {
+			var kingPhrase = color + "K";
 			for(var y = 0; y < 8; y++){
 				for(var x = 0; x < 8; x++){
-					if(board[y][x] === ownKing){
-						ownKingCoords = [x, y];
-						break;
+					if(board[y][x] === kingPhrase){
+						return {x:x, y:y};
 					}
 				}
 			}
-			console.log(ownKingCoords);
-			if(ownKingCoords !== undefined){
-				return ownKingCoords;
-			}else{
-				throw new Error("king of ${color} color was not found.");
-			}
+		})();
+		var opponentColor = (color == "w") ? "b" : "w";
+		const diagKillers = [{piece:"Q", range: 8}, {piece:"P", range: 1}, {piece:"K", range: 1}, {piece:"B", range: 8}];
+		const horiKillers = [{piece:"Q", range: 8}, {piece:"R", range: 8}, {piece:"K", range: 1}];
+		const cardinalDirections = {up:[0, 1], down:[0, -1], right:[1, 0], left:[-1, 0],
+							se:[1, -1], nw:[-1, 1], ne:[1, 1], sw:[-1, -1]};
+		const knightDirections = [[-1, -2], [-1, 2], [1, -2], [1, 2],
+								[-2, -1], [-2, 1], [2, -1], [2, 1]];
+		for(var i in cardinalDirections){
+			var pieceInfo = findPieceWithInfo(cardinalDirections[i], king.x, king.y, board);
+			if(isKiller(i, pieceInfo.name, pieceInfo.dist)) {return true};
 		}
-	
-		var horseCheck = function(color, ownKingX, ownKingY, board){
-			var oppositeColor = color === "w" ? "b" : "w";
-	
-			//possible places that a knight could attack from
-			let dirArray = [[-1, -2], [-1, 2], [1, -2], [1, 2],
-							[-2, -1], [-2, 1], [2, -1], [2, 1]];
-	
-			for(var i = 0; i < dirArray.length; i++){
-				/**if both coordinates are in the board and they are knights
-				then the king is in check**/
-				if(isInBoard(ownKingY+dirArray[i][0]) && isInBoard(ownKingX+dirArray[i][1])){
-					if(board[ownKingY+dirArray[i][0]][ownKingX+dirArray[i][1]] === oppositeColor+"N"){
-						return true;
-					}
-				}
+		for(var i in knightDirections){
+			if(board[i.y][i.x] == opponentColor + "K"){
+				return true;
 			}
-			return false;
-		}
-	
-		var kingCheck = function(color, ownKingX, ownKingY, board){
-			var oppositeColor = color === "w" ? "b" : "w";
-	
-			//all around the king(possible places king could attack from)
-			let dirArray = [[0, 1], [0, -1], [1, 0], [-1, 0],
-							[1, -1], [-1, 1], [1, 1], [-1, -1]];
-	
-			for(var i = 0; i < 8; i++){
-				if(isInBoard(ownKingY+dirArray[i][0]) && isInBoard(ownKingX+dirArray[i][1])){
-					if(board[ownKingY+dirArray[i][0]][ownKingX+dirArray[i][1]] === oppositeColor+"K"){
-						return true;
-					}
-				}
-			}
-			return false;
-		}
-	
-		var ownKingCoords = findKing(color, board);
-		var oppositeColor = color === "w" ? "b" : "w";
-		var vertSet = [oppositeColor+"Q", oppositeColor+"R"];
-		var diagSet = [oppositeColor+"Q", oppositeColor+"B"];
-		
-		if(findNextPiece(0, 1, ownKingCoords[0], ownKingCoords[1] + 1, board) in vertSet){
-		//up
-			return true;
-		}else if(findNextPiece(0, -1, ownKingCoords[0], ownKingCoords[1] - 1, board) in vertSet){
-		//down
-			return true;
-		}else if(findNextPiece(1, 0, ownKingCoords[0] + 1, ownKingCoords[1], board) in vertSet){
-		//right
-			return true;
-		}else if(findNextPiece(-1, 0, ownKingCoords[0] - 1, ownKingCoords[1], board) in vertSet){
-		//left
-			return true;
-		}else if(findNextPiece(1, 1, ownKingCoords[0] + 1, ownKingCoords[1] + 1, board) in diagSet){
-		//up right
-			return true;
-		}else if(findNextPiece(1, -1, ownKingCoords[0] + 1, ownKingCoords[1] - 1, board) in diagSet){
-		//up left
-			return true;
-		}else if(findNextPiece(-1, 1, ownKingCoords[0] - 1, ownKingCoords[1] + 1, board) in diagSet){
-		//down right
-			return true;
-		}else if(findNextPiece(-1, -1, ownKingCoords[0] - 1, ownKingCoords[1] - 1, board) in diagSet){
-		//down left
-			return true;
-		}else if(color === "w" && ((board[ownKingCoords[1] + 1][ownKingCoords[0] + 1] === "P") || (board[ownKingCoords[1] + 1][ownKingCoords[0] - 1] === "P"))){
-		//white and pawn above in either diagonal, 1 space apart
-			return true;
-		}else if(color === "b" && ((board[ownKingCoords[1] - 1][ownKingCoords[0] - 1] === "P") || (board[ownKingCoords[1] - 1][ownKingCoords[0] + 1] === "P"))){
-		//black and pawn below in either diagonal, 1 space apart
-			return true;
-		}else if(horseCheck(color, ownKingCoords[0], ownKingCoords[1], board)){
-		//check if horses can kill king from this position
-			return true;
-		}else if(kingCheck(color, ownKingCoords[0], ownKingCoords[1], board)){
-		//check if opponent king can kill king from this position
-			return true;
 		}
 		return false;
-	
+		function findPieceWithInfo(direction, x, y, board){
+			var dist = 0;
+			while (0 <= x + direction.x <= 7 && 0 <= y + direction+y <= 7){
+				dist++;
+				x = x + direction.x;
+				y = y + direction.y;
+				if(board[y][x] != 0){
+					return {name:board[y][x], dist:dist}
+				}
+			}
+			return {name:0, dist:0}
+		}
+
+		function isKiller(direction, piece, dist){
+			if(piece[0] == color){
+				return false;
+			}
+			if (direction in ["up", "down", "left", "right"]){
+				return (diagKillerRange[i] > dist);
+			}
+			if (direction in ["nw", "ne", "se", "sw"]){
+				return (diagKillerRange[i] > dist);
+			}
+			return false;
+		}
+		//find all cardinal pieces
+		//check if any of them are offensive
+		//check for jumper
 	},
 
 	/* *** need to check if move is out of range of board - done
