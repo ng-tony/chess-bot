@@ -256,8 +256,13 @@ var self = module.exports = {
 			if(isKiller(i, pieceInfo.name, pieceInfo.dist)) {return true};
 		}
 		for(var i in knightDirections){
-			if(board[knightDirections[i][1]][knightDirections[i][0]] == opponentColor + "K"){
-				return true;
+			var y = knightDirections[i][1] + king.x;
+			var x = knightDirections[i][0] + king.y;
+			if (0 <= x + direction[0] && 0 <= y + direction[1] &&
+				7 >= x + direction[0] && 7 >= y + direction[1]) {
+				if (board[y][x] == opponentColor + "K") {
+					return true;
+				}
 			}
 		}
 		return false;
