@@ -375,7 +375,7 @@ var self = module.exports = {
 			    return arr.slice();
 			});
 			afterBoard[startY][startX] = 0
-			afterBoard[destY][destX] = piece;
+			afterBoard[destY][destX] = pieceColor + piece;
 			if(self.isCheck(color, afterBoard)){
 				return false;
 			}
