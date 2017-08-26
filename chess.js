@@ -256,7 +256,7 @@ var self = module.exports = {
 			if(isKiller(i, pieceInfo.name, pieceInfo.dist)) {return true};
 		}
 		for(var i in knightDirections){
-			if(board[i.y][i.x] == opponentColor + "K"){
+			if(board[knightDirections[i][1]][knightDirections[i][0]] == opponentColor + "K"){
 				return true;
 			}
 		}
