@@ -245,8 +245,8 @@ var self = module.exports = {
 			}
 		})();
 		var opponentColor = (color == "w") ? "b" : "w";
-		const diagKillers = [{piece:"Q", range: 8}, {piece:"P", range: 1}, {piece:"K", range: 1}, {piece:"B", range: 8}];
-		const horiKillers = [{piece:"Q", range: 8}, {piece:"R", range: 8}, {piece:"K", range: 1}];
+		const diagKillerRange = [{piece:"Q", range: 8}, {piece:"P", range: 1}, {piece:"K", range: 1}, {piece:"B", range: 8}];
+		const horiKillerRange = [{piece:"Q", range: 8}, {piece:"R", range: 8}, {piece:"K", range: 1}];
 		const cardinalDirections = {up:[0, 1], down:[0, -1], right:[1, 0], left:[-1, 0],
 							se:[1, -1], nw:[-1, 1], ne:[1, 1], sw:[-1, -1]};
 		const knightDirections = [[-1, -2], [-1, 2], [1, -2], [1, 2],
@@ -279,7 +279,7 @@ var self = module.exports = {
 				return false;
 			}
 			if (direction in ["up", "down", "left", "right"]){
-				return (diagKillerRange[i] > dist);
+				return (horiKillerRange[i] > dist);
 			}
 			if (direction in ["nw", "ne", "se", "sw"]){
 				return (diagKillerRange[i] > dist);
