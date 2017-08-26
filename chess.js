@@ -264,7 +264,7 @@ var self = module.exports = {
 		function findPieceWithInfo(direction, x, y, board){
 			console.log(direction, x, y, board)
 			var dist = 0;
-			while (0 <= x + direction[0] && 0 <= u + direction[1] &&
+			while (0 <= x + direction[0] && 0 <= y + direction[1] &&
 				   7 >= x + direction[0] && 7 >= y + direction[1]){
 				dist++;
 				x = x + direction[0];
