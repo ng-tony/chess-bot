@@ -246,6 +246,7 @@ var self = module.exports = {
 				}
 			}
 		})();
+		console.log("king", king)
 		var opponentColor = (color == "w") ? "b" : "w";
 		const diagKillerRange = {"Q": 8, "P": 1, "K": 1, "B": 8};
 		const horiKillerRange = {"Q": 8, "K": 1, "R": 8};
@@ -324,7 +325,7 @@ var self = module.exports = {
 
 	//color is taken in as "w" or "b"
 	//move phrase is [PIECE][START][DEST]
-	isValidMove: function(movePhrase, color, checkStatus, board){
+	isValidMove: function(movePhrase, color, board){
 		var isValid = false;
 		console.log("hello 1");
 		var moveInfo = self.getMoveInfo(movePhrase, board);
