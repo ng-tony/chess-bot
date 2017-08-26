@@ -325,7 +325,7 @@ var self = module.exports = {
 			if (["nw", "ne", "se", "sw"].includes(direction)){
 				console.log("diag killer");
 				console.log((diagKillerRange[piece[1]] >= dist));
-				if (piece[1] == "P" && !((color == "w" ? ["nw", "ne"] : ["sw", "se"]).includes("direction"))){
+				if (piece[1] == "P" && !((color == "w" ? ["nw", "ne"] : ["sw", "se"]).includes(direction))){
 					return false;
 				}
 				return (diagKillerRange[piece[1]] >= dist);
