@@ -299,10 +299,12 @@ var self = module.exports = {
 			}
 			if (["up", "down", "left", "right"].includes(direction)){
 				console.log("hor killer");
+				console.log((horiKillerRange[piece[1]] > dist));
 				return (horiKillerRange[piece[1]] > dist);
 			}
 			if (["nw", "ne", "se", "sw"].includes(direction)){
 				console.log("diag killer");
+				console.log((diagKillerRange[piece[1]] > dist));
 				return (diagKillerRange[piece[1]] > dist);
 			}
 			return false;
@@ -364,9 +366,9 @@ var self = module.exports = {
 				break;
 		}
 		console.log("hello 4");
-		console.log("isValid: " , isValid, "checkStatus: ", checkStatus);
+		console.log("isValid so far: " , isValid);
 		//if the move is valid but mover's king is in check before move
-		if(isValid && checkStatus){
+		if(isValid){
 			var afterBoard = board.map(function(arr) {
 			    return arr.slice();
 			});
