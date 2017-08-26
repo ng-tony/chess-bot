@@ -249,7 +249,7 @@ function isValidMove(game, movePhrase, sender){
 		return false;
 	}
 
-	if(chess.isValidMove(movePhrase, color, game.isCheck, board)){
+	if(chess.isValidMove(movePhrase, color, board)){
 		return true;
 	} else {
 		sendTextMessage(sender, "That's an invalid move!");
