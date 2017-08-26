@@ -316,7 +316,10 @@ var self = module.exports = {
 		}else if(findNextPiece(-1, -1, ownKingCoords[0] - 1, ownKingCoords[1] - 1, board) in diagSet){
 		//down left
 			return true;
-		}else if(color === "w" && ((board[ownKingCoords[1] + 1][ownKingCoords[0] + 1] === "P") || (board[ownKingCoords[1] + 1][ownKingCoords[0] - 1] === "P"))){
+		}
+		console.log("first half ok");
+		
+		if(color === "w" && ((board[ownKingCoords[1] + 1][ownKingCoords[0] + 1] === "P") || (board[ownKingCoords[1] + 1][ownKingCoords[0] - 1] === "P"))){
 		//white and pawn above in either diagonal, 1 space apart
 			return true;
 		}else if(color === "b" && ((board[ownKingCoords[1] - 1][ownKingCoords[0] - 1] === "P") || (board[ownKingCoords[1] - 1][ownKingCoords[0] + 1] === "P"))){
