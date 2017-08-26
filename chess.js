@@ -23,7 +23,6 @@ function getCoord(val){
 /*return the first letter of the unit on that board coord
 i.e. the color of the piece*/
 function getColor(x, y, board){
-	console.log("getColor: "+ x + " " + y + " "+ board);
 	if(x > 7 || x < 0 || y > 7 || y < 0){
 		throw new Error('trying to get color of something out of bounds');
 	}else{
@@ -354,7 +353,7 @@ var self = module.exports = {
 		var destY = moveInfo["destY"];
 		var piece = moveInfo["piece"];
 		var pieceColor = moveInfo["pieceColor"];
-		
+		console.log("break 0");
 		//moving to same space
 		if(((startX === destX) && (startY === destY))
 		//moving piece of not own color
@@ -363,7 +362,7 @@ var self = module.exports = {
 		|| ((board[destY][destX] !== 0) && getColor(destX, destY, board) === color)){
 			return false;
 		}
-		
+		console.log("break 1");
 		switch(piece){
 			case "P":
 				isValid = pawn(color, startX, startY, destX, destY, board);
@@ -384,7 +383,7 @@ var self = module.exports = {
 				isValid = king(startX, startY, destX, destY);
 				break;
 		}
-		
+		console.log("break 2");
 		//if the move is valid but mover's king is in check before move
 		if(isValid && checkStatus){
 			var afterBoard = board.map(function(arr) {
@@ -396,7 +395,7 @@ var self = module.exports = {
 				return false;
 			}
 		}
-		
+		console.log("break 3");
 		return isValid;
 	}
 	
