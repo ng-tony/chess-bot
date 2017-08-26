@@ -346,6 +346,7 @@ var self = module.exports = {
 	//move phrase is [PIECE][START][DEST]
 	isValidMove: function(movePhrase, color, checkStatus, board){
 		var isValid = false;
+		console.log("hello 1");
 		var moveInfo = self.getMoveInfo(movePhrase, board);
 		var startX = moveInfo["startX"];
 		var startY = moveInfo["startY"];
@@ -353,7 +354,7 @@ var self = module.exports = {
 		var destY = moveInfo["destY"];
 		var piece = moveInfo["piece"];
 		var pieceColor = moveInfo["pieceColor"];
-		
+		console.log("hello 2");
 		//moving to same space
 		if(((startX === destX) && (startY === destY))
 		//moving piece of not own color
@@ -362,7 +363,7 @@ var self = module.exports = {
 		|| ((board[destY][destX] !== 0) && getColor(destX, destY, board) === color)){
 			return false;
 		}
-		
+		console.log("hello 3");
 		switch(piece){
 			case "P":
 				isValid = pawn(color, startX, startY, destX, destY, board);
@@ -383,7 +384,7 @@ var self = module.exports = {
 				isValid = king(startX, startY, destX, destY);
 				break;
 		}
-		
+		console.log("hello 4");
 		//if the move is valid but mover's king is in check before move
 		if(isValid && checkStatus){
 			var afterBoard = board.map(function(arr) {
@@ -395,7 +396,7 @@ var self = module.exports = {
 				return false;
 			}
 		}
-		
+		console.log("hello 5");
 		return isValid;
 	}
 	
