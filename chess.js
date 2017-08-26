@@ -314,13 +314,13 @@ var self = module.exports = {
 			}
 			if (["up", "down", "left", "right"].includes(direction)){
 				console.log("hor killer");
-				console.log((horiKillerRange[piece[1]] > dist));
-				return (horiKillerRange[piece[1]] > dist);
+				console.log((horiKillerRange[piece[1]] >= dist));
+				return (horiKillerRange[piece[1]] >= dist);
 			}
 			if (["nw", "ne", "se", "sw"].includes(direction)){
 				console.log("diag killer");
-				console.log((diagKillerRange[piece[1]] > dist));
-				return (diagKillerRange[piece[1]] > dist);
+				console.log((diagKillerRange[piece[1]] >= dist));
+				return (diagKillerRange[piece[1]] >= dist);
 			}
 			return false;
 		}
