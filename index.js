@@ -177,8 +177,7 @@ function messageHandler(sender, text){
 			sendHelp(sender);
 			break;
 		default:
-			sendTextMessage(sender, "That's no command");
-			sendHelp(sender);
+			sendTextMessage(sender, "That's no command, type \"help\" for a list of commands");
 			break;
 	}
 }
@@ -350,5 +349,11 @@ function sendTestImage(sender) {
 }
 
 function sendHelp(sender){
-	sendTextMessage(sender, "HELP: I'M TRYING DAMNIT!")
+	sendTextMessage(sender, "create - gives you a game code to share with another");
+	sendTextMessage(sender, "accept - accepts given game code to start game");
+	sendTextMessage(sender, "board - gives you an image of the current board");
+	sendTextMessage(sender, "move a2a3 - move a piece, if it is a valid move, format [start][destination] is used for each coordinate");
+	sendTextMessage(sender, "resign - resigns your game");
+	sendTextMessage(sender, "draw - offers to make the game a draw to opponent");
+	
 }
