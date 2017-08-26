@@ -260,7 +260,7 @@ var self = module.exports = {
 			var x = knightDirections[i][0] + king.y;
 			if (0 <= x && 0 <= y &&
 				7 >= x  && 7 >= y ) {
-				if (board[y][x] == opponentColor + "K") {
+				if (board[y][x] == opponentColor + "N") {
 					return true;
 				}
 			}
