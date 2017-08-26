@@ -143,10 +143,8 @@ function messageHandler(sender, text){
 				break;
 			}
 			getGame(sender).then((game) => { 
-				console.log("before isvalidmove");
 				if(isValidMove(game, movePhrase, sender)){
 					updateGame(game, movePhrase, sender).then((updatedGame) => {
-						console.log('after is validmove');
 						messagePlayers(updatedGame, movePhrase);
 					}).catch(error => {
 						console.log(error.message);
@@ -282,16 +280,13 @@ function updateGame(game, movePhrase, sender){
 }
 
 function messagePlayers(game, movePhrase){
-	return new Promise((resolve, reject) =>{
-		console.log("In message players");
-		var mover = ((game.turnNum-1) % 2 === 0) ? "White" : "Black";
-		var movee = ((game.turnNum) % 2 === 0) ? "White" : "Black";
-		var isCheckPhrase = game.isCheck ? (movee + " is in Check.\n") : "";		
-		sendTextMessage(game["white"], 
-						mover + " move: " + movePhrase + " " + isCheckPhrase);
-		sendTextMessage(game["black"], 
-						mover + " move: " + movePhrase + " " + isCheckPhrase);
-	});
+	var mover = ((game.turnNum-1) % 2 === 0) ? "White" : "Black";
+	var movee = ((game.turnNum) % 2 === 0) ? "White" : "Black";
+	var isCheckPhrase = game.isCheck ? (movee + " is in Check.\n") : "";		
+	sendTextMessage(game["white"], 
+					mover + " move: " + movePhrase + " " + isCheckPhrase);
+	sendTextMessage(game["black"], 
+					mover + " move: " + movePhrase + " " + isCheckPhrase);
 }
 
 function sendTextMessage(sender, text) {
