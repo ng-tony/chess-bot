@@ -243,6 +243,7 @@ var self = module.exports = {
 					}
 				}
 			}
+			console.log(ownKingCoords);
 			if(ownKingCoords !== undefined){
 				return ownKingCoords;
 			}else{
