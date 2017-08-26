@@ -260,6 +260,7 @@ function isValidMove(game, movePhrase, sender){
 function updateGame(game, movePhrase, sender){
 	return new Promise((resolve, reject) => {
 		var move = chess.getMoveInfo(movePhrase, game.board);
+		console.log(game)
 		var color = (game.turnNum % 2 === 0) ? "w" : "b";
 		game.turnNum++;
 		game.board[move.startY][move.startX] = 0;
