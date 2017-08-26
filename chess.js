@@ -269,17 +269,25 @@ var self = module.exports = {
 		function findPieceWithInfo(direction, x, y, board){
 			console.log(direction, x, y, board)
 			var dist = 0;
-			while (0 <= x + direction[0] && 0 <= y + direction[1] &&
-				   7 >= x + direction[0] && 7 >= y + direction[1]){
-				dist++;
-				x = x + direction[0];
-				y = y + direction[1];
+			x = x + direction[0];
+			y = y + direction[1];
+			dist++;
+			while (0 <= x  && 0 <= y &&
+				   7 >= x  && 7 >= y ){
+				
+				
 				console.log("X: ", x, "Y: ", y);
 				console.log(board[4][7]);
 				console.log(board[4][8]);
 				if(board[y][x] != 0){
+					console.log("Direction: ",direction);
+					onsole.log("Name: ",board[y][x]);
+					onsole.log("Dist: ",dist);
 					return {name:board[y][x], dist:dist}
 				}
+				x = x + direction[0];
+				y = y + direction[1];
+				dist++;
 			}
 			return {name:0, dist:0}
 		}
