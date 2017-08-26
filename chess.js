@@ -258,8 +258,8 @@ var self = module.exports = {
 		for(var i in knightDirections){
 			var y = knightDirections[i][1] + king.x;
 			var x = knightDirections[i][0] + king.y;
-			if (0 <= x + direction[0] && 0 <= y + direction[1] &&
-				7 >= x + direction[0] && 7 >= y + direction[1]) {
+			if (0 <= x && 0 <= y &&
+				7 >= x  && 7 >= y ) {
 				if (board[y][x] == opponentColor + "K") {
 					return true;
 				}
