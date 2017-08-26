@@ -100,7 +100,7 @@ function nothingBetweenLateral(start, startX, startY, dest, board, isVertical){
 
 function findNextPiece(adjustX, adjustY, startX, startY, board){
 	console.log(isInBoard(startY));
-	if(isInBoard(startX) && isInBoard(startY) && Math.abs(adjustX) in [0,1] && Math.abs(adjustY) in [0,1]){
+	if(!isInBoard(startX) || !isInBoard(startY) || !(Math.abs(adjustX) in [0,1]) || !(Math.abs(adjustY) in [0,1])){
 		return 0;
 	}else if(board[startY][startX] !== 0){
 		return board[startY][startX];
