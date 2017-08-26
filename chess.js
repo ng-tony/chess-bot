@@ -26,7 +26,7 @@ function getColor(x, y, board){
 	if(x > 7 || x < 0 || y > 7 || y < 0){
 		throw new Error('trying to get color of something out of bounds');
 	}else{
-		return board[y][x].charAt(0);
+		return board[y][x] == 0 ? 0 : board[y][x].charAt(0);
 	}
 }
 
@@ -34,10 +34,7 @@ function getPiece(x, y, board){
 	if(x > 7 || x < 0 || y > 7 || y < 0){
 		throw new Error('trying to get piece type of something out of bounds');
 	}else{
-		if(board[y][x] == 0){
-			return 0;
-		}
-		return board[y][x].charAt(1);
+		return board[y][x] == 0 ? 0 : board[y][x].charAt(1);
 	}
 }
 
