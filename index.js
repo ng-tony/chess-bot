@@ -271,6 +271,7 @@ function updateGame(game, movePhrase, sender){
 			collection.updateOne({ $or: [{ "white": sender }, { "black": sender }] }, game)
 				.then(resolve)
 				.catch((err) => {
+					console.log(err);
 					reject(err);
 				})
 		}).catch((err) => {
