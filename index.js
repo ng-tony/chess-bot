@@ -128,12 +128,12 @@ function messageHandler(sender, text){
 				sendTextMessage(sender, "Unable to start game" + e);
 			}
 			break;
-		case "test":
+		case "board":
 			//sendTestImage(sender);
 			getGame(sender).then((game) => {
 				sendBoard(sender, game.board);
 			}).catch((err) => {
-				console.log("test", err);
+				console.log("board", err);
 			});
 			break;
 		case "move":
