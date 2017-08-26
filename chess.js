@@ -386,6 +386,7 @@ var self = module.exports = {
 				break;
 		}
 		console.log("hello 4");
+		console.log("isValid: " , isValid, "checkStatus: ", checkStatus);
 		//if the move is valid but mover's king is in check before move
 		if(isValid && checkStatus){
 			var afterBoard = board.map(function(arr) {
