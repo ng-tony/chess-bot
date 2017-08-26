@@ -143,7 +143,9 @@ function messageHandler(sender, text){
 				break;
 			}
 			getGame(sender).then((game) => { 
+				console.log("before isvalidmove");
 				if(isValidMove(game, movePhrase, sender)){
+					console.log('after is validmove');
 					updateGame(game, movePhrase, sender).then((updatedGame) => {
 						messagePlayers(updatedGame, movePhrase);
 					}).catch(error => {
