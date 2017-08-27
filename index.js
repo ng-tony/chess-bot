@@ -267,7 +267,7 @@ function updateGame(game, movePhrase, sender){
 		MongoClient.connect(mongoURI).then((db) => {
 			var collection = db.collection('games');
 			collection.updateOne({ $or: [{ "white": sender }, { "black": sender }] }, game)
-				.then(resolve)
+				.then(resolve(game))
 				.catch((err) => {
 					console.log(err);
 					reject(err);
