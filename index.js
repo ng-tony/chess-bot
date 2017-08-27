@@ -138,6 +138,7 @@ function messageHandler(sender, text){
 			break;
 		case "move":
 			var movePhrase = textSplit[1];
+			var boundMessage = messagePlayers.bind(null, movePhrase);
 			if(movePhrase === undefined){
 				sendTextMessage(sender, "Bad move phrase.");
 				break;
@@ -145,7 +146,7 @@ function messageHandler(sender, text){
 			getGame(sender).then((game) => { 
 				if(isValidMove(game, movePhrase, sender)){
 					updateGame(game, movePhrase, sender)
-					.then(messagePlayers.bind(null, movePhrase))
+					.then(boundMessage)
 					.catch(error => {
 						console.log(error.message);
 						sendTextMessage(sender, "Failed to submit move");
