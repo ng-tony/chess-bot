@@ -171,6 +171,8 @@ function messageHandler(sender, text){
 			break;
 		case "draw":
 			break;
+		case "drawAccept":
+			break;
 		case "help":
 			sendHelp(sender);
 			break;
