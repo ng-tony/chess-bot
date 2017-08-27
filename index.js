@@ -144,7 +144,7 @@ function messageHandler(sender, text){
 			}
 			getGame(sender).then((game) => { 
 				if(isValidMove(game, movePhrase, sender)){
-					updateGame(game, movePhrase, sender)
+					updateGame(incrementGame(game, movePhrase))
 					.then(messagePlayers(game, movePhrase))
 					.catch(error => {
 						console.log(error.message);
@@ -256,17 +256,11 @@ function isValidMove(game, movePhrase, sender){
 		return false;
 	}
 }
-function updateGame(game, movePhrase, sender){
+function updateGame(game){
 	return new Promise((resolve, reject) => {
-		var move = chess.getMoveInfo(movePhrase, game.board);
-		game.turnNum++;
-		game.board[move.startY][move.startX] = 0;
-		game.board[move.destY][move.destX] = move.pieceColor + move.piece;
-		game.isCheck = chess.isCheck((game.turnNum % 2) ? "w" : "b", game.board);
-		
 		MongoClient.connect(mongoURI).then((db) => {
 			var collection = db.collection('games');
-			collection.updateOne({ $or: [{ "white": sender }, { "black": sender }] }, game)
+			collection.updateOne({ $or: [{ "white": game.white }] }, game)
 				.then(resolve(game))
 				.catch((err) => {
 					console.log(err);
