@@ -284,8 +284,10 @@ function messagePlayers(game, movePhrase){
 	var isCheckPhrase = game.isCheck ? (movee + " is in Check.\n") : "";		
 	sendTextMessage(game["white"], 
 					mover + " move: " + movePhrase + " " + isCheckPhrase);
+	sendBoard(game["white"], game.board);
 	sendTextMessage(game["black"], 
 					mover + " move: " + movePhrase + " " + isCheckPhrase);
+	sendBoard(game["black"], game.board);
 }
 
 function sendTextMessage(sender, text) {
