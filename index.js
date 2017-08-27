@@ -171,7 +171,7 @@ function messageHandler(sender, text){
 			break;
 		case "draw":
 			break;
-		case "drawAccept":
+		case "drawaccept":
 			break;
 		case "help":
 			sendHelp(sender);
@@ -215,7 +215,7 @@ function getGame(sender){
 			console.log("Opening GameDB getGame: ", err);
 			reject(new Error('getGame: games db not opening'));
 		})
-	})
+	});
 }
 
 function getGameInfo(sender, movePhrase){
@@ -274,10 +274,28 @@ function updateGame(game, movePhrase, sender){
 					reject(err);
 				})
 		}).catch((err) => {
-			console.log("Opening GameDB getGame: ", err);
+			console.log("updating GameDB updateGame: ", err);
 			reject(new Error('getGame: games db not opening'));
 		})
-	})
+	});
+}
+
+function deleteGame(sender){
+	return new Promise((resolve, reject) => {
+		
+		MongoClient.connect(mongoURI).then((db) => {
+			var collection = db.collection('games');
+			collection.deleteOne({ $or: [{ "white": sender }, { "black": sender }] })
+				.then(resolve)
+				.catch((err) => {
+					console.log(err);
+					reject(err);
+				})
+		}).catch((err) => {
+			console.log("Deleting game record deleteGame: ", err);
+			reject(new Error('getGame: games db not opening'));
+		})
+	});
 }
 
 function messagePlayers(game, movePhrase){
