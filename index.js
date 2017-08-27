@@ -259,11 +259,10 @@ function isValidMove(game, movePhrase, sender){
 function updateGame(game, movePhrase, sender){
 	return new Promise((resolve, reject) => {
 		var move = chess.getMoveInfo(movePhrase, game.board);
-		var color = (game.turnNum % 2 === 0) ? "w" : "b";
 		game.turnNum++;
 		game.board[move.startY][move.startX] = 0;
 		game.board[move.destY][move.destX] = move.pieceColor + move.piece;
-		game.isCheck = chess.isCheck(color, game.board);
+		game.isCheck = chess.isCheck((game.turnNum % 2) ? "w" : "b", game.board);
 		
 		MongoClient.connect(mongoURI).then((db) => {
 			var collection = db.collection('games');
