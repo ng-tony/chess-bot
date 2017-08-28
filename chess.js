@@ -403,6 +403,14 @@ var self = module.exports = {
 		}
 		console.log("hello 5");
 		return isValid;
+	},
+	executeMove: (game, movePhrase) => {
+		var move = self.getMoveInfo(movePhrase, game.board);
+		game.turnNum++;
+		game.board[move.startY][move.startX] = 0;
+		game.board[move.destY][move.destX] = move.pieceColor + move.piece;
+		game.isCheck = self.isCheck((game.turnNum % 2) ? "w" : "b", game.board);
+		return game;
 	}
 	
 }
