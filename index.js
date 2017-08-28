@@ -144,7 +144,7 @@ function messageHandler(sender, text){
 			}
 			getGame(sender).then((game) => { 
 				if(isValidMove(game, movePhrase, sender)){
-					updateGame(incrementGame(game, movePhrase))
+					updateGame(chess.incrementGame(game, movePhrase))
 					.then(messagePlayers(game, movePhrase))
 					.catch(error => {
 						console.log(error.message);
