@@ -168,8 +168,17 @@ function messageHandler(sender, text){
 			});*/
 			break;
 		case "resign":
+			getGame(sender).then((game) => {
+				var resigner = (sender === game.white) ? "White" : "Black";
+				var resignee = (sender === game.white) ? "Black" : "White";
+				sendTextMessage(game.white, resigner + " resigned, game over, "+resignee+" wins.");
+			}).then(deleteGame(sender));
 			break;
 		case "draw":
+			getGame(sender).then((game) => {
+				game.drawOffered = true;
+				return game;
+			})
 			break;
 		case "drawaccept":
 			break;
@@ -281,10 +290,9 @@ function updateGame(game, movePhrase, sender){
 
 function deleteGame(sender){
 	return new Promise((resolve, reject) => {
-		
 		MongoClient.connect(mongoURI).then((db) => {
 			var collection = db.collection('games');
-			collection.deleteOne({ $or: [{ "white": sender }, { "black": sender }] })
+			collection.deleteOne({ $or: [{ "white": sender }, { "black": sender }]})
 				.then(resolve)
 				.catch((err) => {
 					console.log(err);
