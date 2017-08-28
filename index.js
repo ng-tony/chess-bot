@@ -172,15 +172,36 @@ function messageHandler(sender, text){
 				var resigner = (sender === game.white) ? "White" : "Black";
 				var resignee = (sender === game.white) ? "Black" : "White";
 				sendTextMessage(game.white, resigner + " resigned, game over, "+resignee+" wins.");
+				sendTextMessage(game.black, resigner + " resigned, game over, "+resignee+" wins.");
 			}).then(deleteGame(sender));
 			break;
 		case "draw":
 			getGame(sender).then((game) => {
 				game.drawOffered = true;
 				return game;
-			})
+			}).then(updateGame)
+			.catch(error =>{
+				console.log(error.message);
+			});
 			break;
 		case "drawaccept":
+			var white;
+			var black;
+			
+			//gets the game, tries to delete the game, then tells both players of draw accepting
+			getGame(sender)
+			.then((game) =>{
+				white = game.white;
+				black = game.black;
+			})
+			.then(deleteGame(sender))
+			.then(() => {
+				sendTextMessage(white, "Draw accepted, game over.");
+				sendTextMessage(black, "Draw accepted, game over.");
+			})
+			.catch(error =>{
+				console.log(error.message);
+			});
 			break;
 		case "help":
 			sendHelp(sender);
