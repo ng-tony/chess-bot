@@ -110,12 +110,7 @@ function messageHandler(sender, text){
 			var newGameCode = gameCode.genCode();
 			console.log(newGameCode);
 			sendTextMessage(sender, newGameCode.toString());
-			initGame(sender, newGameCode).then(getGame(sender))
-			.then((game) => {
-				sendBoard(sender, game.board);
-			}).catch((err) => {
-				console.log("board", err);
-			});
+			initGame(sender, newGameCode);
 			break;
 		case "accept": //accept should have bulletproofing that game with same p1 and p2 already exists
 			gameCode.acceptGame(text.split(" ")[1], sender.toString()).then(() => {
